@@ -7,8 +7,12 @@ import baseClasses.Trip;
 public class Main {
 
     public static void main(String[] args) {
-        // Initialize the CSVReader to read GTFS data
-        CSVReader.readFiles();
-
+        try {
+            // Load the GTFS data
+            CSVReader.readFiles();
+        } catch (Exception e) {
+            System.err.println("Error loading GTFS data: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
