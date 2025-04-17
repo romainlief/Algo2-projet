@@ -1,11 +1,13 @@
 package baseClasses;
+import java.util.List;
+import java.util.ArrayList;
 public class Trip {
     private String tripId;
-    private String routeId;
+    private List<StopTime> stopTimes = new ArrayList<StopTime>();
 
-    public Trip(String tripId, String routeId) {
+    public Trip(String tripId, List<StopTime> stopTimes) {
         this.tripId = tripId;
-        this.routeId = routeId;
+        this.stopTimes = stopTimes;
     }
 
     public String getTripId() {
@@ -16,19 +18,19 @@ public class Trip {
         this.tripId = tripId;
     }
 
-    public String getRouteId() {
-        return routeId;
+    public List<StopTime> getstopTimes() {
+        return stopTimes;
     }
 
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
+    public void setRouteId(List<StopTime> stopTimes) {
+        this.stopTimes = stopTimes;
     }
 
     @Override
     public String toString() {
         return "Trip{" +
                 "tripId='" + tripId + '\'' +
-                ", routeId='" + routeId + '\'' +
+                ", routeId='" + stopTimes + '\'' +
                 '}';
     }
 }

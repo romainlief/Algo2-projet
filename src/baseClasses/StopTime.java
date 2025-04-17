@@ -1,6 +1,6 @@
 package baseClasses;
+
 public class StopTime {
-    private String tripId;
     private String departureTime;
     private String stopId;
     private int stopSequence;
@@ -10,27 +10,17 @@ public class StopTime {
     /**
      * Constructor for StopTime class.
      *
-     * @param tripId        Unique identifier for the trip.
      * @param departureTime Departure time of the stop.
      * @param stopId        Unique identifier for the stop.
      * @param stopSequence  Sequence number of the stop in the trip.
      */
-    public StopTime(String tripId, String departureTime, String stopId, int stopSequence) {
-        this.tripId = tripId;
+    public StopTime(String departureTime, String stopId, int stopSequence) {
         this.departureTime = departureTime;
         this.stopId = stopId;
         this.stopSequence = stopSequence;
     }
 
     // #### Getters and Setters ####
-
-    public String getTripId() {
-        return tripId;
-    }
-
-    public void setTripId(String tripId) {
-        this.tripId = tripId;
-    }
 
     public String getDepartureTime() {
         return departureTime;
@@ -60,7 +50,6 @@ public class StopTime {
     @Override
     public String toString() {
         return "StopTime{" +
-                "tripId='" + tripId + '\'' +
                 ", departureTime='" + departureTime + '\'' +
                 ", stopId='" + stopId + '\'' +
                 ", stopSequence='" + stopSequence + '\'' +
