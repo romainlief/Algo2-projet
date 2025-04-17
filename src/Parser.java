@@ -141,7 +141,7 @@ public class Parser {
                     String departureTime = parts[1];
                     String stopId = parts[2];
                     int stopSequence = Integer.parseInt(parts[3]);
-                    stopTimes.put(tripId, new StopTime(tripId, departureTime, stopId, stopSequence));
+                    stopTimes.put(tripId, new StopTime(departureTime, stopId, stopSequence));
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
@@ -173,7 +173,7 @@ public class Parser {
                 try {
                     String id = parts[0];
                     String routeId = parts[1];
-                    trips.put(id, new Trip(id, routeId));
+                    trips.put(id, new Trip(id, new ArrayList<>()));
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
