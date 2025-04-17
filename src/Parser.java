@@ -5,7 +5,7 @@ import java.util.*;
 
 import baseClasses.*;
 
-public class CSVReader {
+public class Parser {
     private static String directory = "GTFS";
     private static String[] entreprises = { "SNCB", "TEC", "STIB", "DELIJN" };
 
