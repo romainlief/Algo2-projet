@@ -40,7 +40,8 @@ public class CSVReader {
         List<String> result = new ArrayList<>();
         StringBuilder currentField = new StringBuilder();
         boolean inQuotes = false;
-        for (int i = 0; i < line.length(); i++) {
+
+        for (byte i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             if (c == '"') {
                 inQuotes = !inQuotes;
@@ -106,6 +107,7 @@ public class CSVReader {
                     double lat = Double.parseDouble(parts[2]);
                     double lon = Double.parseDouble(parts[3]);
                     stops.put(id, new Stop(id, name, lat, lon));
+                    System.out.println("Stop: " + id + ", " + name + ", " + lat + ", " + lon);
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
