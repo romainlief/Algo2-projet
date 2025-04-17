@@ -1,4 +1,7 @@
 package baseClasses;
+
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Class representing a public transport route.
  */
@@ -10,6 +13,7 @@ public class Route {
     private String routeShortName;
     private String routeLongName;
     private String routeType;
+    private List<Trip> trips = new ArrayList<Trip>();
 
     // #### Constructors ####
     
