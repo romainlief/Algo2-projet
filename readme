@@ -25,3 +25,7 @@
 
 ## Exécution
 
+```sh
+GTFS doit être a la racine du projet
+```
+

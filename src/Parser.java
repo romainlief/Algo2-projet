@@ -6,7 +6,7 @@ import java.util.*;
 import baseClasses.*;
 
 public class Parser {
-    private static String directory = "GTFS";
+    private static String directory;
     private static String[] entreprises = { "SNCB", "TEC", "STIB", "DELIJN" };
 
     public static Map<String, Route> allRoutes = new HashMap<>();
@@ -15,10 +15,17 @@ public class Parser {
     public static Map<String, Trip> allTrips = new HashMap<>();
 
     /**
+     * Constructor for the Parser class.
+     */
+    public Parser(String directory) {
+        Parser.directory = directory;
+    }
+
+    /**
      * Reads all GTFS files from the specified directory and loads them into
      * corresponding maps.
      */
-    public static void readFiles() {
+    public void readFiles() {
         for (String entreprise : entreprises) {
             String filePath = directory + "/" + entreprise + "/";
             try {
@@ -107,7 +114,6 @@ public class Parser {
                     double lat = Double.parseDouble(parts[2]);
                     double lon = Double.parseDouble(parts[3]);
                     stops.put(id, new Stop(id, name, lat, lon));
-                    System.out.println("Stop: " + id + ", " + name + ", " + lat + ", " + lon);
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
