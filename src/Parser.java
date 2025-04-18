@@ -191,4 +191,40 @@ public class Parser {
         }
         return trips;
     }
+
+    /**
+     * Returns all routes.
+     *
+     * @return A map of route IDs to Route objects.
+     */
+    public static Map<String, Route> getAllRoutes() {
+        return allRoutes;
+    }
+
+    /**
+     * Returns all stops.
+     *
+     * @return A map of stop IDs to Stop objects.
+     */
+    public static Map<String, Stop> getAllStops() {
+        return allStops;
+    }
+
+    /**
+     * Returns all stop times.
+     *
+     * @return A map of trip IDs to StopTime objects.
+     */
+    public static Map<String, StopTime> getAllStopTimes() {
+        return allStopTimes;
+    }
+
+    /**
+     * Returns all trips.
+     *
+     * @return A map of trip IDs to Trip objects.
+     */
+    public static Map<String, Trip> getAllTrips() {
+        return allTrips;
+    }
 }

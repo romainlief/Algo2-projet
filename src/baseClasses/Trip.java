@@ -1,6 +1,8 @@
 package baseClasses;
+
 import java.util.List;
 import java.util.ArrayList;
+
 public class Trip {
     private String tripId;
     private List<StopTime> stopTimes = new ArrayList<StopTime>();
