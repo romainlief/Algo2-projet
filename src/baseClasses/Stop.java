@@ -1,9 +1,13 @@
 package baseClasses;
+
+import java.util.List;
+import java.util.ArrayList;
 public class Stop {
     private String stopId;
     private String stopName;
     private double stopLat;
     private double stopLon;
+    List<String> trip_ids = new ArrayList<String>(); // a list of trips departing from this stop
 
     // #### Constructors ####
     
@@ -54,6 +58,10 @@ public class Stop {
 
     public void setStopLon(double stopLon) {
         this.stopLon = stopLon;
+    }
+
+    public void addTrip(String trip_id) {
+        this.trip_ids.add(trip_id);
     }
 
     // #### toString Method ####

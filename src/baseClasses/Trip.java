@@ -1,15 +1,19 @@
 package baseClasses;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Trip {
     private String tripId;
-    private List<StopTime> stopTimes = new ArrayList<StopTime>();
+    private String routeId;
 
-    public Trip(String tripId, List<StopTime> stopTimes) {
+    // key   -> the stop_sequence of the stop
+    // value -> StopTime
+    private Map<String, StopTime> stopTimes = new HashMap<String, StopTime>();
+
+    public Trip(String tripId, String routeId) {
         this.tripId = tripId;
-        this.stopTimes = stopTimes;
+        this.routeId = routeId;
     }
 
     public String getTripId() {
@@ -20,12 +24,22 @@ public class Trip {
         this.tripId = tripId;
     }
 
-    public List<StopTime> getstopTimes() {
+    public String getRouteId() {
+        return this.routeId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+    }
+
+    public Map<String, StopTime> getstopTimes() {
         return stopTimes;
     }
 
-    public void setRouteId(List<StopTime> stopTimes) {
-        this.stopTimes = stopTimes;
+    public void addStopTime(String trip_id, StopTime newStop) {
+        if (!stopTimes.containsKey(trip_id)) {
+            stopTimes.put(trip_id, newStop);
+        }
     }
 
     @Override

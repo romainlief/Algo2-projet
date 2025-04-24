@@ -3,7 +3,7 @@ package baseClasses;
 public class StopTime {
     private String departureTime;
     private String stopId;
-    private int stopSequence;
+    private String stopSequence;
 
     // #### Constructors ####
 
@@ -14,7 +14,7 @@ public class StopTime {
      * @param stopId        Unique identifier for the stop.
      * @param stopSequence  Sequence number of the stop in the trip.
      */
-    public StopTime(String departureTime, String stopId, int stopSequence) {
+    public StopTime(String departureTime, String stopId, String stopSequence) {
         this.departureTime = departureTime;
         this.stopId = stopId;
         this.stopSequence = stopSequence;
@@ -38,11 +38,11 @@ public class StopTime {
         this.stopId = stopId;
     }
 
-    public int getStopSequence() {
+    public String getStopSequence() {
         return stopSequence;
     }
 
-    public void setStopSequence(int stopSequence) {
+    public void setStopSequence(String stopSequence) {
         this.stopSequence = stopSequence;
     }
 
