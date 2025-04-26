@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            System.out.println("[ERROR] Parsing data...");
+            System.out.println("[INFO] Parsing data...");
 
             Parser parser = new Parser("GTFS");
 
@@ -36,6 +36,12 @@ public class Main {
             // key -> stop_id
             // value -> Stop object
             Map<String, Stop> allStops = Parser.getAllStops();
+
+            System.out.println("[INFO] AllTrips map has " + allTrips.size() + " elements");
+
+            System.out.println("[INFO] AllRoutes map has " + allRoutes.size() + " elements");
+
+            System.out.println("[INFO] AllStops map has " + allStops.size() + " elements");
 
             DGraph graph = new DGraph();
 
