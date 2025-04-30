@@ -2,6 +2,7 @@ package baseClasses;
 
 import java.util.List;
 import java.util.ArrayList;
+
 public class Stop {
     private String stopId;
     private String stopName;
@@ -10,7 +11,7 @@ public class Stop {
     List<String> trip_ids = new ArrayList<String>(); // a list of trips departing from this stop
 
     // #### Constructors ####
-    
+
     /**
      * Constructor for Stop class.
      *
@@ -22,7 +23,7 @@ public class Stop {
     public Stop(String stopId, String stopName, double stopLat, double stopLon) {
         this.stopId = stopId;
         this.stopName = stopName;
-        this.stopLat =  stopLat;
+        this.stopLat = stopLat;
         this.stopLon = stopLon;
     }
 
@@ -69,10 +70,10 @@ public class Stop {
     @Override
     public String toString() {
         return "Stop{" +
-                "stopId='" + stopId + '\'' +
-                ", stopName='" + stopName + '\'' +
-                ", stopLat='" + stopLat + '\'' +
-                ", stopLon='" + stopLon + '\'' +
-                '}';
+                "stopId ='" + stopId + '\'' +
+                ", stopName ='" + stopName + '\'' +
+                ", stopLat ='" + stopLat + '\'' +
+                ", stopLon ='" + stopLon + '\'' +
+                "}\n";
     }
 }

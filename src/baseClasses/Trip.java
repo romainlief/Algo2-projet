@@ -7,7 +7,7 @@ public class Trip {
     private String tripId;
     private String routeId;
 
-    // key   -> the stop_sequence of the stop
+    // key -> the stop_sequence of the stop
     // value -> StopTime
     private Map<String, StopTime> stopTimes = new HashMap<String, StopTime>();
 
@@ -45,8 +45,8 @@ public class Trip {
     @Override
     public String toString() {
         return "Trip{" +
-                "tripId='" + tripId + '\'' +
-                ", routeId='" + stopTimes + '\'' +
-                '}';
+                "tripId = '" + tripId + '\'' +
+                ", routeId = '" + stopTimes + '\'' +
+                "}\n";
     }
 }

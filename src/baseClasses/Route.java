@@ -67,10 +67,10 @@ public class Route {
     @Override
     public String toString() {
         return "Route{" +
-                "routeId='" + routeId + '\'' +
-                ", routeShortName='" + routeShortName + '\'' +
-                ", routeLongName='" + routeLongName + '\'' +
-                ", routeType='" + routeType + '\'' +
-                '}';
+                "routeId = '" + routeId + '\'' +
+                ", routeShortName = '" + routeShortName + '\'' +
+                ", routeLongName = '" + routeLongName + '\'' +
+                ", routeType = '" + routeType + '\'' +
+                "}\n";
     }
 }

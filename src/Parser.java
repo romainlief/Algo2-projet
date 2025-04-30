@@ -12,6 +12,7 @@ public class Parser {
     public static Map<String, Trip> allTrips = new HashMap<>();
     public static Map<String, Stop> allStops = new HashMap<>();
     public static Map<String, Route> allRoutes = new HashMap<>();
+
     /**
      * Constructor for the Parser class.
      */
