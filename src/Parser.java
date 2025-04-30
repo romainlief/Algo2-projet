@@ -163,7 +163,6 @@ public class Parser {
      * @throws IOException If an error occurs while reading the file.
      */
     public static void loadStopTimes(String filePath) throws IOException {
-        Map<String, StopTime> stopTimes = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // skip header
             String line;
@@ -182,7 +181,6 @@ public class Parser {
                         temp.addStopTime(stopSequence, new StopTime(departureTime, stopId, stopSequence));
                     }
 
-                    stopTimes.put(tripId, new StopTime(departureTime, stopId, stopSequence));
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
