@@ -28,4 +28,27 @@ public class DGraph {
         Edge edge = new Edge(from, to, route);
         graph.get(from).add(edge);
     }
+
+    /**
+     * Returns the edges connected to a given node.
+     *
+     * @param node The node whose edges are to be retrieved.
+     * @return A list of edges connected to the node.
+     */
+    public List<Edge> getEdges(Node node) {
+        return graph.getOrDefault(node, new ArrayList<>());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Node, List<Edge>> entry : graph.entrySet()) {
+            sb.append("Node: ").append(entry.getKey().getStop().getStopName()).append("\n");
+            for (Edge edge : entry.getValue()) {
+                sb.append("  -> ").append(edge.getNext().getStop().getStopName())
+                        .append(" (Route: ").append(edge.getRoute().getRouteId()).append(")\n");
+            }
+        }
+        return sb.toString();
+    }
 }
