@@ -65,6 +65,10 @@ public class Stop {
         this.trip_ids.add(trip_id);
     }
 
+    public List<String> getTripIds() {
+        return this.trip_ids;
+    }
+
     // #### toString Method ####
 
     @Override

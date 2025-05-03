@@ -1,7 +1,7 @@
+import java.util.Scanner;
 import java.util.Map;
 import baseClasses.Route;
 import baseClasses.Stop;
-import baseClasses.StopTime;
 import baseClasses.Trip;
 
 import java.time.Duration;
@@ -11,6 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            // initialisation phase
             System.out.println("[INFO] Parsing data...");
 
             Parser parser = new Parser("GTFS");
@@ -43,10 +44,31 @@ public class Main {
 
             System.out.println("[INFO] AllStops map has " + allStops.size() + " elements");
 
-            DGraph graph = new DGraph();
+            // DGraph graph = new DGraph();
 
-            System.out.println("Graph created successfully!");
-            System.out.println(graph);
+            // System.out.println("Graph created successfully!");
+            // System.out.println(graph);
+
+            // algorithm phase
+            Scanner scanner = new Scanner(System.in);
+            
+            // Getting departure spot
+            System.out.println("From where would you like to travel ?: ");
+            String start = scanner.nextLine();
+
+            // Getting destination
+            System.out.println("Where would you like to go ?: ");
+            String destination = scanner.nextLine();
+
+            // Getting departure_time
+            System.out.println("What time do you wish to depart ?: ");
+            String departure_time = scanner.nextLine();
+
+            // Searching for best path
+            PathFinder finder = new PathFinder(allStops, allTrips, allRoutes);
+            finder.findPath(null, null, null);
+
+            scanner.close();
         } catch (
 
         Exception e) {
