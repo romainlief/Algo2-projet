@@ -12,6 +12,7 @@ public class Parser {
     public static Map<String, Trip> allTrips = new HashMap<>();
     public static Map<String, Stop> allStops = new HashMap<>();
     public static Map<String, Route> allRoutes = new HashMap<>();
+    public static List<Connexion> allConnexions = new ArrayList<>();
 
     /**
      * Constructor for the Parser class.
@@ -37,6 +38,20 @@ public class Parser {
                 e.printStackTrace();
             }
         }
+        // Building connexions
+        // for (Trip trip : allTrips.values()) {
+        //     Map<String, StopTime> stopTimes = trip.getstopTimes();
+            
+        //     for (int stop_sequence = 0; stop_sequence < stopTimes.size() - 1; stop_sequence++) {
+        //         StopTime departure = stopTimes.get(String.valueOf(stop_sequence));
+        //         StopTime destination = stopTimes.get(String.valueOf(stop_sequence + 1));
+        //         System.out.println("Departure: " + departure.getStopId() + " - Destination: " + destination.getStopId());
+        //         // break;
+        //         Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(), departure.getTime(), destination.getTime());
+
+        //     }
+        //     // break;
+        // }
     }
 
     /**

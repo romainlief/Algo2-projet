@@ -22,8 +22,8 @@ public class StopTime {
 
     // #### Getters and Setters ####
 
-    public String getDepartureTime() {
-        return departureTime;
+    public String getTime() {
+        return this.departureTime;
     }
 
     public void setDepartureTime(String departureTime) {
@@ -31,7 +31,7 @@ public class StopTime {
     }
 
     public String getStopId() {
-        return stopId;
+        return this.stopId;
     }
 
     public void setStopId(String stopId) {
@@ -39,7 +39,7 @@ public class StopTime {
     }
 
     public String getStopSequence() {
-        return stopSequence;
+        return this.stopSequence;
     }
 
     public void setStopSequence(String stopSequence) {

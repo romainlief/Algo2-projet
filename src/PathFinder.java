@@ -1,5 +1,6 @@
 import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.List;
+import java.util.ArrayList;
 
 import baseClasses.Route;
 import baseClasses.Stop;
@@ -35,31 +36,9 @@ public class PathFinder {
             System.err.println("Invalid destination given");
             return;
         }
-        // add a time verification
 
+        // for every connexion sorted by decreasing departure time
 
-
-
-        AStarNode startNode = new AStarNode(starting_stop, null, 0, 0);
-
-        // all nodes that we are currently considering
-        PriorityQueue openSet = new PriorityQueue<>();
-
-        if (startNode.getStop() == end_stop) {
-            // manage end case
-            return;
-        }
-
-    }
-
-    // TODO: pass it as a parameter in the constructor for a more modular experience
-    // we could use a class that has multiple methods to calculate the heuristic
-    // @romain wdyt ??
-    /**
-     * @brief Calculates the heuristic value based on its parameters.
-     * 
-     */
-    private void heuristic() {
 
     }
 
@@ -75,5 +54,20 @@ public class PathFinder {
             }
         }
         return null;
+    }
+
+    // on prend tous les trips_ids qui partent de l'arrêt actuel et on récupère les objets trips correspondants
+    
+    private void getConnexions(Stop stop) {
+        // get all the corresponding trips
+        List<String> trip_ids = stop.getTripIds();
+        List<Trip> corresponding_trips = new ArrayList<>();
+        for (String trip_id : trip_ids) {
+            if (tripMap.containsKey(trip_id)) {
+                corresponding_trips.add(tripMap.get(trip_id));
+            }
+        }
+
+
     }
 }

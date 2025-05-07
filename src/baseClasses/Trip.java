@@ -17,7 +17,7 @@ public class Trip {
     }
 
     public String getTripId() {
-        return tripId;
+        return this.tripId;
     }
 
     public void setTripId(String tripId) {
@@ -33,12 +33,12 @@ public class Trip {
     }
 
     public Map<String, StopTime> getstopTimes() {
-        return stopTimes;
+        return this.stopTimes;
     }
 
     public void addStopTime(String trip_id, StopTime newStop) {
-        if (!stopTimes.containsKey(trip_id)) {
-            stopTimes.put(trip_id, newStop);
+        if (!this.stopTimes.containsKey(trip_id)) {
+            this.stopTimes.put(newStop.getStopSequence(), newStop);
         }
     }
 
