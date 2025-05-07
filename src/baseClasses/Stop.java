@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Stop {
-    private String stopId;
-    private String stopName;
-    private double stopLat;
-    private double stopLon;
+
+    // #### Attributes ####
+    
+    private final String stopId;
+    private final String stopName;
+    private final double stopLat;
+    private final double stopLon;
     List<String> trip_ids = new ArrayList<String>(); // a list of trips departing from this stop
 
     // #### Constructors ####
@@ -27,46 +30,37 @@ public class Stop {
         this.stopLon = stopLon;
     }
 
-    // #### Getters and Setters ####
+    // #### Getters ####
 
     public String getStopId() {
-        return stopId;
-    }
-
-    public void setStopId(String stopId) {
-        this.stopId = stopId;
+        return this.stopId;
     }
 
     public String getStopName() {
-        return stopName;
-    }
-
-    public void setStopName(String stopName) {
-        this.stopName = stopName;
+        return this.stopName;
     }
 
     public double getStopLat() {
-        return stopLat;
-    }
-
-    public void setStopLat(double stopLat) {
-        this.stopLat = stopLat;
+        return this.stopLat;
     }
 
     public double getStopLon() {
-        return stopLon;
-    }
-
-    public void setStopLon(double stopLon) {
-        this.stopLon = stopLon;
-    }
-
-    public void addTrip(String trip_id) {
-        this.trip_ids.add(trip_id);
+        return this.stopLon;
     }
 
     public List<String> getTripIds() {
         return this.trip_ids;
+    }
+
+    // #### Methods ####
+    
+    /**
+     * Adds a trip ID to the list of trip IDs departing from this stop.
+     *
+     * @param trip_id The trip ID to add.
+     */
+    public void addTrip(String trip_id) {
+        this.trip_ids.add(trip_id);
     }
 
     // #### toString Method ####

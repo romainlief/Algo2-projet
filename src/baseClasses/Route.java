@@ -7,13 +7,13 @@ public class Route {
 
     // #### Attributes ####
 
-    private String routeId;
-    private String routeShortName;
-    private String routeLongName;
-    private String routeType;
+    private final String routeId;
+    private final String routeShortName;
+    private final String routeLongName;
+    private final String routeType;
 
     // #### Constructors ####
-    
+
     /**
      * Constructor for Route class.
      *
@@ -29,38 +29,22 @@ public class Route {
         this.routeType = routeType;
     }
 
-    // #### Getters and Setters ####
+    // #### Getters ####
 
     public String getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
+        return this.routeId;
     }
 
     public String getRouteShortName() {
-        return routeShortName;
-    }
-
-    public void setRouteShortName(String routeShortName) {
-        this.routeShortName = routeShortName;
+        return this.routeShortName;
     }
 
     public String getRouteLongName() {
-        return routeLongName;
-    }
-
-    public void setRouteLongName(String routeLongName) {
-        this.routeLongName = routeLongName;
+        return this.routeLongName;
     }
 
     public String getRouteType() {
-        return routeType;
-    }
-
-    public void setRouteType(String routeType) {
-        this.routeType = routeType;
+        return this.routeType;
     }
 
     // #### toString Method ####

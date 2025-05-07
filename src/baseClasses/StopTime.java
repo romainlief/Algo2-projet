@@ -1,9 +1,12 @@
 package baseClasses;
 
 public class StopTime {
-    private String departureTime;
-    private String stopId;
-    private int stopSequence;
+
+    // #### Attributes ####
+    
+    private final String departureTime;
+    private final String stopId;
+    private final int stopSequence;
 
     // #### Constructors ####
 
@@ -20,7 +23,7 @@ public class StopTime {
         this.stopSequence = stopSequence;
     }
 
-    // #### Getters and Setters ####
+    // #### Getters ####
 
     public String getTime() {
         return this.departureTime;
