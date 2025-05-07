@@ -39,19 +39,25 @@ public class Parser {
             }
         }
         // Building connexions
-        // for (Trip trip : allTrips.values()) {
-        //     Map<String, StopTime> stopTimes = trip.getstopTimes();
-            
-        //     for (int stop_sequence = 0; stop_sequence < stopTimes.size() - 1; stop_sequence++) {
-        //         StopTime departure = stopTimes.get(String.valueOf(stop_sequence));
-        //         StopTime destination = stopTimes.get(String.valueOf(stop_sequence + 1));
-        //         System.out.println("Departure: " + departure.getStopId() + " - Destination: " + destination.getStopId());
-        //         // break;
-        //         Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(), departure.getTime(), destination.getTime());
+        for (Trip trip : allTrips.values()) {
+            List<StopTime> orederedStopTimes = trip.getstopTimes(); // a list of ordered stopTimes
+            for (int stop_sequence = 1; stop_sequence < orederedStopTimes.size() - 1; stop_sequence++) {
+                StopTime departure = orederedStopTimes.get(stop_sequence);
+                StopTime destination = orederedStopTimes.get(stop_sequence + 1);
 
-        //     }
-        //     // break;
-        // }
+                // error management
+                if (departure == null || destination == null) {
+                    System.out.println("[ERROR] Departure or destination is null");
+                    continue;
+                }
+                
+                Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(),
+                        departure.getTime(), destination.getTime());
+                allConnexions.add(connexion);
+            }
+        }
+        System.out.println("Number of connexions: " + allConnexions.size());
+        Collections.sort(allConnexions);
     }
 
     /**
@@ -190,17 +196,20 @@ public class Parser {
                     String tripId = parts[0];
                     String departureTime = parts[1];
                     String stopId = parts[2];
-                    String stopSequence = parts[3];
+                    int stopSequence = Integer.parseInt(parts[3]);
 
                     if (allTrips.containsKey((tripId))) {
                         Trip temp = allTrips.get(tripId);
-                        temp.addStopTime(stopSequence, new StopTime(departureTime, stopId, stopSequence));
+                        temp.addStopTime(new StopTime(departureTime, stopId, stopSequence));
                     }
 
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;
                 }
+            }
+            for (Trip trip : allTrips.values()) {
+                trip.sortStopTimes();
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + filePath);
