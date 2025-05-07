@@ -56,7 +56,7 @@ public class Parser {
                 allConnexions.add(connexion);
             }
         }
-        System.out.println("Number of connexions: " + allConnexions.size());
+        System.out.println("[INFO] Number of connexions: " + allConnexions.size());
         Collections.sort(allConnexions);
     }
 
