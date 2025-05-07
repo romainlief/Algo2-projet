@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import baseClasses.Route;
 import baseClasses.Stop;
 import baseClasses.Trip;
+import baseClasses.Connexion;
 
 public class PathFinder {
     private Map<String, Stop> stopMap;
     private Map<String, Trip> tripMap;
     private Map<String, Route> routeMap;
+    private List<Connexion> connexions;
 
     public PathFinder(Map<String, Stop> stopMap, Map<String, Trip> tripMap, Map<String, Route> routeMap) {
         this.stopMap = stopMap;
@@ -20,25 +22,23 @@ public class PathFinder {
     /**
      * @brief Implementation of the A* algorithm to find the best path between start
      *        and end positions.
-     * @param start The starting position.
-     * @param destination   The ending position.
-     * @param time  The time at which the journey starts
+     * @param start       The starting position.
+     * @param destination The ending position.
+     * @param time        The time at which the journey starts
      */
     public void findPath(String start, String destination, String time) {
         Stop starting_stop = findStop(start);
         Stop end_stop = findStop(destination);
 
         if (starting_stop == null) {
-            System.err.println("Invalid stop given in input");
+            System.err.println("Invalid start given in input: " + start);
             return;
-        }
-        else if (end_stop == null) {
-            System.err.println("Invalid destination given");
+        } else if (end_stop == null) {
+            System.err.println("Invalid destination given: " + destination);
             return;
         }
 
         // for every connexion sorted by decreasing departure time
-
 
     }
 
@@ -49,25 +49,10 @@ public class PathFinder {
      */
     private Stop findStop(String stopName) {
         for (Stop stop : stopMap.values()) {
-            if (stop.getStopName() == stopName) {
+            if (stop.getStopName().equals(stopName)) {
                 return stop;
             }
         }
         return null;
-    }
-
-    // on prend tous les trips_ids qui partent de l'arrêt actuel et on récupère les objets trips correspondants
-    
-    private void getConnexions(Stop stop) {
-        // get all the corresponding trips
-        List<String> trip_ids = stop.getTripIds();
-        List<Trip> corresponding_trips = new ArrayList<>();
-        for (String trip_id : trip_ids) {
-            if (tripMap.containsKey(trip_id)) {
-                corresponding_trips.add(tripMap.get(trip_id));
-            }
-        }
-
-
     }
 }

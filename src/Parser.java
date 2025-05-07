@@ -7,7 +7,12 @@ import baseClasses.*;
 
 public class Parser {
     private static String directory;
-    private static String[] entreprises = { "SNCB", "TEC", "STIB", "DELIJN" };
+    private static String[] entreprises = {
+            // "SNCB",
+            // "TEC",
+            "STIB",
+            // "DELIJN"
+    };
 
     public static Map<String, Trip> allTrips = new HashMap<>();
     public static Map<String, Stop> allStops = new HashMap<>();
@@ -50,7 +55,7 @@ public class Parser {
                     System.out.println("[ERROR] Departure or destination is null");
                     continue;
                 }
-                
+
                 Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(),
                         departure.getTime(), destination.getTime());
                 allConnexions.add(connexion);

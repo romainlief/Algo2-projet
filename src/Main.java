@@ -51,15 +51,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Getting departure spot
-        System.out.println("From where would you like to travel ?: ");
+        System.out.print("From where would you like to travel ?: ");
         String start = scanner.nextLine();
 
         // Getting destination
-        System.out.println("Where would you like to go ?: ");
+        System.out.print("Where would you like to go ?: ");
         String destination = scanner.nextLine();
 
         // Getting departure_time
-        System.out.println("What time do you wish to depart (format -> hour:minute:second) ?: ");
+        System.out.print("What time do you wish to depart (format: 'hour;minute;second') ?: ");
         String departure_time = scanner.nextLine();
 
         // Searching for best path
