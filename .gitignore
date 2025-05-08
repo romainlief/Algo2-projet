@@ -1,1 +1,10 @@
 GTFS/
+rapport.aux
+rapport.log
+rapport.out
+rapport.fls
+rapport.fdb_latexmk
+rapport.synctex.gz
+rapport.toc
+rapport.synctex(busy)
+logo.png

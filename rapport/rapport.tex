@@ -29,7 +29,7 @@
     
     % Titre en haut de la page
     \vspace*{1cm}
-    {\huge \bfseries Info H-303 : Projet BDD\\
+    {\huge \bfseries INFO F-203\\
                     Rapport \par}
     
     % Espace vertical pour centrer le logo
@@ -45,10 +45,10 @@
     \vfill
     
     % Auteur et date en bas de la page
-    {\large Auteurs: Liefferinckx Romain, Rocca Manuel, Morbée Matteo, Dias Valentin\\ 
-            Matricules: 000591790, 000596086, 000549684, 000593394 \\ 
+    {\large Auteurs: Liefferinckx Romain, Rocca Manuel\\ 
+            Matricules: 000591790, 000596086\\ 
             Section: INFO \par}
-    {\large 2025, 22 Mars \par}
+    {\large \today \par}
 \end{titlepage}
 
 \newpage
@@ -59,5 +59,112 @@
 % -----------------------------------------------------
 
 \section{Introduction}
+Dans le cadre de notre cours d'algorithmique INFO F-203, l'occasion s'est présentée à nous de créer un programme cherchant un chemin optimal
+entre un point A et un point B sur base d'une heure de départ. En effet, sur base d'un ensemble de données
+fournies sous format \emph{General Transit Feed Specification} (\textbf{GTFS}), nous avons utilisé le \emph{Connexion Scan Algorithm} (\textbf{CSA})
+pour implémenter notre chercheur de chemin en \emph{Java}. 
+
+Dans les sections à suivre, nous abordons le parsing des données, des structures formées à partir de celles-ci pour notre
+implémentation et certains détails techniques comme la complexité temporelle et spatiale. Nous justifierons également certains choix
+comme celui de l'algorithme précisé ci-dessus, à savoir le \textbf{CSA}.
+
+
+\section{Parsing}
+Dans cette section nous expliquons les procédés utilisés pour charger les données en mémoire à partir des fichiers CSV fournis ainsi que
+les structures de données utilisées pour leur stockage et leur utilisation optimale dans l'algorithme choisi par nos soins.
+
+\subsection{Structures de données pour le stockage}
+Dû à notre choix d'implémentation algorithmique, nous avons opté pour des structures efficaces pour utiliser l'utiliser dans
+les meilleurs conditions possibles. En effet, le CSA, comme son nom le suggère, fait une forte utilisation des connexions entre arrêts,
+chose que nous détaillons plus loin dans ce rapport.
+
+D'abord ont été créées les quatre classes principales, chacune correspondant à un type de fichier CSV donné. De manière générale, 
+chaque champ de chaque fichier est repris comme un attribut de classe. Cela n'est cependant pas toujours le cas, nous le précisons
+dans les sections adéquates.
+
+\subsubsection{La classe Route}
+Cette classe est une simple classe de stockage, chaque attribut correspondant à un champ des fichiers \emph{routes.csv}.
+
+% Table qui détaille la classe Route
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    routeId & final String & L'id de la route représentée \\
+    routeShortName & final String & Le nom de la route raccourci \\
+    routeLongName & final String & Le nom de la route complet \\
+    routeType & final String & Le type de véhicule utilisant cette route \\
+    \hline
+    \end{tabular}
+    \caption{Classe Route}
+\end{table}
+
+\subsubsection{La classe StopTime}
+La particularité de cette classe est qu'il lui manque le champ tripId donné dans les CSV concernés. Ce choix découle
+de la structure de la classe Trip détaillée dans la section 2.1.4. % TODO: ajouter un label au tableau trip ici
+\vspace{2cm}
+% Table qui détaille la classe StopTime
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    departureTime & final String & L'heure du départ à partir de
+                                   l'arrêt associé sur le trajet associé en format 
+                                   heure;minutes;secondes \\
+    stopId & final String & L'id de l'arrêt associé \\
+    stopSequence & final int & Le numéro de l'arrêt dans le trajet associé \\
+    \hline
+    \end{tabular}
+    \caption{Classe StopTime}
+\end{table}
+
+\subsubsection{La classe Stop}
+Dans cette classe, hormis le fait que chaque champ des fichiers \emph{routes.csv} est repris, nous avons fait le choix d'ajouter
+une liste de tripId, permettant de retrouver efficacement chaque Trip partant de cet arrêt. 
+
+% Table qui détaille la classe Stop
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    stopId & final String & L'id du stop représenté \\
+    stopName & final String & Le nom du stop \\
+    stopLat & final String & La latitude du stop \\
+    stopLon & final String & La longitude du stop \\
+    trip\_ids & List<String> & La liste des tous les trips (leurs ids) partant de ce stop \\
+    \hline
+    \end{tabular}
+    \caption{Classe Stop}
+\end{table}
+
+\subsubsection{La classe Trip}
+Une fois de plus, en plus des champs trouvés dans les fichiers \emph{trips.csv} retranscrits en attribut, nous avons ajouté
+une liste de StopTime associés à ce Trip. Ceci nous permet de construire efficacement les connexions entre arrêts affublées
+de temps de départ et d'arrivée.
+
+% Table qui détaille la classe Trip
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    tripId & final String & L'id du trip représenté \\
+    routeId & final String & L'id de la route sur laquelle il passe \\
+    stopTimes & List<StopTime> &  La liste de tous les StopTime associés à ce trip \\
+    \hline
+    \end{tabular}
+    \caption{Classe Trip}
+\end{table}
+
+\section{Le Connexion Scan Algorithm}
+
+\section{Sources-bibliographie}
 
 \end{document}
