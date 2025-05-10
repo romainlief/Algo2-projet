@@ -16,7 +16,7 @@ public class Connexion implements Comparable<Connexion> {
     }
 
     public String getTripId() {
-        
+
         return this.trip_id;
     }
 
@@ -39,5 +39,13 @@ public class Connexion implements Comparable<Connexion> {
     @Override
     public int compareTo(Connexion other) {
         return this.departure_time.compareTo(other.departure_time);
+    }
+
+    public int timeToInt(String time) {
+        String[] timeParts = time.split(":");
+        int hours = Integer.parseInt(timeParts[0]);
+        int minutes = Integer.parseInt(timeParts[1]);
+        int seconds = Integer.parseInt(timeParts[2]);
+        return hours * 60 * 60 + minutes * 60 + seconds;
     }
 }

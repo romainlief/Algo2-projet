@@ -248,4 +248,13 @@ public class Parser {
     public static Map<String, Trip> getAllTrips() {
         return allTrips;
     }
+
+    /**
+     * Returns all connexions.
+     *
+     * @return A list of Connexion objects.
+     */
+    public static List<Connexion> getAllConnexions() {
+        return allConnexions;
+    }
 }

@@ -63,7 +63,8 @@ public class Main {
         String departure_time = scanner.nextLine();
 
         // Searching for best path
-        PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes());
+        PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes(),
+                Parser.getAllConnexions());
         finder.findPath(start, destination, departure_time);
 
         scanner.close();
