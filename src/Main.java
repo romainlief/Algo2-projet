@@ -65,7 +65,13 @@ public class Main {
         // Searching for best path
         PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes(),
                 Parser.getAllConnexions());
+
+        Instant start_time = Instant.now();
         finder.findPath(start, destination, departure_time);
+        Instant end_time = Instant.now();
+        Duration pathfinding_time = Duration.between(start_time, end_time);
+
+        System.out.println("[INFO] Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
 
         scanner.close();
     }
