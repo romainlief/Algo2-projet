@@ -75,7 +75,7 @@ public class Main {
             System.out.println("[INFO] Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
 
             // Ask if the user wants to search for another itinerary
-            System.out.print("Would you like to search for another itinerary? (yes/no): ");
+            System.out.print("Would you like to search for another itinerary? (no to exit): ");
             String response = scanner.nextLine().trim().toLowerCase();
 
             if (response.equals("no")) {
@@ -83,7 +83,6 @@ public class Main {
                 break;
             }
         }
-
         scanner.close();
     }
 }
