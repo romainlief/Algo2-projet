@@ -50,28 +50,39 @@ public class Main {
     private static void solve() {
         Scanner scanner = new Scanner(System.in);
 
-        // Getting departure spot
-        System.out.print("From where would you like to travel ?: ");
-        String start = scanner.nextLine();
+        while (true) {
+            // Getting departure spot
+            System.out.print("From where would you like to travel ?: ");
+            String start = scanner.nextLine();
 
-        // Getting destination
-        System.out.print("Where would you like to go ?: ");
-        String destination = scanner.nextLine();
+            // Getting destination
+            System.out.print("Where would you like to go ?: ");
+            String destination = scanner.nextLine();
 
-        // Getting departure_time
-        System.out.print("What time do you wish to depart (format: 'hour;minute;second') ?: ");
-        String departure_time = scanner.nextLine();
+            // Getting departure_time
+            System.out.print("What time do you wish to depart (format: 'hour;minute;second') ?: ");
+            String departure_time = scanner.nextLine();
 
-        // Searching for best path
-        PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes(),
-                Parser.getAllConnexions());
+            // Searching for best path
+            PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes(),
+                    Parser.getAllConnexions());
 
-        Instant start_time = Instant.now();
-        finder.findPath(start, destination, departure_time);
-        Instant end_time = Instant.now();
-        Duration pathfinding_time = Duration.between(start_time, end_time);
+            Instant start_time = Instant.now();
+            finder.findPath(start, destination, departure_time);
+            Instant end_time = Instant.now();
+            Duration pathfinding_time = Duration.between(start_time, end_time);
 
-        System.out.println("[INFO] Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
+            System.out.println("[INFO] Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
+
+            // Ask if the user wants to search for another itinerary
+            System.out.print("Would you like to search for another itinerary? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if (response.equals("no")) {
+                System.out.println("Exiting the program!");
+                break;
+            }
+        }
 
         scanner.close();
     }
