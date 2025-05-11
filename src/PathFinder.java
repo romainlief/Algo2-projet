@@ -69,7 +69,8 @@ public class PathFinder {
             shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
         }
         shortestPath.put(starting_stop.getStopId(), timeToInt(time));
-        // connexions.sort((c1, c2) -> c1.getDepartureTime().compareTo(c2.getDepartureTime()));
+        // connexions.sort((c1, c2) ->
+        // c1.getDepartureTime().compareTo(c2.getDepartureTime()));
 
         Map<String, Connexion> previousConnection = new HashMap<>();
         for (Connexion connexion : connexions) {
@@ -107,10 +108,12 @@ public class PathFinder {
         } else {
             System.out.println("Path from " + start + " to " + destination + ":");
             for (Connexion connexion : path) {
+                Route route = routeMap.get(tripMap.get(connexion.getTripId()).getRouteId());
                 System.out.println("From " + stopMap.get(connexion.getFromId()).getStopName() +
                         " to " + stopMap.get(connexion.getToId()).getStopName() +
                         " departing at " + connexion.getDepartureTime() +
-                        " and arriving at " + connexion.getArrivalTime());
+                        " and arriving at " + connexion.getArrivalTime() + " with " + route.getRouteType() + ", line "
+                        + route.getRouteShortName());
             }
         }
     }
