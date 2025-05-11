@@ -69,7 +69,7 @@ public class PathFinder {
             shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
         }
         shortestPath.put(starting_stop.getStopId(), timeToInt(time));
-        connexions.sort((c1, c2) -> c1.getDepartureTime().compareTo(c2.getDepartureTime()));
+        // connexions.sort((c1, c2) -> c1.getDepartureTime().compareTo(c2.getDepartureTime()));
 
         Map<String, Connexion> previousConnection = new HashMap<>();
         for (Connexion connexion : connexions) {

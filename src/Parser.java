@@ -46,7 +46,7 @@ public class Parser {
         // Building connexions
         for (Trip trip : allTrips.values()) {
             List<StopTime> orederedStopTimes = trip.getstopTimes(); // a list of ordered stopTimes
-            for (int stop_sequence = 1; stop_sequence < orederedStopTimes.size() - 1; stop_sequence++) {
+            for (int stop_sequence = 0; stop_sequence < orederedStopTimes.size() - 1; stop_sequence++) {
                 StopTime departure = orederedStopTimes.get(stop_sequence);
                 StopTime destination = orederedStopTimes.get(stop_sequence + 1);
 
