@@ -61,6 +61,15 @@ public class PathFinder {
         } else if (end_stop == null) {
             System.err.println("Invalid destination given: " + destination);
             return;
+        } else if (time == null) {
+            System.err.println("Invalid time given: " + time);
+            return;
+        } else if (timeToInt(time) < 0) {
+            System.err.println("Invalid time given: " + time);
+            return;
+        } else if (start == destination) {
+            System.err.println("Start and destination are the same: " + start);
+            return;
         }
 
         // for every connexion sorted by decreasing departure time
