@@ -44,7 +44,8 @@ public class PathFinder {
     }
 
     /**
-     * @brief Implementation of the A* algorithm to find the best path between start
+     * @brief Implementation of the CSA algorithm to find the best path between
+     *        start
      *        and end positions.
      * @param start       The starting position.
      * @param destination The ending position.
@@ -77,9 +78,7 @@ public class PathFinder {
 
             int departureTime = connexion.timeToInt(connexion.getDepartureTime());
             int arrivalTime = connexion.timeToInt(connexion.getArrivalTime());
-
             if (shortestPath.get(departureStopId) <= departureTime) {
-                System.out.println("ici");
                 if (shortestPath.get(arrivalStopId) > arrivalTime) {
                     shortestPath.put(arrivalStopId, arrivalTime);
                     previousConnection.put(arrivalStopId, connexion);
@@ -91,8 +90,15 @@ public class PathFinder {
         String currentStop = end_stop.getStopId();
         while (previousConnection.containsKey(currentStop)) {
             Connexion currentConnexion = previousConnection.get(currentStop);
-            path.add(0, currentConnexion); // Add to the beginning of the path
+            path.add(0, currentConnexion);
             currentStop = currentConnexion.getFromId();
+            if (currentStop.equals(starting_stop.getStopId())) {
+                break;
+            }
+        }
+        if (!currentStop.equals(starting_stop.getStopId())) {
+            System.out.println("No path found from " + start + " to " + destination);
+            return;
         }
 
         // Print the path
@@ -107,7 +113,6 @@ public class PathFinder {
                         " and arriving at " + connexion.getArrivalTime());
             }
         }
-
     }
 
     /**

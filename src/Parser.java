@@ -8,10 +8,10 @@ import baseClasses.*;
 public class Parser {
     private static String directory;
     private static String[] entreprises = {
-            // "SNCB",
-            // "TEC",
+          //  "SNCB",
+          //  "TEC",
             "STIB",
-            // "DELIJN"
+            //"DELIJN"
     };
 
     public static Map<String, Trip> allTrips = new HashMap<>();
