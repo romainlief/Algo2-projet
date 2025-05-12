@@ -9,15 +9,15 @@ import java.time.Instant;
 import baseClasses.*;
 
 public class Parser {
-    private final double MAX_FOOT_DISTANCE = 500; // in meters
+    private final double MAX_FOOT_DISTANCE = 1; // in meters
     private final double AVERAGE_WALKING_SPEED = 1.0; // 1 m/s -> TODO, calculer une moyenne sur plusieurs sources ou
                                                       // simplement tester plusieurs valeurs
     private static String directory;
     private static String[] entreprises = {
-            "SNCB",
-            "TEC",
-            "STIB",
-            "DELIJN"
+          //  "SNCB",
+            //"TEC",
+            "STIB"//,
+            //"DELIJN"
     };
 
     public static Map<String, Trip> allTrips = new HashMap<>();
@@ -99,8 +99,8 @@ public class Parser {
             Instant inner_loop_end = Instant.now();
             Duration inner_loop_time = Duration.between(inner_loop_start,
                     inner_loop_end);
-            System.out.println("[INFO] Inner loop in " +
-                    inner_loop_time.getNano() + " nanoseconds.");
+          //  System.out.println("[INFO] Inner loop in " +
+           //         inner_loop_time.getNano() + " nanoseconds.");
         }
 
         Instant end_time_foot = Instant.now();

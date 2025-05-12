@@ -53,6 +53,14 @@ public class Calculator {
         return hours * 3600 + minutes * 60 + seconds;
     }
 
+    public static String intToTime(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int secs = seconds % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
+    }
+
     /**
      * @brief Converts a time from double format to String format "HH:MM:SS".
      * @param seconds The time in seconds to convert.

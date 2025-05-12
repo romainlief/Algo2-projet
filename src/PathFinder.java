@@ -6,6 +6,7 @@ import java.util.HashMap;
 import baseClasses.Route;
 import baseClasses.Stop;
 import baseClasses.Trip;
+import baseClasses.Walk;
 import baseClasses.Connexion;
 import baseClasses.Calculator;
 
@@ -14,6 +15,7 @@ public class PathFinder {
     private Map<String, Trip> tripMap;
     private Map<String, Route> routeMap;
     private List<Connexion> connexions;
+    // private
 
     public PathFinder(Map<String, Stop> stopMap, Map<String, Trip> tripMap, Map<String, Route> routeMap,
             List<Connexion> connexions) {
@@ -58,8 +60,6 @@ public class PathFinder {
             shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
         }
         shortestPath.put(starting_stop.getStopId(), Calculator.timeToInt(time));
-        // connexions.sort((c1, c2) ->
-        // c1.getDepartureTime().compareTo(c2.getDepartureTime()));
 
         Map<String, Connexion> previousConnection = new HashMap<>();
         for (Connexion connexion : connexions) {
@@ -68,10 +68,29 @@ public class PathFinder {
 
             int departureTime = Calculator.timeToInt(connexion.getDepartureTime());
             int arrivalTime = Calculator.timeToInt(connexion.getArrivalTime());
+
             if (shortestPath.get(departureStopId) <= departureTime) {
                 if (shortestPath.get(arrivalStopId) > arrivalTime) {
                     shortestPath.put(arrivalStopId, arrivalTime);
                     previousConnection.put(arrivalStopId, connexion);
+                }
+            }
+
+            // Check for walks
+            Stop departureStop = stopMap.get(departureStopId);
+            if (departureStop != null) {
+                for (Walk walk : departureStop.getWalk()) {
+                    String walkArrivalStopId = walk.getDestination().getStopId();
+                    int walkArrivalTime = (shortestPath.get(departureStopId))
+                            + Calculator.timeToInt(walk.getDuration());
+
+                    // Check if the walk is faster
+                    if (shortestPath.get(walkArrivalStopId) > walkArrivalTime) {
+                        shortestPath.put(walkArrivalStopId, walkArrivalTime);
+                        previousConnection.put(walkArrivalStopId, new Connexion(departureStopId, walkArrivalStopId,
+                                Calculator.intToTime(shortestPath.get(departureStopId)),
+                                Calculator.intToTime(walkArrivalTime), null));
+                    }
                 }
             }
         }
