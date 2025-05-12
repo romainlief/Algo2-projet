@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Stop {
 
     // #### Attributes ####
-    
+
     private final String stopId;
     private final String stopName;
     private final double stopLat;
@@ -53,7 +53,7 @@ public class Stop {
     }
 
     // #### Methods ####
-    
+
     /**
      * Adds a trip ID to the list of trip IDs departing from this stop.
      *
@@ -61,6 +61,16 @@ public class Stop {
      */
     public void addTrip(String trip_id) {
         this.trip_ids.add(trip_id);
+    }
+
+    /**
+     * Returns the distance to another stop.
+     * 
+     * @param other The stop to which the distance is calculated.
+     * @return The distance in meters.
+     */
+    public double getDistanceToOther(Stop other) {
+        return Calculator.haversine_distance(this, other);
     }
 
     // #### toString Method ####
