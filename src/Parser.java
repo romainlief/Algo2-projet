@@ -55,63 +55,67 @@ public class Parser {
         Duration file_read_time = Duration.between(start_time, end_time);
         System.out.println("[INFO] CSV files read in " + file_read_time.getSeconds() + " seconds.");
 
-        // Instant start_time_connexions = Instant.now();
+        Instant start_time_connexions = Instant.now();
         // Building connexions
-        // for (Trip trip : allTrips.values()) {
-            // List<StopTime> orederedStopTimes = trip.getstopTimes(); // a list of ordered stopTimes
-            // for (int stop_sequence = 0; stop_sequence < orederedStopTimes.size() - 1; stop_sequence++) {
-                // StopTime departure = orederedStopTimes.get(stop_sequence);
-                // StopTime destination = orederedStopTimes.get(stop_sequence + 1);
-// 
+        for (Trip trip : allTrips.values()) {
+            List<StopTime> orederedStopTimes = trip.getstopTimes(); // a list of ordered stopTimes
+            for (int stop_sequence = 0; stop_sequence < orederedStopTimes.size() - 1; stop_sequence++) {
+                StopTime departure = orederedStopTimes.get(stop_sequence);
+                StopTime destination = orederedStopTimes.get(stop_sequence + 1);
+
                 // error management
-                // if (departure == null || destination == null) {
-                    // System.out.println("[ERROR] Departure or destination is null");
-                    // continue;
-                // }
-// 
-                // Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(),
-                        // departure.getTime(), destination.getTime());
-                // allConnexions.add(connexion);
-            // }
-        // }
-        // Instant end_time_connexions = Instant.now();
-        // Duration connexions_time = Duration.between(start_time_connexions, end_time_connexions);
-        // System.out.println("[INFO] Connexions built in " + connexions_time.getSeconds() + " seconds.");
-// 
-        // 
+                if (departure == null || destination == null) {
+                    System.out.println("[ERROR] Departure or destination is null");
+                    continue;
+                }
+
+                Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(),
+                        destination.getStopId(),
+                        departure.getTime(), destination.getTime());
+                allConnexions.add(connexion);
+            }
+        }
+        Instant end_time_connexions = Instant.now();
+        Duration connexions_time = Duration.between(start_time_connexions,
+                end_time_connexions);
+        System.out.println("[INFO] Connexions built in " +
+                connexions_time.getSeconds() + " seconds.");
+
         Instant start_time_foot = Instant.now();
         // Building on foot connexions
         for (Stop stopA : allStops.values()) {
+            Instant inner_loop_start = Instant.now();
             for (Stop stopB : allStops.values()) {
-                if (stopA.getStopId() == stopB.getStopId()) {
-                    continue;
-                }
-                Instant start_time_haversine = Instant.now();
                 double distance = stopA.getDistanceToOther(stopB);
-                Instant end_time_haversine = Instant.now();
-                Duration haversine_time = Duration.between(start_time_haversine, end_time_haversine);
-                System.out.println("[INFO] Haversine distance calculated in " + haversine_time.getNano() + " nanoseconds.");
-                if (distance < MAX_FOOT_DISTANCE) {
+                if (stopA.getStopId().equals(stopB.getStopId())) {
+                    continue;
+                } else if (distance < MAX_FOOT_DISTANCE) {
                     double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t => t = d / v
                     String duration = Calculator.timeToString(walk_duration);
-                    Connexion connexion = new Connexion("WALK", stopA.getStopId(), stopB.getStopId(), "00:00:00",
-                            duration);
-                    allConnexions.add(connexion);
+                    Walk walk = new Walk(duration, stopB);
+                    stopA.addWalk(walk);
                 }
-// 
             }
+            Instant inner_loop_end = Instant.now();
+            Duration inner_loop_time = Duration.between(inner_loop_start,
+                    inner_loop_end);
+            System.out.println("[INFO] Inner loop in " +
+                    inner_loop_time.getNano() + " nanoseconds.");
         }
+
         Instant end_time_foot = Instant.now();
-        Duration foot_time = Duration.between(start_time_foot, end_time_foot);
+        Duration foot_time = Duration.between(start_time_foot,
+                end_time_foot);
         System.out.println("[INFO] Foot connexions built in " + foot_time.getSeconds() + " seconds.");
-// 
+
         System.out.println("[INFO] Number of connexions: " + allConnexions.size());
 
         // Sorting connexions by departure time
         Instant start_time_sort = Instant.now();
         Collections.sort(allConnexions);
         Instant end_time_sort = Instant.now();
-        Duration sort_time = Duration.between(start_time_sort, end_time_sort);
+        Duration sort_time = Duration.between(start_time_sort,
+                end_time_sort);
         System.out.println("[INFO] Connexions sorted in " + sort_time.getSeconds() + " seconds.");
     }
 
