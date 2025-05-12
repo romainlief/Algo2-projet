@@ -1,57 +1,154 @@
-\documentclass[utf8]{article}
-
+\documentclass[12pt,openany]{article}
 \usepackage[utf8]{inputenc}
-
-\usepackage[parfill]{parskip}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{appendix}
+\usepackage{libertine}
+\usepackage{titlesec}
+\usepackage{eso-pic}
+\usepackage{fancyhdr}
 \usepackage{graphicx}
+\usepackage{wrapfig}
 \usepackage{float}
-\usepackage{listingsutf8}
-
-\usepackage{fullpage}
-\usepackage{hyperref}
-\usepackage{url}
+\usepackage{caption}
 \usepackage{color}
-\usepackage{listings}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[hyphens]{url}
+\usepackage[linkbordercolor=white]{hyperref}
+\usepackage{hyperref}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{bm}
 \usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{commath}
+\usepackage{cancel}
+\usepackage{pdflscape}
+\usepackage{svg}
+\usepackage{comment}
+\usepackage{placeins}
+
+\usepackage{listings}
+\lstset{literate=%
+    {à}{{\`a}}1 {â}{{\^a}}1 {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1 {î}{{\^i}}1 {ï}{{\"i}}1 {ô}{{\^o}}1 {ö}{{\"o}}1 {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1 {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1{―}{{\textemdash}}1
+}
+\urlstyle{same}
+\pagestyle{fancy}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{}
+\renewcommand{\subsectionmark}[1]{}
+
+
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\setlength{\headheight}{14.5pt}
+\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{0.6}
+\renewcommand{\headrulewidth}{1pt}
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+\newcommand\BackgroundPic{%
+	\put(0,0){%
+		\parbox[b][\paperheight]{\paperwidth}{%
+			\vfill
+			\centering
+			\includegraphics[width=\paperwidth,height=\paperheight,%
+			keepaspectratio]{background.png}%
+			\vfill}}}
 
 % -----------------------------------------------------
 
-\begin{document}
 
+\begin{document}
+\AddToShipoutPicture*{\BackgroundPic}
 \begin{titlepage}
-    \centering
-    
-    % Titre en haut de la page
-    \vspace*{1cm}
-    {\huge \bfseries INFO F-203\\
-                    Rapport \par}
-    
-    % Espace vertical pour centrer le logo
+  \begin{sffamily}
+  \begin{flushleft} \large
+    \includegraphics[height=2.0cm]{logo_ulb.jpg}
+    \vspace{5cm}
+   \end{flushleft}
+  \begin{center}
+
+    %Title
+	\textsc{\huge INFO-F203 - Projets d'algorithmique 2}\\[1cm]
+
+    \HRule \\[0.7cm]
+
+	\textsc {\Huge Projet Mobilité}\\[0.4cm]
+
+    \HRule \\[1.2cm]
+
+% Author and supervisor
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft} \large
+\emph{Auteurs:}\\
+Romain \textsc{Liefferinckx} - 000591790\\
+Manuel \textsc{Rocca} - 000596086\\
+
+
+\end{flushleft}
+\end{minipage}
+
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Professeurs:} \\
+Jean  \textsc{Cardinal}\\
+\emph{Assistants:} \\
+Robin \textsc{Petit}
+\end{flushright}
+\end{minipage}
+
+
     \vfill
-    
-    % Logo au milieu de la page
-    \begin{figure}[h]
-        \centering
-        \includegraphics[scale=0.2]{logo.png}
-    \end{figure}
-    
-    % Espace vertical pour descendre l'auteur et la date en bas
-    \vfill
-    
-    % Auteur et date en bas de la page
-    {\large Auteurs: Liefferinckx Romain, Rocca Manuel\\ 
-            Matricules: 000591790, 000596086\\ 
-            Section: INFO \par}
-    {\large \today \par}
+
+    %Bottom of the page
+    {\large Année académique 2024-2025}
+  \end{center}
+
+  \end{sffamily}
 \end{titlepage}
 
-\newpage
+
+\clearpage
+
+
 \tableofcontents
 
 \newpage
