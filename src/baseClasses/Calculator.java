@@ -15,11 +15,11 @@ public class Calculator {
         double EARTH_RADIUS = 6371000; // in meters
 
         // converting values to radians
-        double delta_lat = Math.toRadians(stopB.getStopLat() - stopA.getStopLat());
-        double delta_lon = Math.toRadians(stopB.getStopLon() - stopA.getStopLon());
+        double delta_lat = Math.toRadians(stopB.getStopLat() - stopA.getStopLat()); // O(1) -> angdeg / 180.0 * PI
+        double delta_lon = Math.toRadians(stopB.getStopLon() - stopA.getStopLon()); // O(1) -> angdeg / 180.0 * PI
 
-        double latA = Math.toRadians(stopA.getStopLat());
-        double latB = Math.toRadians(stopB.getStopLat());
+        double latA = Math.toRadians(stopA.getStopLat()); // O(1)
+        double latB = Math.toRadians(stopB.getStopLat()); // O(1)
 
         // applying haversine formula
         double a = Math.pow(Math.sin(delta_lat / 2), 2) +

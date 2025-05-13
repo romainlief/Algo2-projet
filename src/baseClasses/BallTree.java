@@ -2,7 +2,18 @@ package baseClasses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
+/**
+ * @brief BallTree class used to partition stops into a tree structure in order
+ *        to optimize the search for the nearest stop by having quick access to
+ *        the neighbours of a Stop.
+ * @details Its implementation is based on the Ball Tree Wikipedia page:
+ *          https://en.wikipedia.org/wiki/Ball_tree
+ *          Will be further developed in report.
+ * 
+ */
 class BallTree {
     private BallTreeNode root;
 
@@ -27,17 +38,26 @@ class BallTree {
         this.root = buildTree(stops);
     }
 
-    // Build the Ball Tree recursively
+    /**
+     * @brief Builds the Ball Tree recursively based on a list of unordered stops.
+     *
+     * @param stops The list of stops to be used for building the tree.
+     * @return The root node of the constructed Ball Tree.
+     */
     private BallTreeNode buildTree(List<Stop> stops) {
+        if (stops == null || stops.isEmpty()) {
+            return null;
+        }
+        // Base case for recursion
+        // If there is only one stop, create a leaf node
         if (stops.size() == 1) {
             return new BallTreeNode(stops.get(0), 0, stops);
         }
-        else if (stops.size() == 0) {
-            System.out.println("[ERROR] No stops given, couldn't construct BallTree.");
-            return null;
-        }
 
+        // else
         // Compute the center of the stops
+        // TODO: create tree right after reading the stops and sum the lat and lon at
+        // the same time to save67k iterations
         double lat_sum = 0;
         double lon_sum = 0;
         for (Stop stop : stops) {
@@ -51,14 +71,15 @@ class BallTree {
         // Find the farthest stop to calculate the radius
         double maxDist = 0;
         for (Stop stop : stops) {
-            double dist = center.getDistanceToOther(stop);
-            maxDist = Math.max(maxDist, dist);
+            double dist = center.getDistanceToOther(stop); // should be O(1), execution ≃ 100ns (based on a benchamrk on
+                                                           // 10**9 iterations)
+            maxDist = Math.max(maxDist, dist); // O(1)
         }
 
         // Partition the list into two groups based on proximity to the center
         List<Stop> leftGroup = new ArrayList<>();
         List<Stop> rightGroup = new ArrayList<>();
-        for (Stop stop : stops) {
+        for (Stop stop : stops) { // O(n), n being the number of stops
             if (center.getDistanceToOther(stop) <= maxDist / 2) {
                 leftGroup.add(stop);
             } else {
@@ -66,7 +87,8 @@ class BallTree {
             }
         }
 
-        // Create the node and recursively build left and right subtrees
+        // Create the node and recursively build left and right subtrees with n/2 stops
+        // for each child
         BallTreeNode node = new BallTreeNode(center, maxDist / 2, stops);
         node.left = buildTree(leftGroup);
         node.right = buildTree(rightGroup);
@@ -74,35 +96,24 @@ class BallTree {
         return node;
     }
 
-    // Find the closest Stop to the given point
-    public Stop findNearestStop(Stop queryStop) {
-        return findNearestStop(root, queryStop);
+    /**
+     * @brief Finds the nearest stop to a given stop using knn search.
+     * 
+     * @param query_stop The stop to which the nearest stops are to be found.
+     * @return T
+     */
+    public PriorityQueue<Stop> findNearestStop(Stop query_stop) {
+        PriorityQueue<Stop> neighbouring_stops = new PriorityQueue<>(
+                (stop1, stop2) -> Double.compare(
+                        query_stop.getDistanceToOther(stop1),
+                        query_stop.getDistanceToOther(stop2)));
+        return findNearestStop(neighbouring_stops, root, query_stop);
     }
 
-    private Stop findNearestStop(BallTreeNode node, Stop queryStop) {
+    private PriorityQueue<Stop> findNearestStop(PriorityQueue<Stop> neighbouring_stops, BallTreeNode node, Stop query_stop) {
         if (node == null) {
             return null;
         }
-
-        // Compute the distance to the current center
-        double distToCentroid = queryStop.getDistanceToOther(node.center);
-        Stop nearestStop = node.center;
-
-        // Search the left or right subtree depending on proximity
-        Stop leftNearest = findNearestStop(node.left, queryStop);
-        Stop rightNearest = findNearestStop(node.right, queryStop);
-
-        double nearestDist = nearestStop.getDistanceToOther(queryStop);
-
-        if (leftNearest != null && leftNearest.getDistanceToOther(queryStop) < nearestDist) {
-            nearestStop = leftNearest;
-            nearestDist = nearestStop.getDistanceToOther(queryStop);
-        }
-
-        if (rightNearest != null && rightNearest.getDistanceToOther(queryStop) < nearestDist) {
-            nearestStop = rightNearest;
-        }
-
-        return nearestStop;
+        if (query_stop.getDistanceToOther(node.center) - node.radius >= query_stop(ne))
     }
 }
