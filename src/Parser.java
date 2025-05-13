@@ -14,10 +14,10 @@ public class Parser {
                                                       // simplement tester plusieurs valeurs
     private static String directory;
     private static String[] entreprises = {
-          //  "SNCB",
-            //"TEC",
-            "STIB"//,
-            //"DELIJN"
+            "SNCB",
+            "TEC",
+            "STIB",
+            "DELIJN"
     };
 
     public static Map<String, Trip> allTrips = new HashMap<>();
@@ -81,32 +81,34 @@ public class Parser {
         System.out.println("[INFO] Connexions built in " +
                 connexions_time.getSeconds() + " seconds.");
 
+        // Building on foot connexionss
         Instant start_time_foot = Instant.now();
-        // Building on foot connexions
+
+        HashGrid grid = new HashGrid(MAX_FOOT_DISTANCE);
+        grid.buildGrid(allStops);
+        int foot_connexion_counter = 0;
+
         for (Stop stopA : allStops.values()) {
-            Instant inner_loop_start = Instant.now();
-            for (Stop stopB : allStops.values()) {
-                double distance = stopA.getDistanceToOther(stopB);
-                if (stopA.getStopId().equals(stopB.getStopId())) {
+            for (Stop stopB : grid.getNeighbourStops(stopA)) {
+                if (stopA.getStopId().equals(stopB.getStopId()))
                     continue;
-                } else if (distance < MAX_FOOT_DISTANCE) {
+
+                double distance = stopA.getDistanceToOther(stopB);
+                if (distance < MAX_FOOT_DISTANCE) {
                     double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t => t = d / v
                     String duration = Calculator.timeToString(walk_duration);
-                    Walk walk = new Walk(duration, stopB);
+                    Walk walk = new Walk(stopA, stopB, duration);
                     stopA.addWalk(walk);
+                    foot_connexion_counter++;
                 }
             }
-            Instant inner_loop_end = Instant.now();
-            Duration inner_loop_time = Duration.between(inner_loop_start,
-                    inner_loop_end);
-          //  System.out.println("[INFO] Inner loop in " +
-           //         inner_loop_time.getNano() + " nanoseconds.");
         }
 
         Instant end_time_foot = Instant.now();
         Duration foot_time = Duration.between(start_time_foot,
                 end_time_foot);
-        System.out.println("[INFO] Foot connexions built in " + foot_time.getSeconds() + " seconds.");
+        System.out.println("[INFO] " + foot_connexion_counter + " foot connexions built in " + foot_time.getSeconds()
+                + " seconds.");
 
         System.out.println("[INFO] Number of connexions: " + allConnexions.size());
 

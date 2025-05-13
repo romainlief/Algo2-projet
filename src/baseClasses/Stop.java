@@ -18,7 +18,7 @@ public class Stop {
     // #### Constructors ####
 
     /**
-     * Constructor for Stop class.
+     * @brief Constructor for Stop class.
      *
      * @param stopId   Unique identifier for the stop.
      * @param stopName Name of the stop.
