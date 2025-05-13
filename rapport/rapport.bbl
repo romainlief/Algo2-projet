@@ -1,0 +1,64 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{anyt/global//global/global}
+  \entry{dibbelt2017connection}{article}{}
+    \name{author}{4}{}{%
+      {{hash=DJ}{%
+         family={Dibbelt},
+         familyi={D\bibinitperiod},
+         given={Julian},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PT}{%
+         family={Pajor},
+         familyi={P\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=SB}{%
+         family={Strasser},
+         familyi={S\bibinitperiod},
+         given={Ben},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=WD}{%
+         family={Wagner},
+         familyi={W\bibinitperiod},
+         given={Dorothea},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DJ+1}
+    \strng{fullhash}{DJPTSBWD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Dib+17}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{note}{Work done while at KIT. Karlsruhe Institute of Technology, Germany.}
+    \field{pages}{1\bibrangedash 49}
+    \field{title}{Connection Scan Algorithm}
+    \verb{url}
+    \verb https://arxiv.org/pdf/1703.05997
+    \endverb
+    \field{month}{03}
+    \field{year}{2017}
+  \endentry
+\enddatalist
+\endinput
