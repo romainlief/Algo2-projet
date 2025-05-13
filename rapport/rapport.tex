@@ -30,12 +30,14 @@
 \usepackage{cancel}
 \usepackage{pdflscape}
 \usepackage{svg}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e} % Retain only one package
 \usepackage{comment}
 \usepackage{placeins}
 
 \usepackage{listings}
 \lstset{literate=%
     {à}{{\`a}}1 {â}{{\^a}}1 {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1 {î}{{\^i}}1 {ï}{{\"i}}1 {ô}{{\^o}}1 {ö}{{\"o}}1 {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1 {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1{―}{{\textemdash}}1
+    {’}{{'}}1 {‘}{{`}}1 {“}{{``}}1 {”}{{''}}1
 }
 \urlstyle{same}
 \pagestyle{fancy}
@@ -265,6 +267,70 @@ de temps de départ et d'arrivée.
 \end{table}
 
 \section{Le Connexion Scan Algorithm}
+\subsection{Explication et description de l'algorithme}
+Le Connection Scan Algorithm (CSA) est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
+les réseaux de transports en commun basés sur des horaires, comme les trains et les bus. Contrairement aux algorithmes classiques 
+qui utilisent une file de priorité (comme Dijkstra), le CSA se base sur une liste triée de tous les transports en commun, classés par 
+leur heure de départ.
+
+Il parcourt cette liste de manière séquentielle pour déterminer rapidement les meilleures connections possibles pour atteindre une 
+destination dans un délai optimal ou avec le moins de changements de véhicule.
+
+\subsection{Pseudo-code}
+\begin{algorithm}[H]
+  \footnotesize
+  \SetAlgoNlRelativeSize{-1}
+  \DontPrintSemicolon
+  \KwIn{start, destination, time}
+  \KwOut{Affiche le chemin optimal ou un message d'erreur}
+  \tcp{La liste de connexions est triée par heure de départ préalablement durant le parsing}
+  
+  Trouver \texttt{starting\_stop} et \texttt{end\_stop} dans \texttt{stopMap} \;
+  \If{données invalides ou start = destination}{
+      Afficher une erreur et \Return \;
+  }
+  
+  Initialiser \texttt{shortestPath[stop]} à $\infty$ pour chaque stop \;
+  \texttt{Mettre shortestPath[starting\_stop]} $\gets$ temps de départ \;
+  
+  \texttt{previousConnection} $\gets$ map vide \;
+  
+  \ForEach{connexion \texttt{c} dans \texttt{connexions}}{
+      Récupérer \texttt{depart, arrive, depTime, arrTime} \;
+      \If{\texttt{shortestPath[dep]} $\leq$ \texttt{depTime} \textbf{et} \texttt{shortestPath[arrive]} $>$ \texttt{arrTime}}{
+          Mettre à jour \texttt{shortestPath[arrive]} et \texttt{previousConnection[arrive]} \;
+      }
+      \ForEach{walk depuis \texttt{depart}}{
+          Calculer \texttt{walkTime} \;
+          \If{\texttt{shortestPath[walkArr]} $>$ \texttt{walkTime}}{
+              Mettre à jour \texttt{shortestPath[walkArr]} et \texttt{previousConnection[walkArr]} \;
+          }
+      }
+  }
+
+  \texttt{currentStop} $\gets$ \texttt{end\_stop} \;
+  \While{\texttt{currentStop} dans \texttt{previousConnection}}{
+      Ajouter la connexion à \texttt{path} au début \;
+      \texttt{currentStop} $\gets$ origine de la connexion \;
+  }
+  
+  \If{\texttt{currentStop} $\ne$ \texttt{starting\_stop}}{
+      Afficher ``No path found'' et \Return \;
+  }
+  
+  \If{\texttt{path} vide}{
+      Afficher ``No path found'' \;
+  }
+  \Else{
+      \ForEach{connexion dans \texttt{path}}{
+          Afficher les infos de la connexion \;
+      }
+  }
+  \caption{CSA -- Recherche de chemin entre deux arrêts sans marche à pied}
+  \end{algorithm}
+    
+\subsection{Implémentation}
+\subsection{Complexité}
 
 \section{Sources-bibliographie}
 
