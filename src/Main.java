@@ -28,7 +28,7 @@ public class Main {
         Instant end_time = Instant.now();
         Duration file_read_time = Duration.between(start_time, end_time);
 
-        System.out.println("[INFO] CSV files read in " + file_read_time.getSeconds() + " seconds.");
+        System.out.println("[INFO] Parsing done in " + file_read_time.getSeconds() + " seconds.");
 
         // key -> trip_id
         // value -> Trip object

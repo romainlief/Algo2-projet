@@ -6,13 +6,16 @@ import java.util.HashMap;
 import baseClasses.Route;
 import baseClasses.Stop;
 import baseClasses.Trip;
+import baseClasses.Walk;
 import baseClasses.Connexion;
+import baseClasses.Calculator;
 
 public class PathFinder {
     private Map<String, Stop> stopMap;
     private Map<String, Trip> tripMap;
     private Map<String, Route> routeMap;
     private List<Connexion> connexions;
+    // private
 
     public PathFinder(Map<String, Stop> stopMap, Map<String, Trip> tripMap, Map<String, Route> routeMap,
             List<Connexion> connexions) {
@@ -20,27 +23,6 @@ public class PathFinder {
         this.tripMap = tripMap;
         this.routeMap = routeMap;
         this.connexions = connexions;
-    }
-
-    /**
-     * @brief Converts a time string in the format "HH:MM" to an integer
-     *        representing the total minutes.
-     * @param time The time string to convert.
-     * @return The integer representation of the time in minutes.
-     */
-    private int timeToInt(String time) {
-        time = time.replace(";", ":");
-
-        String[] parts = time.split(":");
-        if (parts.length < 2 || parts.length > 3) {
-            throw new IllegalArgumentException("Invalid time format: " + time);
-        }
-
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        int seconds = (parts.length == 3) ? Integer.parseInt(parts[2]) : 0; // Default to 0 seconds if not provided
-
-        return hours * 3600 + minutes * 60 + seconds;
     }
 
     /**
@@ -64,7 +46,7 @@ public class PathFinder {
         } else if (time == null) {
             System.err.println("Invalid time given: " + time);
             return;
-        } else if (timeToInt(time) < 0) {
+        } else if (Calculator.timeToInt(time) < 0) {
             System.err.println("Invalid time given: " + time);
             return;
         } else if (start == destination) {
@@ -77,21 +59,38 @@ public class PathFinder {
         for (String stopId : stopMap.keySet()) {
             shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
         }
-        shortestPath.put(starting_stop.getStopId(), timeToInt(time));
-        // connexions.sort((c1, c2) ->
-        // c1.getDepartureTime().compareTo(c2.getDepartureTime()));
+        shortestPath.put(starting_stop.getStopId(), Calculator.timeToInt(time));
 
         Map<String, Connexion> previousConnection = new HashMap<>();
         for (Connexion connexion : connexions) {
             String departureStopId = connexion.getFromId();
             String arrivalStopId = connexion.getToId();
 
-            int departureTime = connexion.timeToInt(connexion.getDepartureTime());
-            int arrivalTime = connexion.timeToInt(connexion.getArrivalTime());
+            int departureTime = Calculator.timeToInt(connexion.getDepartureTime());
+            int arrivalTime = Calculator.timeToInt(connexion.getArrivalTime());
+
             if (shortestPath.get(departureStopId) <= departureTime) {
                 if (shortestPath.get(arrivalStopId) > arrivalTime) {
                     shortestPath.put(arrivalStopId, arrivalTime);
                     previousConnection.put(arrivalStopId, connexion);
+                }
+            }
+
+            // Check for walks
+            Stop departureStop = stopMap.get(departureStopId);
+            if (departureStop != null) {
+                for (Walk walk : departureStop.getWalk()) {
+                    String walkArrivalStopId = walk.getDestination().getStopId();
+                    int walkArrivalTime = (shortestPath.get(departureStopId))
+                            + Calculator.timeToInt(walk.getDuration());
+
+                    // Check if the walk is faster
+                    if (shortestPath.get(walkArrivalStopId) > walkArrivalTime) {
+                        shortestPath.put(walkArrivalStopId, walkArrivalTime);
+                        previousConnection.put(walkArrivalStopId, new Connexion(departureStopId, walkArrivalStopId,
+                                Calculator.intToTime(shortestPath.get(departureStopId)),
+                                Calculator.intToTime(walkArrivalTime), null));
+                    }
                 }
             }
         }

@@ -3,14 +3,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import baseClasses.*;
 
 public class Parser {
+    private final double MAX_FOOT_DISTANCE = 1; // in meters
+    private final double AVERAGE_WALKING_SPEED = 1.0; // 1 m/s -> TODO, calculer une moyenne sur plusieurs sources ou
+                                                      // simplement tester plusieurs valeurs
     private static String directory;
     private static String[] entreprises = {
-            //"SNCB",
+          //  "SNCB",
             //"TEC",
-            "STIB",
+            "STIB"//,
             //"DELIJN"
     };
 
@@ -31,6 +37,8 @@ public class Parser {
      * corresponding maps.
      */
     public void readFiles() {
+
+        Instant start_time = Instant.now();
         for (String entreprise : entreprises) {
             String filePath = directory + "/" + entreprise + "/";
             try {
@@ -43,6 +51,11 @@ public class Parser {
                 e.printStackTrace();
             }
         }
+        Instant end_time = Instant.now();
+        Duration file_read_time = Duration.between(start_time, end_time);
+        System.out.println("[INFO] CSV files read in " + file_read_time.getSeconds() + " seconds.");
+
+        Instant start_time_connexions = Instant.now();
         // Building connexions
         for (Trip trip : allTrips.values()) {
             List<StopTime> orederedStopTimes = trip.getstopTimes(); // a list of ordered stopTimes
@@ -56,13 +69,54 @@ public class Parser {
                     continue;
                 }
 
-                Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(), destination.getStopId(),
+                Connexion connexion = new Connexion(trip.getTripId(), departure.getStopId(),
+                        destination.getStopId(),
                         departure.getTime(), destination.getTime());
                 allConnexions.add(connexion);
             }
         }
+        Instant end_time_connexions = Instant.now();
+        Duration connexions_time = Duration.between(start_time_connexions,
+                end_time_connexions);
+        System.out.println("[INFO] Connexions built in " +
+                connexions_time.getSeconds() + " seconds.");
+
+        Instant start_time_foot = Instant.now();
+        // Building on foot connexions
+        for (Stop stopA : allStops.values()) {
+            Instant inner_loop_start = Instant.now();
+            for (Stop stopB : allStops.values()) {
+                double distance = stopA.getDistanceToOther(stopB);
+                if (stopA.getStopId().equals(stopB.getStopId())) {
+                    continue;
+                } else if (distance < MAX_FOOT_DISTANCE) {
+                    double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t => t = d / v
+                    String duration = Calculator.timeToString(walk_duration);
+                    Walk walk = new Walk(duration, stopB);
+                    stopA.addWalk(walk);
+                }
+            }
+            Instant inner_loop_end = Instant.now();
+            Duration inner_loop_time = Duration.between(inner_loop_start,
+                    inner_loop_end);
+          //  System.out.println("[INFO] Inner loop in " +
+           //         inner_loop_time.getNano() + " nanoseconds.");
+        }
+
+        Instant end_time_foot = Instant.now();
+        Duration foot_time = Duration.between(start_time_foot,
+                end_time_foot);
+        System.out.println("[INFO] Foot connexions built in " + foot_time.getSeconds() + " seconds.");
+
         System.out.println("[INFO] Number of connexions: " + allConnexions.size());
+
+        // Sorting connexions by departure time
+        Instant start_time_sort = Instant.now();
         Collections.sort(allConnexions);
+        Instant end_time_sort = Instant.now();
+        Duration sort_time = Duration.between(start_time_sort,
+                end_time_sort);
+        System.out.println("[INFO] Connexions sorted in " + sort_time.getSeconds() + " seconds.");
     }
 
     /**
