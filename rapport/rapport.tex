@@ -276,6 +276,27 @@ leur heure de départ.
 Il parcourt cette liste de manière séquentielle pour déterminer rapidement les meilleures connections possibles pour atteindre une 
 destination dans un délai optimal ou avec le moins de changements de véhicule.
 
+\subsection{Structures de l'algorithme et implémentation}
+l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la méthode findPath qui implémente l'algorithme CSA.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|l|p{8cm}|}
+  \hline
+  \textbf{Attribut/Méthode} & \textbf{Type/Retour} & \textbf{Description} \\
+  \hline
+  stopMap & Map$<$String, Stop$>$ & Map contenant les arrêts, indexés par leur identifiant. \\
+  tripMap & Map$<$String, Trip$>$ & Map contenant les trajets, indexés par leur identifiant. \\
+  routeMap & Map$<$String, Route$>$ & Map contenant les routes, indexées par leur identifiant. \\
+  connexions & List$<$Connexion$>$ & Liste des connexions disponibles. \\
+  \hline
+  PathFinder & Constructeur & Initialise les maps des arrêts, trajets et routes. \\
+  findPath & void & Implémente l'algorithme pour trouver le meilleur chemin dans le graphe. \\
+  findStop & Stop & Recherche un arrêt dans la map des arrêts à partir de son nom. \\
+  \hline
+  \end{tabular}
+  \caption{Classe PathFinder}
+\end{table}
+
 \subsection{Pseudo-code}
 \begin{algorithm}[H]
   \footnotesize
@@ -329,8 +350,14 @@ destination dans un délai optimal ou avec le moins de changements de véhicule.
   \caption{CSA -- Recherche de chemin entre deux arrêts sans marche à pied}
   \end{algorithm}
     
-\subsection{Implémentation}
 \subsection{Complexité}
+Le début de l'algorithme se passe dans le parser, où nous lisons les fichiers CSV et construisons les connexions entre arrêts.
+C'est alors, qu'en fin de parsing nous allons trier les connexions par heure de départ.
+Ce tri a une complexité en $O(n \log n)$, où $n$ est le nombre de connexions. Nous utilisons Collections.sort() qui utilise un 
+TimSort qui est un algorithme de tri se basant sur le tri par insertion et le tri fusion.
+
+
+
 
 \section{Sources-bibliographie}
 
