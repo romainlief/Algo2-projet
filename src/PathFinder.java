@@ -101,9 +101,6 @@ public class PathFinder {
             Connexion currentConnexion = previousConnection.get(currentStop);
             path.add(0, currentConnexion);
             currentStop = currentConnexion.getFromId();
-            if (currentStop.equals(starting_stop.getStopId())) {
-                break;
-            }
         }
         if (!currentStop.equals(starting_stop.getStopId())) {
             System.out.println("No path found from " + start + " to " + destination);
