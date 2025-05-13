@@ -102,18 +102,18 @@ class BallTree {
      * @param query_stop The stop to which the nearest stops are to be found.
      * @return T
      */
-    public PriorityQueue<Stop> findNearestStop(Stop query_stop) {
-        PriorityQueue<Stop> neighbouring_stops = new PriorityQueue<>(
-                (stop1, stop2) -> Double.compare(
-                        query_stop.getDistanceToOther(stop1),
-                        query_stop.getDistanceToOther(stop2)));
-        return findNearestStop(neighbouring_stops, root, query_stop);
-    }
+    //public PriorityQueue<Stop> findNearestStop(Stop query_stop) {
+      //  PriorityQueue<Stop> neighbouring_stops = new PriorityQueue<>(
+     //           (stop1, stop2) -> Double.compare(
+   //                     query_stop.getDistanceToOther(stop1),
+  //                      query_stop.getDistanceToOther(stop2)));
+      //  return findNearestStop(neighbouring_stops, root, query_stop);
+    //}
 
-    private PriorityQueue<Stop> findNearestStop(PriorityQueue<Stop> neighbouring_stops, BallTreeNode node, Stop query_stop) {
-        if (node == null) {
-            return null;
-        }
-        if (query_stop.getDistanceToOther(node.center) - node.radius >= query_stop(ne))
-    }
+   // private PriorityQueue<Stop> findNearestStop(PriorityQueue<Stop> neighbouring_stops, BallTreeNode node, Stop query_stop) {
+   //     if (node == null) {
+  //          return null;
+     //   }
+   //     if (query_stop.getDistanceToOther(node.center) - node.radius >= query_stop(ne))
+    //}
 }
