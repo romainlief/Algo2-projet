@@ -17,6 +17,31 @@
 \endgroup
 
 \datalist[entry]{anyt/global//global/global}
+  \entry{butts2020raptor}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=BK}{%
+         family={Butts},
+         familyi={B\bibinitperiod},
+         given={Kuan},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BK1}
+    \strng{fullhash}{BK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{But20}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{note}{Consulté le 29 avril 2025}
+    \field{title}{RAPTOR transit routing algorithm basics}
+    \verb{url}
+    \verb https://kuanbutts.com/2020/09/12/raptor-simple-example/
+    \endverb
+    \field{month}{09}
+    \field{year}{2020}
+  \endentry
+
   \entry{dibbelt2017connection}{article}{}
     \name{author}{4}{}{%
       {{hash=DJ}{%
@@ -51,7 +76,7 @@
     \field{labelalpha}{Dib+17}
     \field{sortinit}{D}
     \field{sortinithash}{D}
-    \field{note}{Work done while at KIT. Karlsruhe Institute of Technology, Germany.}
+    \field{note}{Consulté le 2 mai 2025}
     \field{pages}{1\bibrangedash 49}
     \field{title}{Connection Scan Algorithm}
     \verb{url}
@@ -59,6 +84,153 @@
     \endverb
     \field{month}{03}
     \field{year}{2017}
+  \endentry
+
+  \entry{futura2009distance}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=dfFSU}{%
+         prefix={du\bibnamedelima forum},
+         prefixi={d\bibinitperiod\bibinitdelim f\bibinitperiod},
+         family={Futura-Sciences},
+         familyi={F\bibinithyphendelim S\bibinitperiod},
+         given={Utilisateur},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FSUdf1}
+    \strng{fullhash}{FSUdf1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{FS09}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{note}{Consulté le 10 mai 2025}
+    \field{title}{Calcul de distance entre 2 points dont j'ai les coordonnées géographiques (longitude, latitude)}
+    \verb{url}
+    \verb https://forums.futura-sciences.com/mathematiques-superieur/306536-cal
+    \verb cul-de-distance-entre-2-points-dont-jai-coordonnees-geographiques-lon
+    \verb gitude-latitude.html
+    \endverb
+    \field{year}{2009}
+  \endentry
+
+  \entry{geeko2018distance}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={Geeko},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Le Soir}%
+    }
+    \strng{namehash}{G1}
+    \strng{fullhash}{G1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Gee18}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{note}{Consulté le 10 mai 2025}
+    \field{title}{Comment calculer une distance à vol d’oiseau sur Google Maps}
+    \verb{url}
+    \verb https://geeko.lesoir.be/2018/10/18/comment-calculer-une-distance-a-vo
+    \verb l-doiseau-sur-google-maps/
+    \endverb
+    \field{journaltitle}{Geeko}
+    \field{year}{2018}
+  \endentry
+
+  \entry{geeksforgeeks_haversine}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={{GeeksforGeeks}},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {GeeksforGeeks}%
+    }
+    \strng{namehash}{G2}
+    \strng{fullhash}{G2}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Gee}22}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{note}{Consulté le 10 mai 2025}
+    \field{title}{Haversine formula to find distance between two points on a sphere}
+    \verb{url}
+    \verb https://www.geeksforgeeks.org/haversine-formula-to-find-distance-betw
+    \verb een-two-points-on-a-sphere/
+    \endverb
+    \field{year}{2022}
+  \endentry
+
+  \entry{gtfsReference}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={{GTFS Contributors}},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{G3}
+    \strng{fullhash}{G3}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{GTF}24}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{note}{Consulté le 29 avril 2025}
+    \field{title}{General Transit Feed Specification}
+    \verb{url}
+    \verb https://gtfs.org/documentation/schedule/reference/
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{transnetlabCSA}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=T}{%
+         family={{TransnetLab}},
+         familyi={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{T1}
+    \strng{fullhash}{T1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Tra}24}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{note}{Consulté le 3 mai 2025}
+    \field{title}{Connection Scan Algorithm}
+    \verb{url}
+    \verb https://transnetlab.github.io/transit-routing/html/Algorithms/CSA/
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{epfl2024cs108}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=�}{%
+         family={{École polytechnique fédérale de Lausanne}},
+         familyi={�\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{�1}
+    \strng{fullhash}{�1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Éc}25}
+    \field{sortinit}{�}
+    \field{sortinithash}{�}
+    \field{note}{Consulté le 2 mai 2025}
+    \field{title}{Recherche de voyages optimaux, ReCHor – étape 7}
+    \verb{url}
+    \verb https://cs108.epfl.ch/p/07.html
+    \endverb
+    \field{year}{2025}
   \endentry
 \enddatalist
 \endinput
