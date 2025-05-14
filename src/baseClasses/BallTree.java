@@ -1,12 +1,8 @@
 package baseClasses;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
-import org.w3c.dom.Node;
-
 /**
  * @brief BallTree class used to partition stops into a tree structure in order
  *        to optimize the search for the nearest stop by having quick access to
@@ -16,7 +12,7 @@ import org.w3c.dom.Node;
  *          Will be further developed in report.
  * 
  */
-class BallTree {
+public class BallTree {
     private final BallTreeNode root;
     private final int leaf_size;
 
@@ -58,9 +54,9 @@ class BallTree {
         }
     }
 
-    public BallTree(List<Stop> stops, int leaf_size) {
+    public BallTree(Collection<Stop> stops, int leaf_size) {
         this.leaf_size = leaf_size;
-        this.root = buildTree(stops);
+        this.root = buildTree(new ArrayList<Stop>(stops)); // O(n)
     }
 
     /**

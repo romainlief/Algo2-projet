@@ -84,8 +84,12 @@ public class Parser {
         // Building on foot connexionss
         Instant start_graph = Instant.now();
 
-        HashGrid grid = new HashGrid(MAX_FOOT_DISTANCE);
-        grid.buildGrid(allStops);
+        int BALL_TREE_LEAFE_SIZE = 10; // 10 should be optimal (source: tkt frère #bilal)
+        // number of stops per leaf:
+        // -> higher number means a less deeper tree thus taking less space in memory
+        // -> a lower number means a deeper tree with less Stops per leave thus having a better search efficiency
+        BallTree tree = new BallTree(allStops.values(), BALL_TREE_LEAFE_SIZE);
+        tree.buildTree(allStops);
         Instant end_graph = Instant.now();
         Duration graph_build_time = Duration.between(start_graph, end_graph);
         System.out.println("[INFO] Graph built in: " + graph_build_time.toMillis() + " ms.");
@@ -100,14 +104,13 @@ public class Parser {
                     continue;
 
                 double distance = stopA.getDistanceToOther(stopB);
-                if (distance < MAX_FOOT_DISTANCE) { // a second verification 
+                if (distance < MAX_FOOT_DISTANCE) { // a second verification
                     double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t => t = d / v
                     String duration = Calculator.timeToString(walk_duration);
                     Walk walk = new Walk(stopA, stopB, duration);
                     stopA.addWalk(walk);
                     foot_connexion_counter++;
-                }
-                else {
+                } else {
                     throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
                 }
             }
