@@ -34,6 +34,11 @@ public class PathFinder {
      * @param time        The time at which the journey starts
      */
     public void findPath(String start, String destination, String time) {
+        if (!isValidTimeFormat(time)) {
+            System.err.println("Invalid time format: " + time);
+            return;
+        }
+        int userStartTime = Calculator.timeToInt(time);
         List<Stop> startingStops = findStopsByName(start);
         if (startingStops.isEmpty()) {
             System.err.println("No stops found with the name: " + start);
@@ -47,15 +52,13 @@ public class PathFinder {
         if (time == null) {
             System.err.println("Invalid time given: " + time);
             return;
-        } else if (Calculator.timeToInt(time) < 0) {
+        } else if (userStartTime < 0) {
             System.err.println("Invalid time given: " + time);
             return;
         } else if (start == destination) {
             System.err.println("Start and destination are the same: " + start);
             return;
         }
-
-        int userStartTime = Calculator.timeToInt(time);
 
         // for every connexion sorted by decreasing departure time
         Map<String, Integer> shortestPath = new HashMap<>();
@@ -64,7 +67,7 @@ public class PathFinder {
             shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
         }
         for (Stop startingStop : startingStops) {
-            shortestPath.put(startingStop.getStopId(), Calculator.timeToInt(time));
+            shortestPath.put(startingStop.getStopId(), userStartTime);
         }
 
         Map<String, Connexion> previousConnection = new HashMap<>();
@@ -93,12 +96,11 @@ public class PathFinder {
                         if (shortestPath.get(walkDestId) > walkArrivalTime) {
                             shortestPath.put(walkDestId, walkArrivalTime);
                             previousConnection.put(walkDestId, new Connexion(
-                                    null, // trip_id = null pour une marche
-                                    arrivalStopId, // from_id
-                                    walkDestId, // to_id
-                                    Calculator.intToTime(arrivalTime), // departure_time
-                                    Calculator.intToTime(walkArrivalTime) // arrival_time
-                            ));
+                                    null, // trip_id = null for walk
+                                    arrivalStopId,
+                                    walkDestId,
+                                    Calculator.intToTime(arrivalTime),
+                                    Calculator.intToTime(walkArrivalTime)));
                         }
                     }
                 }
@@ -122,7 +124,7 @@ public class PathFinder {
 
         while (currentStop != null && previousConnection.containsKey(currentStop.getStopId())) {
             Connexion connexion = previousConnection.get(currentStop.getStopId());
-            path.add(0, connexion); // Ajouter au début pour reconstruire dans l'ordre
+            path.add(0, connexion); // Add to the beginning of the path
             currentStop = stopMap.get(connexion.getFromId());
         }
 
@@ -131,22 +133,38 @@ public class PathFinder {
             System.out.println("No path found from " + start + " to " + destination);
         } else {
             System.out.println("Path from " + start + " to " + destination + ":");
-            for (Connexion connexion : path) {
-                String fromName = stopMap.get(connexion.getFromId()).getStopName();
-                String toName = stopMap.get(connexion.getToId()).getStopName();
 
-                if (connexion.getTripId() == null) {
-                    System.out.println("Walk from " + fromName + " to " + toName +
-                            " starting at " + connexion.getDepartureTime() +
-                            " and arriving at " + connexion.getArrivalTime());
+            Connexion currentTransportStart = null;
+            Connexion previousConnexion = null;
+
+            for (int i = 0; i <= path.size(); i++) {
+                Connexion current = (i < path.size()) ? path.get(i) : null;
+
+                if (current != null && current.getTripId() != null) {
+                    // We're on a transport connection
+                    if (currentTransportStart == null) {
+                        currentTransportStart = current;
+                    } else if (!current.getTripId().equals(currentTransportStart.getTripId())) {
+                        // tripId changed -> print summary for the last trip
+                        printTransport(currentTransportStart, previousConnexion);
+                        currentTransportStart = current;
+                    }
                 } else {
-                    Route route = routeMap.get(tripMap.get(connexion.getTripId()).getRouteId());
-                    System.out.println("From " + fromName +
-                            " to " + toName +
-                            " departing at " + connexion.getDepartureTime() +
-                            " and arriving at " + connexion.getArrivalTime() +
-                            " with " + route.getRouteType() + ", line " + route.getRouteShortName());
+                    // It's a Walk or end of path -> print last transport if pending
+                    if (currentTransportStart != null && previousConnexion != null) {
+                        printTransport(currentTransportStart, previousConnexion);
+                        currentTransportStart = null;
+                    }
+                    if (current != null && current.getTripId() == null) {
+                        // Do not print the walk if it's the last one
+                        String toName = stopMap.get(current.getToId()).getStopName();
+                        if (!toName.equalsIgnoreCase(destination)) {
+                            printWalk(current);
+                        }
+                    }
+
                 }
+                previousConnexion = current;
             }
         }
     }
@@ -184,5 +202,44 @@ public class PathFinder {
             }
         }
         return left;
+    }
+
+    /**
+     * @brief Prints the transport information.
+     * @param start The starting connexion.
+     * @param end   The ending connexion.
+     */
+    private void printTransport(Connexion start, Connexion end) {
+        if (start == null || end == null || start.getTripId() == null)
+            return;
+
+        String fromName = stopMap.get(start.getFromId()).getStopName();
+        String toName = stopMap.get(end.getToId()).getStopName();
+        Route route = routeMap.get(tripMap.get(start.getTripId()).getRouteId());
+
+        System.out.println("Take " + route.getRouteType() + " " + route.getRouteShortName() +
+                " from " + fromName + " (" + start.getDepartureTime() + ")" +
+                " to " + toName + " (" + end.getArrivalTime() + ")");
+    }
+
+    /**
+     * @brief Prints the walk information.
+     * @param walk The walk connexion to print.
+     */
+    private void printWalk(Connexion walk) {
+        String fromName = stopMap.get(walk.getFromId()).getStopName();
+        String toName = stopMap.get(walk.getToId()).getStopName();
+
+        System.out.println("Walk from " + fromName + " (" + walk.getDepartureTime() + ")" +
+                " to " + toName + " (" + walk.getArrivalTime() + ")");
+    }
+
+    /**
+     * @brief Validates the time format.
+     * @param time The time string to validate.
+     * @return true if the time format is valid, false otherwise.
+     */
+    private boolean isValidTimeFormat(String time) {
+        return time != null && time.matches("^\\d{2};\\d{2}(;\\d{2})?$");
     }
 }

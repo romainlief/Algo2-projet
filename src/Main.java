@@ -21,7 +21,7 @@ public class Main {
 
     private static void parse() {
         System.out.println("[INFO] Parsing data...");
-        Parser parser = new Parser("GTFS");
+        Parser parser = new Parser("GTFS"); // Path to GTFS data
 
         Instant start_time = Instant.now();
         parser.readFiles();
@@ -29,22 +29,6 @@ public class Main {
         Duration file_read_time = Duration.between(start_time, end_time);
 
         System.out.println("[INFO] Parsing done in " + file_read_time.toMillis() + " ms.");
-
-        // key -> trip_id
-        // value -> Trip object
-        Map<String, Trip> allTrips = Parser.getAllTrips();
-
-        // key -> route_id
-        // value -> Route object
-        Map<String, Route> allRoutes = Parser.getAllRoutes();
-
-        // key -> stop_id
-        // value -> Stop object
-        Map<String, Stop> allStops = Parser.getAllStops();
-
-        System.out.println("[INFO] AllTrips map has " + allTrips.size() + " elements");
-        System.out.println("[INFO] AllRoutes map has " + allRoutes.size() + " elements");
-        System.out.println("[INFO] AllStops map has " + allStops.size() + " elements");
     }
 
     private static void solve() {
