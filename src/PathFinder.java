@@ -68,19 +68,8 @@ public class PathFinder {
         }
 
         Map<String, Connexion> previousConnection = new HashMap<>();
-        // Recherche dichotomique pour ne pas scanner les connexions inutiles
-        int left = 0, right = connexions.size() - 1;
-        int startIndex = connexions.size();
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            int depTime = Calculator.timeToInt(connexions.get(mid).getDepartureTime());
-            if (depTime >= userStartTime) {
-                startIndex = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
+
+        int startIndex = findStartIndex(connexions, userStartTime);
         for (int i = startIndex; i < connexions.size(); i++) {
             Connexion connexion = connexions.get(i);
             String departureStopId = connexion.getFromId();
@@ -92,25 +81,24 @@ public class PathFinder {
             if (shortestPath.get(departureStopId) <= departureTime && shortestPath.get(arrivalStopId) > arrivalTime) {
                 shortestPath.put(arrivalStopId, arrivalTime);
                 previousConnection.put(arrivalStopId, connexion);
-            }
-            // Check for walks
-            // Stop departureStop = stopMap.get(departureStopId);
-            // if (departureStop != null) {
-            // for (Walk walk : departureStop.getWalk()) {
-            // String walkArrivalStopId = walk.getDestination().getStopId();
-            // int walkArrivalTime = (shortestPath.get(departureStopId))
-            // + Calculator.timeToInt(walk.getDuration());
 
-            // Check if the walk is faster
-            // if (shortestPath.get(walkArrivalStopId) > walkArrivalTime) {
-            // shortestPath.put(walkArrivalStopId, walkArrivalTime);
-            // previousConnection.put(walkArrivalStopId, new Connexion(departureStopId,
-            // walkArrivalStopId,
-            // Calculator.intToTime(shortestPath.get(departureStopId)),
-            // Calculator.intToTime(walkArrivalTime), null));
-            // }
-            // }
-            // }
+                Stop arrivalStop = stopMap.get(arrivalStopId);
+                if (arrivalStop != null && arrivalStop.getWalk() != null) {
+                    for (Walk walk : arrivalStop.getWalk()) {
+                        Stop walkDest = walk.getDestination();
+                        String walkDestId = walkDest.getStopId();
+                        int walkDuration = Calculator.timeToInt(walk.getDuration());
+                        int walkArrivalTime = arrivalTime + walkDuration; // Utiliser arrivalTime ici
+
+                        // Vérifiez si le temps d'arrivée via la marche est meilleur
+                        if (shortestPath.get(walkDestId) > walkArrivalTime) {
+                            shortestPath.put(walkDestId, walkArrivalTime);
+                            // Ajoutez une référence spéciale pour indiquer qu'il s'agit d'une marche
+                            previousConnection.put(walkDestId, connexion); 
+                        }
+                    }
+                }
+            }
         }
 
         Stop bestEndStop = null;
@@ -166,5 +154,25 @@ public class PathFinder {
             }
         }
         return stops;
+    }
+
+    /**
+     * @brief Find the index of the first connexion that departs after the given
+     *        time.
+     * @param connexions    The list of connexions to search.
+     * @param userStartTime The time to search for.
+     * @return The index of the first connexion that departs after the given time.
+     */
+    private int findStartIndex(List<Connexion> connexions, int userStartTime) {
+        int left = 0, right = connexions.size() - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (Calculator.timeToInt(connexions.get(mid).getDepartureTime()) >= userStartTime) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
 }

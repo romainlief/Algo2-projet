@@ -84,7 +84,7 @@ public class Parser {
         // Building on foot connexionss
         Instant start_graph = Instant.now();
 
-        int BALL_TREE_LEAFE_SIZE = 40; // 10 should be optimal (source: tkt frère #bilal)
+        int BALL_TREE_LEAFE_SIZE = 30; // 10 should be optimal (source: tkt frère #bilal)
         // number of stops per leaf:
         // -> higher number means a less deeper tree thus taking less space in memory
         // -> a lower number means a deeper tree with less Stops per leaf thus having a
@@ -130,12 +130,9 @@ public class Parser {
                 String duration = Calculator.timeToString(walk_duration);
 
                 Walk walk1 = new Walk(stopA, stopB, duration);
-                Walk walk2 = new Walk(stopB, stopA, duration);
                 stopA.addWalk(walk1);
-                stopA.addWalk(walk2);
 
                 foot_connexion_counter++;
-                foot_connexion_counter++;                    
             } else {
                 throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
             }
