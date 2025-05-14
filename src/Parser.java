@@ -84,43 +84,54 @@ public class Parser {
         // Building on foot connexionss
         Instant start_graph = Instant.now();
 
-        int BALL_TREE_LEAFE_SIZE = 10; // 10 should be optimal (source: tkt frère #bilal)
+        int BALL_TREE_LEAFE_SIZE = 40; // 10 should be optimal (source: tkt frère #bilal)
         // number of stops per leaf:
         // -> higher number means a less deeper tree thus taking less space in memory
-        // -> a lower number means a deeper tree with less Stops per leave thus having a
+        // -> a lower number means a deeper tree with less Stops per leaf thus having a
         // better search efficiency
+        System.out.println("[INFO] Creating ball tree with leaf size " + BALL_TREE_LEAFE_SIZE);
         Collection<Stop> stops = allStops.values();
         BallTree tree = new BallTree(stops, BALL_TREE_LEAFE_SIZE);
         Instant end_graph = Instant.now();
         Duration graph_build_time = Duration.between(start_graph, end_graph);
-        System.out.println("[INFO] BallTree built in: " + graph_build_time.toMillis() + " ms.");
+        System.out.println("[INFO] BallTree built in: " + graph_build_time.toMillis() + " ms with " + tree.getRecursiveCallCount() + " recursive calls.");
 
         Instant start_time_foot = Instant.now();
         int foot_connexion_counter = 0;
+        long totalRangeTime = 0;
+        int rangeCallCount = 0;
+
         for (Stop stopA : allStops.values()) {
+            Instant rangeStart = Instant.now();
             Collection<Stop> neighbours = tree.range(stopA, MAX_FOOT_DISTANCE);
-            System.out.println("[INFO] " + stopA.getStopName() + " has " + neighbours.size() + " neighbours.");
+            Instant rangeEnd = Instant.now();
+            totalRangeTime += Duration.between(rangeStart, rangeEnd).toNanos();
+            rangeCallCount++;
+
             for (Stop stopB : neighbours) {
-                if (stopA.getStopId().equals(stopB.getStopId()))
-                    continue;
+            if (stopA.getStopId().equals(stopB.getStopId()))
+                continue;
 
-                // verification but at this point we should have only Stops within 500m of stopA
-                double distance = stopA.getDistanceToOther(stopB);
-                if (distance < MAX_FOOT_DISTANCE) {
-                    double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t <=> t = d / v
-                    String duration = Calculator.timeToString(walk_duration);
+            double distance = stopA.getDistanceToOther(stopB);
+            if (distance < MAX_FOOT_DISTANCE) {
+                double walk_duration = distance / AVERAGE_WALKING_SPEED;
+                String duration = Calculator.timeToString(walk_duration);
 
-                    Walk walk1 = new Walk(stopA, stopB, duration);
-                    Walk walk2 = new Walk(stopB, stopA, duration);
-                    stopA.addWalk(walk1);
-                    stopA.addWalk(walk2);
-                    
-                    foot_connexion_counter++;
-                } else { // if this error is thrown, it means there's an error in the implementation of the BallTree
-                    throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
-                }
+                Walk walk1 = new Walk(stopA, stopB, duration);
+                Walk walk2 = new Walk(stopB, stopA, duration);
+                stopA.addWalk(walk1);
+                stopA.addWalk(walk2);
+
+                foot_connexion_counter++;
+                foot_connexion_counter++;                    
+            } else {
+                throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
+            }
             }
         }
+        
+        double averageRangeTime = (double) totalRangeTime / rangeCallCount / 1_000_000; // Convert to milliseconds
+        System.out.println("[INFO] Average range query time: " + String.format("%.3f", averageRangeTime) + " ms");
 
         Instant end_time_foot = Instant.now();
         Duration foot_time = Duration.between(start_time_foot,

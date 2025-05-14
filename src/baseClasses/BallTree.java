@@ -1,7 +1,9 @@
 package baseClasses;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @brief BallTree class used to partition stops into a tree structure in order
@@ -15,6 +17,7 @@ import java.util.Collection;
 public class BallTree {
     private final BallTreeNode root;
     private final int leaf_size;
+    private int recursiveCallCount = 0; // Add counter as class field
 
     // Node class that represents a node in the Ball Tree
     private class BallTreeNode {
@@ -66,14 +69,22 @@ public class BallTree {
      * @return The root node of the constructed Ball Tree.
      */
     private BallTreeNode buildTree(Collection<Stop> stops) {
+        // try {
+            // TimeUnit.SECONDS.sleep(1);
+        recursiveCallCount++; // Increment counter at start of each call
+        // System.out.println("[INFO] Recursive call #" + recursiveCallCount + " on buildTree method with " + stops.size()
+                // + " stops.");
         if (stops == null || stops.isEmpty()) {
+            System.out.println("[INFO] Empty stop collection received, returning null.");
             return null;
         }
         // Base case for recursion
         // If there is only one stop, create a leaf node
-        if (stops.size() < this.leaf_size) {
+        if (stops.size() <= this.leaf_size) {
+            // System.out.println("[INFO] Base case of tree building reached, returning...");
             return new BallTreeNode(stops);
         }
+        // System.out.println("[INFO] Searching for farthest stop.");
         Stop[] pivots = findFarthest(stops);
         Stop pivot1 = pivots[0], pivot2 = pivots[1];
 
@@ -81,6 +92,7 @@ public class BallTree {
         Collection<Stop> right = new ArrayList<>();
 
         // Partition selon la proximité aux deux pivots
+        // System.out.println("[INFO] Creating two subsets of stops.");
         for (Stop s : stops) {
             double d1 = pivot1.getDistanceToOther(s);
             double d2 = pivot2.getDistanceToOther(s);
@@ -89,32 +101,53 @@ public class BallTree {
             else
                 right.add(s);
         }
+        // System.out.println("[INFO] Left subset size: " + left.size());
+        // System.out.println("[INFO] Right subset size: " + right.size());
 
         // Noeud interne avec centre et rayon
+        // System.out.println("[INFO] Computing center.");
         Stop center = computeCenter(stops);
+        // System.out.println("[INFO] Computing radius.");
         double radius = computeRadius(stops, center);
 
         BallTreeNode node = new BallTreeNode(center, radius);
+        // System.out.println("[INFO] Left tree recursion call.");
         node.left = buildTree(left);
+        // System.out.println("[INFO] Right tree recursion call.");
         node.right = buildTree(right);
         return node;
+        // }
+        // catch(InterruptedException e) {
+            // System.out.println("[ERROR] " + e);
+            // return null;
+        // }
     }
 
     private Stop[] findFarthest(Collection<Stop> stops) {
-        Stop a = stops.iterator().next(); // gets first elements
-        Stop b = a;
-        double best = 0;
-        for (Stop s1 : stops) {
-            for (Stop s2 : stops) {
-                double d = s1.getDistanceToOther(s2);
-                if (d > best) {
-                    best = d;
-                    a = s1;
-                    b = s2;
-                }
+        // First pass: find farthest point from arbitrary first point
+        Stop stopA = stops.iterator().next();
+        Stop stopB = stopA;
+        double maxDist = Double.MIN_VALUE;
+
+        for (Stop s : stops) {
+            double d = stopA.getDistanceToOther(s);
+            if (d > maxDist) {
+                maxDist = d;
+                stopB = s;
             }
         }
-        return new Stop[] { a, b };
+
+        // Second pass: find farthest point from stopB
+        Stop stopC = stopB;
+        maxDist = Double.MIN_VALUE;
+        for (Stop s : stops) {
+            double d = stopB.getDistanceToOther(s); // <-- Fixed: Using stopB instead of stopA
+            if (d > maxDist) {
+                maxDist = d;
+                stopC = s;
+            }
+        }
+        return new Stop[] { stopB, stopC };
     }
 
     private Stop computeCenter(Collection<Stop> stops) {
@@ -173,6 +206,11 @@ public class BallTree {
             rangeSearch(node.left, q, maxDist, out);
             rangeSearch(node.right, q, maxDist, out);
         }
+    }
+
+    // Add getter to access the count
+    public int getRecursiveCallCount() {
+        return recursiveCallCount;
     }
 
 }
