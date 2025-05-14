@@ -9,7 +9,7 @@ import java.time.Instant;
 import baseClasses.*;
 
 public class Parser {
-    private final double MAX_FOOT_DISTANCE = 1; // in meters
+    private final double MAX_FOOT_DISTANCE = 500; // in meters
     private final double AVERAGE_WALKING_SPEED = 1.0; // 1 m/s -> TODO, calculer une moyenne sur plusieurs sources ou
                                                       // simplement tester plusieurs valeurs
     private static String directory;
@@ -53,7 +53,7 @@ public class Parser {
         }
         Instant end_time = Instant.now();
         Duration file_read_time = Duration.between(start_time, end_time);
-        System.out.println("[INFO] CSV files read in " + file_read_time.getSeconds() + " seconds.");
+        System.out.println("[INFO] CSV files read in " + file_read_time.toMillis() + " ms.");
 
         Instant start_time_connexions = Instant.now();
         // Building connexions
@@ -79,27 +79,36 @@ public class Parser {
         Duration connexions_time = Duration.between(start_time_connexions,
                 end_time_connexions);
         System.out.println("[INFO] Connexions built in " +
-                connexions_time.getSeconds() + " seconds.");
+                connexions_time.toMillis() + " ms.");
 
         // Building on foot connexionss
-        Instant start_time_foot = Instant.now();
+        Instant start_graph = Instant.now();
 
         HashGrid grid = new HashGrid(MAX_FOOT_DISTANCE);
         grid.buildGrid(allStops);
-        int foot_connexion_counter = 0;
+        Instant end_graph = Instant.now();
+        Duration graph_build_time = Duration.between(start_graph, end_graph);
+        System.out.println("[INFO] Graph built in: " + graph_build_time.toMillis() + " ms.");
 
+        Instant start_time_foot = Instant.now();
+        int foot_connexion_counter = 0;
         for (Stop stopA : allStops.values()) {
-            for (Stop stopB : grid.getNeighbourStops(stopA)) {
+            List<Stop> neighbours = grid.getNeighbourStops(stopA);
+            System.out.println("[INFO] " + stopA.getStopName() + " has " + neighbours.size() + " neighbours.");
+            for (Stop stopB : neighbours) {
                 if (stopA.getStopId().equals(stopB.getStopId()))
                     continue;
 
                 double distance = stopA.getDistanceToOther(stopB);
-                if (distance < MAX_FOOT_DISTANCE) {
+                if (distance < MAX_FOOT_DISTANCE) { // a second verification 
                     double walk_duration = distance / AVERAGE_WALKING_SPEED; // v = d / t => t = d / v
                     String duration = Calculator.timeToString(walk_duration);
                     Walk walk = new Walk(stopA, stopB, duration);
                     stopA.addWalk(walk);
                     foot_connexion_counter++;
+                }
+                else {
+                    throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
                 }
             }
         }
@@ -107,8 +116,8 @@ public class Parser {
         Instant end_time_foot = Instant.now();
         Duration foot_time = Duration.between(start_time_foot,
                 end_time_foot);
-        System.out.println("[INFO] " + foot_connexion_counter + " foot connexions built in " + foot_time.getSeconds()
-                + " seconds.");
+        System.out.println("[INFO] " + foot_connexion_counter + " foot connexions built in " + foot_time.toMillis()
+                + " ms.");
 
         System.out.println("[INFO] Number of connexions: " + allConnexions.size());
 
@@ -118,7 +127,7 @@ public class Parser {
         Instant end_time_sort = Instant.now();
         Duration sort_time = Duration.between(start_time_sort,
                 end_time_sort);
-        System.out.println("[INFO] Connexions sorted in " + sort_time.getSeconds() + " seconds.");
+        System.out.println("[INFO] Connexions sorted in " + sort_time.toMillis() + " ms.");
     }
 
     /**
