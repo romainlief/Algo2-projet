@@ -55,6 +55,8 @@ public class PathFinder {
             return;
         }
 
+        int userStartTime = Calculator.timeToInt(time);
+
         // for every connexion sorted by decreasing departure time
         Map<String, Integer> shortestPath = new HashMap<>();
 
@@ -66,20 +68,31 @@ public class PathFinder {
         }
 
         Map<String, Connexion> previousConnection = new HashMap<>();
-        for (Connexion connexion : connexions) {
+        // Recherche dichotomique pour ne pas scanner les connexions inutiles
+        int left = 0, right = connexions.size() - 1;
+        int startIndex = connexions.size();
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int depTime = Calculator.timeToInt(connexions.get(mid).getDepartureTime());
+            if (depTime >= userStartTime) {
+                startIndex = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        for (int i = startIndex; i < connexions.size(); i++) {
+            Connexion connexion = connexions.get(i);
             String departureStopId = connexion.getFromId();
             String arrivalStopId = connexion.getToId();
 
             int departureTime = Calculator.timeToInt(connexion.getDepartureTime());
             int arrivalTime = Calculator.timeToInt(connexion.getArrivalTime());
 
-            if (shortestPath.get(departureStopId) <= departureTime) {
-                if (shortestPath.get(arrivalStopId) > arrivalTime) {
-                    shortestPath.put(arrivalStopId, arrivalTime);
-                    previousConnection.put(arrivalStopId, connexion);
-                }
+            if (shortestPath.get(departureStopId) <= departureTime && shortestPath.get(arrivalStopId) > arrivalTime) {
+                shortestPath.put(arrivalStopId, arrivalTime);
+                previousConnection.put(arrivalStopId, connexion);
             }
-
             // Check for walks
             // Stop departureStop = stopMap.get(departureStopId);
             // if (departureStop != null) {
@@ -138,20 +151,6 @@ public class PathFinder {
                         + route.getRouteShortName());
             }
         }
-    }
-
-    /**
-     * @brief Finds the Stop based on its name in stopMap map.
-     * @param stopName The name of the stop to find.
-     * @return The Stop.
-     */
-    private Stop findStop(String stopName) {
-        for (Stop stop : stopMap.values()) {
-            if (stop.getStopName().equals(stopName)) {
-                return stop;
-            }
-        }
-        return null;
     }
 
     /**
