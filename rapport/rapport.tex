@@ -267,6 +267,47 @@ de temps de départ et d'arrivée.
 \end{table}
 
 \section{Le Connexion Scan Algorithm}
+\subsection{Choix de l'algorithme}
+Dans le cadre de ce projet, nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (CSA) pour la recherche de chemin.
+Cet algorithme est particulièrement adapté pour les réseaux de transport en commun, car il permet de trouver rapidement le meilleur chemin
+entre deux arrêts en tenant compte des horaires de départ et d'arrivée. Le CSA a été conçu spécifiquement pour traiter les problèmes de planification d'itinéraires 
+dans les systèmes de transport en commun. Cependant, il y avait d'autres algorithmes qui auraient pu être utilisés, tels que \emph{Dijkstra} ou \emph{A*}, 
+alors pourquoi avoir fait ce choix.
+
+\subsubsection{Fonctionnement}
+\textbf{CSA}: Est basé sur une approche de recherche de chemin qui utilise une liste triée de connexions entre arrêts, et parcourt ces connexions de manière séquentielle.
+Il parcourt les connexions dans l’ordre croissant du temps de départ, en mettant à jour les meilleurs temps d’arrivée à chaque arrêt. Il est
+spécialisé pour les horaires de transports publics. 
+
+
+\textbf{Dijkstra}: Cherche le plus court chemin en partant du noeud de départ et en explorant tous les voisins, en choisissant toujours le chemin avec 
+le coût total le plus faible.
+
+\textbf{A*}: Est une amélioration de Dijkstra qui utilise une heuristique pour guider la recherche vers la destination. Il est plus efficace que Dijkstra dans certains cas,
+mais il nécessite une bonne heuristique pour fonctionner correctement.
+
+\subsubsection{Facilité d’implémentation avec GTFS}
+\textbf{CSA}: Est spécifiquement conçu pour fonctionner avec les fichiers GTFS et lit directement les connexions linéairement après le parsing et le tri des horaires.
+triées par heure, il n'y a pas besoin de convertir les données en graphe.
+
+\textbf{Dijkstra}: Nécessite de transformer les données de GTFS en graphe temporel (chaque arrêt devient un noeud).
+Cette implémentation est moins naturelle que pour CSA mais marche tout aussi bien.
+
+\textbf{A*}: Etant comme Dijkstra mais avec une heuristique, donc il faut lui ajouter l'heuristique. 
+Il nécessite aussi une représentation temporelle du graphe.
+
+\subsubsection{Complexité}
+\textbf{CSA}: $O(n)$, où $n$ est le nombre de connexions. Très rapide en pratique pour les requêtes "earliest arrival" grâce au tri temporel. 
+Cependant, il demande un tri préalablement, ce qui donne une complexité de $O(n \log n)$ pour le tri.
+
+\textbf{Dijkstra}: $O((V + E) \log V)$, où $V$ est le nombre de noeuds et $E$ le nombre d'arêtes.
+
+\textbf{A*}: $O((V + E) \log V)$, mais dépend de la qualité de l'heuristique. Il peut être plus rapide que Dijkstra si l'heuristique est bonne.
+
+\subsubsection{Choix final}
+De part la facilité d'implémentation avec les fichiers GTFS, la rapidité de l'algorithme et le fait qu'il soit conçu pour les horaires de transports publics,
+nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (CSA) pour notre projet.
+
 \subsection{Explication et description de l'algorithme}
 Le Connection Scan Algorithm (CSA) est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
 les réseaux de transports en commun basés sur des horaires, comme les trains et les bus. Contrairement aux algorithmes classiques 
@@ -365,6 +406,8 @@ des requêtes après le prétraitement initial, cependant celle-ci demande un tr
 
 Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le parsing et la recherche de chemin, où $n$ est le nombre de connexions.
 
+\section{Classes utilisées}
+
 \section{Sources-bibliographie}
 \cite{dibbelt2017connection} 
 \cite{butts2020raptor}
@@ -377,6 +420,10 @@ Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le pa
 \cite{wikipedia_geohash}
 \cite{mattaparthi2024ballkd}
 \cite{fieldsend_onlineballtree}
+\cite{woltmann2025astar}
+\cite{wikipedia_astar}
+\cite{geeksforgeeks_astar}
+\cite{wikipedia_dijkstra}
 
 \printbibliography
 

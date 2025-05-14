@@ -42,6 +42,58 @@
     \field{year}{2020}
   \endentry
 
+  \entry{wikipedia_astar}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=C}{%
+         family={{Contributeurs de Wikipédia}},
+         familyi={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wikipédia}%
+    }
+    \strng{namehash}{C1}
+    \strng{fullhash}{C1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Con}25}
+    \field{extraalpha}{1}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{note}{Consulté le 13 mai 2025}
+    \field{title}{Algorithme A*}
+    \verb{url}
+    \verb https://fr.wikipedia.org/wiki/Algorithme_A*
+    \endverb
+    \field{year}{2025}
+  \endentry
+
+  \entry{wikipedia_dijkstra}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=C}{%
+         family={{Contributeurs de Wikipédia}},
+         familyi={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wikipédia}%
+    }
+    \strng{namehash}{C1}
+    \strng{fullhash}{C1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Con}25}
+    \field{extraalpha}{2}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{note}{Consulté le 13 mai 2025}
+    \field{title}{Algorithme de Dijkstra}
+    \verb{url}
+    \verb https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
+    \endverb
+    \field{year}{2025}
+  \endentry
+
   \entry{dibbelt2017connection}{article}{}
     \name{author}{4}{}{%
       {{hash=DJ}{%
@@ -193,6 +245,31 @@
     \field{year}{2022}
   \endentry
 
+  \entry{geeksforgeeks_astar}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={{GeeksforGeeks}},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {GeeksforGeeks}%
+    }
+    \strng{namehash}{G2}
+    \strng{fullhash}{G2}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Gee}24}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{note}{Consulté le 13 mai 2025}
+    \field{title}{A* Search Algorithm}
+    \verb{url}
+    \verb https://www.geeksforgeeks.org/a-search-algorithm/
+    \endverb
+    \field{year}{2024}
+  \endentry
+
   \entry{gtfsReference}{misc}{}
     \name{author}{1}{}{%
       {{hash=G}{%
@@ -288,6 +365,33 @@
     \verb https://en.wikipedia.org/wiki/Geohash
     \endverb
     \field{journaltitle}{Wikipedia}
+    \field{year}{2025}
+  \endentry
+
+  \entry{woltmann2025astar}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=WS}{%
+         family={Woltmann},
+         familyi={W\bibinitperiod},
+         given={Sven},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {HappyCoders}%
+    }
+    \strng{namehash}{WS1}
+    \strng{fullhash}{WS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Wol25}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \field{note}{Consulté le 13 mai 2025}
+    \field{title}{A* Algorithm (+ Java Code Examples)}
+    \verb{url}
+    \verb https://www.happycoders.eu/algorithms/a-star-algorithm-java/
+    \endverb
     \field{year}{2025}
   \endentry
 
