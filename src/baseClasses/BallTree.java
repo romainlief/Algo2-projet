@@ -2,7 +2,7 @@ package baseClasses;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
 /**
  * @brief BallTree class used to partition stops into a tree structure in order
  *        to optimize the search for the nearest stop by having quick access to
@@ -20,7 +20,7 @@ public class BallTree {
     private class BallTreeNode {
         Stop center;
         double radius;
-        List<Stop> stops;
+        Collection<Stop> stops;
         BallTreeNode left;
         BallTreeNode right;
 
@@ -29,7 +29,7 @@ public class BallTree {
          * 
          * @param stops
          */
-        BallTreeNode(List<Stop> stops) {
+        BallTreeNode(Collection<Stop> stops) {
             this.stops = stops;
         }
 
@@ -56,7 +56,7 @@ public class BallTree {
 
     public BallTree(Collection<Stop> stops, int leaf_size) {
         this.leaf_size = leaf_size;
-        this.root = buildTree(new ArrayList<Stop>(stops)); // O(n)
+        this.root = buildTree(stops);
     }
 
     /**
@@ -65,7 +65,7 @@ public class BallTree {
      * @param stops The list of stops to be used for building the tree.
      * @return The root node of the constructed Ball Tree.
      */
-    private BallTreeNode buildTree(List<Stop> stops) {
+    private BallTreeNode buildTree(Collection<Stop> stops) {
         if (stops == null || stops.isEmpty()) {
             return null;
         }
@@ -77,8 +77,8 @@ public class BallTree {
         Stop[] pivots = findFarthest(stops);
         Stop pivot1 = pivots[0], pivot2 = pivots[1];
 
-        List<Stop> left = new ArrayList<>();
-        List<Stop> right = new ArrayList<>();
+        Collection<Stop> left = new ArrayList<>();
+        Collection<Stop> right = new ArrayList<>();
 
         // Partition selon la proximité aux deux pivots
         for (Stop s : stops) {
@@ -100,8 +100,9 @@ public class BallTree {
         return node;
     }
 
-    private Stop[] findFarthest(List<Stop> stops) {
-        Stop a = stops.get(0), b = a;
+    private Stop[] findFarthest(Collection<Stop> stops) {
+        Stop a = stops.iterator().next(); // gets first elements
+        Stop b = a;
         double best = 0;
         for (Stop s1 : stops) {
             for (Stop s2 : stops) {
@@ -116,7 +117,7 @@ public class BallTree {
         return new Stop[] { a, b };
     }
 
-    private Stop computeCenter(List<Stop> stops) {
+    private Stop computeCenter(Collection<Stop> stops) {
         double sumLat = 0, sumLon = 0;
         for (Stop s : stops) {
             sumLat += s.getStopLat();
@@ -127,7 +128,7 @@ public class BallTree {
         return new Stop("", "", avgLat, avgLon); // creating a virtual Stop used only for partitioning
     }
 
-    private double computeRadius(List<Stop> stops, Stop center) {
+    private double computeRadius(Collection<Stop> stops, Stop center) {
         double maxDist = 0;
         for (Stop s : stops) {
             double d = center.getDistanceToOther(s);
@@ -143,13 +144,13 @@ public class BallTree {
      * @param query   le Stop requête
      * @param maxDist rayon maximum en mètres
      */
-    public List<Stop> range(Stop query, double maxDist) {
-        List<Stop> result = new ArrayList<>();
+    public Collection<Stop> range(Stop query, double maxDist) {
+        Collection<Stop> result = new ArrayList<>();
         rangeSearch(root, query, maxDist, result);
         return result;
     }
 
-    private void rangeSearch(BallTreeNode node, Stop q, double maxDist, List<Stop> out) {
+    private void rangeSearch(BallTreeNode node, Stop q, double maxDist, Collection<Stop> out) {
         if (node == null)
             return;
 
