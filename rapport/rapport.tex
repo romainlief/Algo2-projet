@@ -350,18 +350,20 @@ l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la mé
   \caption{CSA -- Recherche de chemin entre deux arrêts sans marche à pied}
   \end{algorithm}
     
-\subsection{Complexité}
+\subsection{Complexité sans la marche à pied}
 Le début de l'algorithme se passe dans le parser, où nous lisons les fichiers CSV et construisons les connexions entre arrêts.
 C'est alors, qu'en fin de parsing nous allons trier les connexions par heure de départ.
 Ce tri a une complexité en $O(n \log n)$, où $n$ est le nombre de connexions. Nous utilisons Collections.sort(allConnexions) qui utilise un 
 TimSort qui est un algorithme de tri se basant sur le tri par insertion et le tri fusion.
 
 Vient ensuite la partie principale du CSA, où nous allons parcourir toutes les connexions une par une.
-Ceci se fait en $O(n)$, où $n$ est le nombre de connexions. Etant donné que nous avons déjà trié les connexions, il suffit de les parcourir.  
+Ceci se fait en $O(n)$, où $n$ est le nombre de connexions. Etant donné que nous avons déjà trié les connexions, il suffit de les parcourir. 
+De plus, étant donné que nous parcourons toutes les connexions, nous pouvons même dire que nous sommes en $\Theta(n)$.
 Ainsi, la complexité totale de l'algorithme est dominée par le tri initial des connexions, ce qui donne une complexité globale de $O(n \log n)$, où $n$ 
 est le nombre de connexions. Cette complexité est particulièrement avantageuse pour les grands ensembles de données, car elle permet un traitement efficace 
 des requêtes après le prétraitement initial, cependant celle-ci demande un tri sur l'entièreté des connexions et est donc la partie la plus lourde du processus.
 
+Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le parsing et la recherche de chemin, où $n$ est le nombre de connexions.
 
 \section{Sources-bibliographie}
 \cite{dibbelt2017connection} 
@@ -372,6 +374,9 @@ des requêtes après le prétraitement initial, cependant celle-ci demande un tr
 \cite{futura2009distance}
 \cite{geeko2018distance}
 \cite{geeksforgeeks_haversine}
+\cite{wikipedia_geohash}
+\cite{mattaparthi2024ballkd}
+\cite{fieldsend_onlineballtree}
 
 \printbibliography
 

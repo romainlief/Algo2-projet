@@ -86,6 +86,32 @@
     \field{year}{2017}
   \endentry
 
+  \entry{fieldsend_onlineballtree}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=F}{%
+         family={Fieldsend},
+         familyi={F\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {GitHub}%
+    }
+    \strng{namehash}{F1}
+    \strng{fullhash}{F1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Fie25}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{note}{Consulté le 12 mai 2025}
+    \field{title}{OnlineBallTree.java}
+    \verb{url}
+    \verb https://github.com/fieldsend/ball_tree/blob/main/ball_tree/OnlineBall
+    \verb Tree.java
+    \endverb
+    \field{year}{2025}
+  \endentry
+
   \entry{futura2009distance}{misc}{}
     \name{author}{1}{}{%
       {{hash=dfFSU}{%
@@ -189,6 +215,34 @@
     \field{year}{2024}
   \endentry
 
+  \entry{mattaparthi2024ballkd}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=MG}{%
+         family={Mattaparthi},
+         familyi={M\bibinitperiod},
+         given={Geetha},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Medium}%
+    }
+    \strng{namehash}{MG1}
+    \strng{fullhash}{MG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Mat24}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \field{note}{Consulté le 11 mai 2025}
+    \field{title}{Ball Tree and KD Tree Algorithms}
+    \verb{url}
+    \verb https://medium.com/@geethasreemattaparthi/ball-tree-and-kd-tree-algor
+    \verb ithms-a03cdc9f0af9
+    \endverb
+    \field{year}{2024}
+  \endentry
+
   \entry{transnetlabCSA}{misc}{}
     \name{author}{1}{}{%
       {{hash=T}{%
@@ -209,6 +263,32 @@
     \verb https://transnetlab.github.io/transit-routing/html/Algorithms/CSA/
     \endverb
     \field{year}{2024}
+  \endentry
+
+  \entry{wikipedia_geohash}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=W}{%
+         family={{Wikipedia contributors}},
+         familyi={W\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wikipedia}%
+    }
+    \strng{namehash}{W1}
+    \strng{fullhash}{W1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Wik}25}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \field{note}{Consulté le 11 mai 2025}
+    \field{title}{Geohash}
+    \verb{url}
+    \verb https://en.wikipedia.org/wiki/Geohash
+    \endverb
+    \field{journaltitle}{Wikipedia}
+    \field{year}{2025}
   \endentry
 
   \entry{epfl2024cs108}{misc}{}
