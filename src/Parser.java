@@ -104,6 +104,18 @@ public class Parser {
         for (Stop stopA : allStops.values()) {
             Instant rangeStart = Instant.now();
             Collection<Stop> neighbours = tree.range(stopA, MAX_FOOT_DISTANCE);
+
+            // ------------------------------------------------ VERIFICATION ------------------------------------------------
+            // TO USE: change to stopId you wish to test and it will print out its neighbours
+            if (stopA.getStopId().equals("TEC-Bbxltou1")) {
+                System.out.println("Printing the " + neighbours.size() + " of TEC-Bbxltou1:");
+                for (Stop neighbour : neighbours) {
+                    System.out.println("  " + neighbour.getStopId() + " - " + neighbour.getStopName() + 
+                                      " (Distance: " + String.format("%.2f", stopA.getDistanceToOther(neighbour)) + "m)");
+                }
+            }
+            // --------------------------------------------------------------------------------------------------------------
+
             Instant rangeEnd = Instant.now();
             totalRangeTime += Duration.between(rangeStart, rangeEnd).toNanos();
             rangeCallCount++;
