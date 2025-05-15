@@ -1,7 +1,11 @@
-package baseClasses;
+package structures;
+
+import objects.*;
 
 import java.util.*;
 
+// A data structure that we tried to use, but didn't in the end
+// We left it for the reader's appreciation
 public class HashGrid {
 
     // #### Attributes ####

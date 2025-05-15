@@ -1,4 +1,4 @@
-package baseClasses;
+package objects;
 
 public class Connexion implements Comparable<Connexion> {
     private final String trip_id;

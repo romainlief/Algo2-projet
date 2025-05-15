@@ -1,4 +1,4 @@
-package baseClasses;
+package objects;
 
 import java.util.List;
 import java.util.ArrayList;

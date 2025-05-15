@@ -1,4 +1,4 @@
-package baseClasses;
+package objects;
 
 /**
  * Class representing a public transport route.

@@ -1,8 +1,6 @@
 import java.util.Scanner;
-import java.util.Map;
-import baseClasses.Route;
-import baseClasses.Stop;
-import baseClasses.Trip;
+import functional.PathFinder;
+import functional.Initializer;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -11,29 +9,35 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            parse();
-            solve();
+            System.out.println("#############################################################");
+            System.out.println("\033[92m[INFO]\033[0m Starting the program...");
+            System.out.println("\033[92m[INFO]\033[0m Initializing the GTFS data...");
+
+            // declaring constants
+            final String DIRECTORY = "GTFS"; // Path to GTFS data
+            final double MAX_FOOT_DISTANCE = 500; // in meters
+            final double AVERAGE_WALKING_SPEED = 1.0; // in m/s
+            final int BALL_TREE_LEAFE_SIZE = 30; // number of stops per leaf
+            Initializer initializer = new Initializer(DIRECTORY, MAX_FOOT_DISTANCE, AVERAGE_WALKING_SPEED,
+                    BALL_TREE_LEAFE_SIZE);
+            initializer.setup(true);
+
+            System.out.println("\033[92m[INFO]\033[0m GTFS data loaded successfully!");
+            System.out.println("#############################################################");
+            System.out.println("#-----------------------------------------------------------#");
+
+            System.out.println("#############################################################");
+            System.out.println("\033[92m[INFO]\033[0m PathFinder ready.");
+            // finding the best path
+            solve(initializer);
         } catch (Exception e) {
             System.err.println("Error loading GTFS data: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private static void parse() {
-        System.out.println("[INFO] Parsing data...");
-        Parser parser = new Parser("GTFS"); // Path to GTFS data
-
-        Instant start_time = Instant.now();
-        parser.readFiles();
-        Instant end_time = Instant.now();
-        Duration file_read_time = Duration.between(start_time, end_time);
-
-        System.out.println("[INFO] Parsing done in " + file_read_time.toMillis() + " ms.");
-    }
-
-    private static void solve() {
+    private static void solve(Initializer initializer) {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             // Getting departure spot
             System.out.print("From where would you like to travel ?: ");
@@ -48,15 +52,15 @@ public class Main {
             String departure_time = scanner.nextLine();
 
             // Searching for best path
-            PathFinder finder = new PathFinder(Parser.getAllStops(), Parser.getAllTrips(), Parser.getAllRoutes(),
-                    Parser.getAllConnexions());
+            PathFinder finder = new PathFinder(initializer.getStops(), initializer.getTrips(), initializer.getRoutes(),
+                    initializer.getConnexions());
 
             Instant start_time = Instant.now();
             finder.findPath(start, destination, departure_time);
             Instant end_time = Instant.now();
             Duration pathfinding_time = Duration.between(start_time, end_time);
 
-            System.out.println("[INFO] Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
+            System.out.println("\033[92m[INFO]\033[0m Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
 
             // Ask if the user wants to search for another itinerary
             System.out.print("Would you like to search for another itinerary? (no to exit): ");

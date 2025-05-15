@@ -1,4 +1,6 @@
-package baseClasses;
+package structures;
+
+import objects.*;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -70,21 +72,23 @@ public class BallTree {
      */
     private BallTreeNode buildTree(Collection<Stop> stops) {
         // try {
-            // TimeUnit.SECONDS.sleep(1);
+        // TimeUnit.SECONDS.sleep(1);
         recursiveCallCount++; // Increment counter at start of each call
-        // System.out.println("[INFO] Recursive call #" + recursiveCallCount + " on buildTree method with " + stops.size()
-                // + " stops.");
+        // System.out.println("\033[92m[INFO]\033[0m Recursive call #" +
+        // recursiveCallCount + " on buildTree method with " + stops.size()
+        // + " stops.");
         if (stops == null || stops.isEmpty()) {
-            System.out.println("[INFO] Empty stop collection received, returning null.");
+            System.out.println("\033[92m[INFO]\033[0m Empty stop collection received, returning null.");
             return null;
         }
         // Base case for recursion
         // If there is only one stop, create a leaf node
         if (stops.size() <= this.leaf_size) {
-            // System.out.println("[INFO] Base case of tree building reached, returning...");
+            // System.out.println("\033[92m[INFO]\033[0m Base case of tree building reached,
+            // returning...");
             return new BallTreeNode(stops);
         }
-        // System.out.println("[INFO] Searching for farthest stop.");
+        // System.out.println("\033[92m[INFO]\033[0m Searching for farthest stop.");
         Stop[] pivots = findFarthest(stops);
         Stop pivot1 = pivots[0], pivot2 = pivots[1];
 
@@ -92,7 +96,7 @@ public class BallTree {
         Collection<Stop> right = new ArrayList<>();
 
         // Partition selon la proximité aux deux pivots
-        // System.out.println("[INFO] Creating two subsets of stops.");
+        // System.out.println("\033[92m[INFO]\033[0m Creating two subsets of stops.");
         for (Stop s : stops) {
             double d1 = pivot1.getDistanceToOther(s);
             double d2 = pivot2.getDistanceToOther(s);
@@ -101,25 +105,26 @@ public class BallTree {
             else
                 right.add(s);
         }
-        // System.out.println("[INFO] Left subset size: " + left.size());
-        // System.out.println("[INFO] Right subset size: " + right.size());
+        // System.out.println("\033[92m[INFO]\033[0m Left subset size: " + left.size());
+        // System.out.println("\033[92m[INFO]\033[0m Right subset size: " +
+        // right.size());
 
         // Noeud interne avec centre et rayon
-        // System.out.println("[INFO] Computing center.");
+        // System.out.println("\033[92m[INFO]\033[0m Computing center.");
         Stop center = computeCenter(stops);
-        // System.out.println("[INFO] Computing radius.");
+        // System.out.println("\033[92m[INFO]\033[0m Computing radius.");
         double radius = computeRadius(stops, center);
 
         BallTreeNode node = new BallTreeNode(center, radius);
-        // System.out.println("[INFO] Left tree recursion call.");
+        // System.out.println("\033[92m[INFO]\033[0m Left tree recursion call.");
         node.left = buildTree(left);
-        // System.out.println("[INFO] Right tree recursion call.");
+        // System.out.println("\033[92m[INFO]\033[0m Right tree recursion call.");
         node.right = buildTree(right);
         return node;
         // }
         // catch(InterruptedException e) {
-            // System.out.println("[ERROR] " + e);
-            // return null;
+        // System.out.println("\033[91m[ERROR]\033[0m " + e);
+        // return null;
         // }
     }
 

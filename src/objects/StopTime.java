@@ -1,4 +1,4 @@
-package baseClasses;
+package objects;
 
 public class StopTime {
 

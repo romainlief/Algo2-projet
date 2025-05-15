@@ -1,14 +1,15 @@
+package functional;
+
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import baseClasses.Route;
-import baseClasses.Stop;
-import baseClasses.Trip;
-import baseClasses.Walk;
-import baseClasses.Connexion;
-import baseClasses.Calculator;
+import objects.Route;
+import objects.Stop;
+import objects.Trip;
+import objects.Walk;
+import objects.Connexion;
 
 public class PathFinder {
     private Map<String, Stop> stopMap;

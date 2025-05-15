@@ -1,4 +1,6 @@
-package baseClasses;
+package functional;
+
+import objects.Stop;
 
 import java.lang.Math;
 
