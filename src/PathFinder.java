@@ -140,8 +140,7 @@ public class PathFinder {
             for (int i = 0; i <= path.size(); i++) {
                 Connexion current = (i < path.size()) ? path.get(i) : null;
 
-                if (current != null && current.getTripId() != null) {
-                    // We're on a transport connection
+                if (current != null && current.getTripId() != null) { // transport connection
                     if (currentTransportStart == null) {
                         currentTransportStart = current;
                     } else if (!current.getTripId().equals(currentTransportStart.getTripId())) {
@@ -149,20 +148,17 @@ public class PathFinder {
                         printTransport(currentTransportStart, previousConnexion);
                         currentTransportStart = current;
                     }
-                } else {
-                    // It's a Walk or end of path -> print last transport if pending
+                } else { // walk connection
                     if (currentTransportStart != null && previousConnexion != null) {
                         printTransport(currentTransportStart, previousConnexion);
                         currentTransportStart = null;
                     }
-                    if (current != null && current.getTripId() == null) {
-                        // Do not print the walk if it's the last one
+                    if (current != null && current.getTripId() == null) { // Do not print the walk if it's the last one
                         String toName = stopMap.get(current.getToId()).getStopName();
                         if (!toName.equalsIgnoreCase(destination)) {
                             printWalk(current);
                         }
                     }
-
                 }
                 previousConnexion = current;
             }
