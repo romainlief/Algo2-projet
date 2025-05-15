@@ -60,7 +60,7 @@ public class Main {
             Instant end_time = Instant.now();
             Duration pathfinding_time = Duration.between(start_time, end_time);
 
-            System.out.println("\033[92m[INFO]\033[0m Pathfinding took " + pathfinding_time.getSeconds() + " seconds.");
+            System.out.println("\033[92m[INFO]\033[0m Pathfinding took " + pathfinding_time.toMillis() + " ms.");
 
             // Ask if the user wants to search for another itinerary
             System.out.print("Would you like to search for another itinerary? (no to exit): ");

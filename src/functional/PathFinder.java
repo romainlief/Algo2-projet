@@ -1,9 +1,11 @@
 package functional;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import objects.Route;
 import objects.Stop;
@@ -71,10 +73,14 @@ public class PathFinder {
         }
 
         Map<String, Connexion> previousConnection = new HashMap<>();
+        int bestArrivalTime = Integer.MAX_VALUE;
 
         int startIndex = BinarySearch.findStartIndex(connexions, userStartTime);
         for (int i = startIndex; i < connexions.size(); i++) {
             Connexion connexion = connexions.get(i);
+            if (connexion.getDepartureTime() > bestArrivalTime) {
+                break;
+            }
             String departureStopId = connexion.getFromId();
             String arrivalStopId = connexion.getToId();
 
@@ -87,6 +93,13 @@ public class PathFinder {
             if (currentDepartureTime <= departureTime && currentArrivalTime > arrivalTime) {
                 shortestPath.put(arrivalStopId, arrivalTime);
                 previousConnection.put(arrivalStopId, connexion);
+
+                for (Stop endStop : endStops) { // Update bestArrivalTime if this arrivalStop is one of the destination
+                                                // stops
+                    if (arrivalStopId.equals(endStop.getStopId()) && arrivalTime < bestArrivalTime) {
+                        bestArrivalTime = arrivalTime;
+                    }
+                }
 
                 Stop arrivalStop = stopMap.get(arrivalStopId);
                 if (arrivalStop != null && arrivalStop.getWalk() != null) {
@@ -142,13 +155,10 @@ public class PathFinder {
 
                 if (current != null && current.getTripId() != null) {
                     if (currentTransportStart == null) {
-                        // Début d'un nouveau trajet en transport
                         currentTransportStart = current;
                     }
-                    // Mettre à jour le dernier arrêt connu de ce trip
                     lastConnexionOfCurrentTrip = current;
                 } else {
-                    // Si on change de mode (marche ou fin)
                     if (currentTransportStart != null && lastConnexionOfCurrentTrip != null) {
                         printTransport(currentTransportStart, lastConnexionOfCurrentTrip);
                         currentTransportStart = null;
@@ -156,7 +166,6 @@ public class PathFinder {
                     }
 
                     if (current != null && current.getTripId() == null) {
-                        // Marchez uniquement si ce n'est pas la dernière connexion
                         String toName = stopMap.get(current.getToId()).getStopName();
                         if (!toName.equalsIgnoreCase(destination)) {
                             printWalk(current);
