@@ -15,7 +15,6 @@ public class PathFinder {
     private Map<String, Trip> tripMap;
     private Map<String, Route> routeMap;
     private List<Connexion> connexions;
-    // private
 
     public PathFinder(Map<String, Stop> stopMap, Map<String, Trip> tripMap, Map<String, Route> routeMap,
             List<Connexion> connexions) {
@@ -81,21 +80,20 @@ public class PathFinder {
             int departureTime = connexion.getDepartureTime();
             int arrivalTime = connexion.getArrivalTime();
 
-            if (shortestPath.get(departureStopId) <= departureTime &&
-                    shortestPath.get(arrivalStopId) > arrivalTime) {
+            int currentDepartureTime = shortestPath.get(departureStopId);
+            int currentArrivalTime = shortestPath.get(arrivalStopId);
 
+            if (currentDepartureTime <= departureTime && currentArrivalTime > arrivalTime) {
                 shortestPath.put(arrivalStopId, arrivalTime);
                 previousConnection.put(arrivalStopId, connexion);
 
                 Stop arrivalStop = stopMap.get(arrivalStopId);
                 if (arrivalStop != null && arrivalStop.getWalk() != null) {
                     for (Walk walk : arrivalStop.getWalk()) {
-                        Stop walkDest = walk.getDestination();
-                        String walkDestId = walkDest.getStopId();
-                        int walkDuration = walk.getDuration();
-                        int walkArrivalTime = arrivalTime + walkDuration;
-
-                        if (shortestPath.get(walkDestId) > walkArrivalTime) {
+                        String walkDestId = walk.getDestination().getStopId();
+                        int walkArrivalTime = arrivalTime + walk.getDuration();
+                        int currentWalkArrivalTime = shortestPath.get(walkDestId);
+                        if (currentWalkArrivalTime > walkArrivalTime) {
                             shortestPath.put(walkDestId, walkArrivalTime);
                             previousConnection.put(walkDestId, new Connexion(
                                     null,
