@@ -72,7 +72,7 @@ public class PathFinder {
 
         Map<String, Connexion> previousConnection = new HashMap<>();
 
-        int startIndex = findStartIndex(connexions, userStartTime);
+        int startIndex = BinarySearch.findStartIndex(connexions, userStartTime);
         for (int i = startIndex; i < connexions.size(); i++) {
             Connexion connexion = connexions.get(i);
             String departureStopId = connexion.getFromId();
@@ -184,26 +184,6 @@ public class PathFinder {
             }
         }
         return stops;
-    }
-
-    /**
-     * @brief Find the index of the first connexion that departs after the given
-     *        time.
-     * @param connexions    The list of connexions to search.
-     * @param userStartTime The time to search for.
-     * @return The index of the first connexion that departs after the given time.
-     */
-    private int findStartIndex(List<Connexion> connexions, int userStartTime) {
-        int left = 0, right = connexions.size() - 1;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (connexions.get(mid).getDepartureTime() >= userStartTime) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
     }
 
     /**
