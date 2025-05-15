@@ -1,6 +1,7 @@
+package functional;
 
 import java.util.List;
-import baseClasses.Connexion;
+import objects.Connexion;
 
 public class BinarySearch {
 

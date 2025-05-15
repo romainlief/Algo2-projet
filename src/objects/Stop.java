@@ -1,4 +1,6 @@
-package baseClasses;
+package objects;
+
+import functional.Calculator;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -70,7 +72,7 @@ public class Stop {
     }
 
     /**
-     * @brief Add a walk to this stop 
+     * @brief Add a walk to this stop
      * 
      * @param walk A new walk departing from this Stop
      */
