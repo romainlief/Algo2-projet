@@ -81,7 +81,9 @@ public class PathFinder {
             int departureTime = connexion.getDepartureTime();
             int arrivalTime = connexion.getArrivalTime();
 
-            if (shortestPath.get(departureStopId) <= departureTime && shortestPath.get(arrivalStopId) > arrivalTime) {
+            if (shortestPath.get(departureStopId) <= departureTime &&
+                    shortestPath.get(arrivalStopId) > arrivalTime) {
+
                 shortestPath.put(arrivalStopId, arrivalTime);
                 previousConnection.put(arrivalStopId, connexion);
 
@@ -96,7 +98,7 @@ public class PathFinder {
                         if (shortestPath.get(walkDestId) > walkArrivalTime) {
                             shortestPath.put(walkDestId, walkArrivalTime);
                             previousConnection.put(walkDestId, new Connexion(
-                                    null, // trip_id = null for walk
+                                    null,
                                     arrivalStopId,
                                     walkDestId,
                                     arrivalTime,
@@ -104,7 +106,6 @@ public class PathFinder {
                         }
                     }
                 }
-
             }
         }
 
@@ -172,8 +173,13 @@ public class PathFinder {
      */
     private List<Stop> findStopsByName(String stopName) {
         List<Stop> stops = new ArrayList<>();
+        if (stopName == null)
+            return stops;
+
+        String targetName = stopName.toLowerCase();
         for (Stop stop : stopMap.values()) {
-            if (stop.getStopName().equalsIgnoreCase(stopName)) {
+            String currentName = stop.getStopName();
+            if (currentName != null && currentName.toLowerCase().equals(targetName)) {
                 stops.add(stop);
             }
         }
@@ -213,9 +219,12 @@ public class PathFinder {
         String toName = stopMap.get(end.getToId()).getStopName();
         Route route = routeMap.get(tripMap.get(start.getTripId()).getRouteId());
 
+        String departureTimeStr = Calculator.intToTime(start.getDepartureTime());
+        String arrivalTimeStr = Calculator.intToTime(end.getArrivalTime());
+
         System.out.println("Take " + route.getRouteType() + " " + route.getRouteShortName() +
-                " from " + fromName + " (" + Calculator.intToTime(start.getDepartureTime()) + ")" +
-                " to " + toName + " (" + Calculator.intToTime(end.getArrivalTime()) + ")");
+                " from " + fromName + " (" + departureTimeStr + ")" +
+                " to " + toName + " (" + arrivalTimeStr + ")");
     }
 
     /**
@@ -226,8 +235,11 @@ public class PathFinder {
         String fromName = stopMap.get(walk.getFromId()).getStopName();
         String toName = stopMap.get(walk.getToId()).getStopName();
 
-        System.out.println("Walk from " + fromName + " (" + Calculator.intToTime(walk.getDepartureTime()) + ")" +
-                " to " + toName + " (" + Calculator.intToTime(walk.getArrivalTime()) + ")");
+        String departureTimeStr = Calculator.intToTime(walk.getDepartureTime());
+        String arrivalTimeStr = Calculator.intToTime(walk.getArrivalTime());
+
+        System.out.println("Walk from " + fromName + " (" + departureTimeStr + ")" +
+                " to " + toName + " (" + arrivalTimeStr + ")");
     }
 
     /**
