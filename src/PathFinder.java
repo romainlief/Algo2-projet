@@ -134,32 +134,34 @@ public class PathFinder {
             System.out.println("Path from " + start + " to " + destination + ":");
 
             Connexion currentTransportStart = null;
-            Connexion previousConnexion = null;
+            Connexion lastConnexionOfCurrentTrip = null;
 
             for (int i = 0; i <= path.size(); i++) {
                 Connexion current = (i < path.size()) ? path.get(i) : null;
 
-                if (current != null && current.getTripId() != null) { // transport connection
+                if (current != null && current.getTripId() != null) {
                     if (currentTransportStart == null) {
-                        currentTransportStart = current;
-                    } else if (!current.getTripId().equals(currentTransportStart.getTripId())) {
-                        // tripId changed -> print summary for the last trip
-                        printTransport(currentTransportStart, previousConnexion);
+                        // Début d'un nouveau trajet en transport
                         currentTransportStart = current;
                     }
-                } else { // walk connection
-                    if (currentTransportStart != null && previousConnexion != null) {
-                        printTransport(currentTransportStart, previousConnexion);
+                    // Mettre à jour le dernier arrêt connu de ce trip
+                    lastConnexionOfCurrentTrip = current;
+                } else {
+                    // Si on change de mode (marche ou fin)
+                    if (currentTransportStart != null && lastConnexionOfCurrentTrip != null) {
+                        printTransport(currentTransportStart, lastConnexionOfCurrentTrip);
                         currentTransportStart = null;
+                        lastConnexionOfCurrentTrip = null;
                     }
-                    if (current != null && current.getTripId() == null) { // Do not print the walk if it's the last one
+
+                    if (current != null && current.getTripId() == null) {
+                        // Marchez uniquement si ce n'est pas la dernière connexion
                         String toName = stopMap.get(current.getToId()).getStopName();
                         if (!toName.equalsIgnoreCase(destination)) {
                             printWalk(current);
                         }
                     }
                 }
-                previousConnexion = current;
             }
         }
     }
