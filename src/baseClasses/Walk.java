@@ -5,7 +5,7 @@ public class Walk {
 
     private final Stop departure;
     private final Stop destination;
-    private final String duration;
+    private final int duration;
 
     // #### Constructors ####
 
@@ -16,7 +16,7 @@ public class Walk {
      * @param destination The Stop where the walk ends.
      * @param duration    Duration of the walk in format "HH:MM:SS".
      */
-    public Walk(Stop departure, Stop destination, String duration) {
+    public Walk(Stop departure, Stop destination, int duration) {
         this.departure = departure;
         this.destination = destination;
         this.duration = duration;
@@ -47,7 +47,7 @@ public class Walk {
      *
      * @return The duration in format "HH:MM:SS".
      */
-    public String getDuration() {
+    public int getDuration() {
         return this.duration;
     }
 }

@@ -94,7 +94,8 @@ public class Parser {
         BallTree tree = new BallTree(stops, BALL_TREE_LEAFE_SIZE);
         Instant end_graph = Instant.now();
         Duration graph_build_time = Duration.between(start_graph, end_graph);
-        System.out.println("[INFO] BallTree built in: " + graph_build_time.toMillis() + " ms with " + tree.getRecursiveCallCount() + " recursive calls.");
+        System.out.println("[INFO] BallTree built in: " + graph_build_time.toMillis() + " ms with "
+                + tree.getRecursiveCallCount() + " recursive calls.");
 
         Instant start_time_foot = Instant.now();
         int foot_connexion_counter = 0;
@@ -105,13 +106,15 @@ public class Parser {
             Instant rangeStart = Instant.now();
             Collection<Stop> neighbours = tree.range(stopA, MAX_FOOT_DISTANCE);
 
-            // ------------------------------------------------ VERIFICATION ------------------------------------------------
-            // TO USE: change to stopId you wish to test and it will print out its neighbours
+            // ------------------------------------------------ VERIFICATION
+            // ------------------------------------------------
+            // TO USE: change to stopId you wish to test and it will print out its
+            // neighbours
             if (stopA.getStopId().equals("TEC-Bbxltou1")) {
                 System.out.println("Printing the " + neighbours.size() + " of TEC-Bbxltou1:");
                 for (Stop neighbour : neighbours) {
-                    System.out.println("  " + neighbour.getStopId() + " - " + neighbour.getStopName() + 
-                                      " (Distance: " + String.format("%.2f", stopA.getDistanceToOther(neighbour)) + "m)");
+                    System.out.println("  " + neighbour.getStopId() + " - " + neighbour.getStopName() +
+                            " (Distance: " + String.format("%.2f", stopA.getDistanceToOther(neighbour)) + "m)");
                 }
             }
             // --------------------------------------------------------------------------------------------------------------
@@ -121,24 +124,23 @@ public class Parser {
             rangeCallCount++;
 
             for (Stop stopB : neighbours) {
-            if (stopA.getStopId().equals(stopB.getStopId()))
-                continue;
+                if (stopA.getStopId().equals(stopB.getStopId()))
+                    continue;
 
-            double distance = stopA.getDistanceToOther(stopB);
-            if (distance < MAX_FOOT_DISTANCE) {
-                double walk_duration = distance / AVERAGE_WALKING_SPEED;
-                String duration = Calculator.timeToString(walk_duration);
+                double distance = stopA.getDistanceToOther(stopB);
+                if (distance < MAX_FOOT_DISTANCE) {
+                    double walk_duration = distance / AVERAGE_WALKING_SPEED;
+                    int duration = (int) walk_duration;
+                    Walk walk1 = new Walk(stopA, stopB, duration);
+                    stopA.addWalk(walk1);
 
-                Walk walk1 = new Walk(stopA, stopB, duration);
-                stopA.addWalk(walk1);
-
-                foot_connexion_counter++;
-            } else {
-                throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
-            }
+                    foot_connexion_counter++;
+                } else {
+                    throw new RuntimeException("PROBLEM IN HASHGRID IN NEIGHBOURING STOPS");
+                }
             }
         }
-        
+
         double averageRangeTime = (double) totalRangeTime / rangeCallCount / 1_000_000; // Convert to milliseconds
         System.out.println("[INFO] Average range query time: " + String.format("%.3f", averageRangeTime) + " ms");
 
@@ -293,7 +295,7 @@ public class Parser {
                     continue;
                 try {
                     String tripId = parts[0];
-                    String departureTime = parts[1];
+                    int departureTime = Calculator.timeToInt(parts[1]);
                     String stopId = parts[2];
                     int stopSequence = Integer.parseInt(parts[3]);
 
