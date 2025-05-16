@@ -32,12 +32,21 @@ GTFS doit être a la racine du projet.
 Etre a la racine du projet et faire "make run" pour exécuter le programme.
 ```
 
+### Exemple type
+
 ```sh
-Exemple type d'utilisation du programme:
-1er input: Aubange
-2eme input: DELTA
-3eme input: 08;00;00
-Si on veut refaire une recherche: entrer n'importe quel caractère lorsque le programme demande
-(Would you like to search for another itinerary? (no to exit):
-sinon entrer no)
+# Exemple type d'utilisation du programme :
+# 1er input : Nom de la station de départ
+Aubange
+
+# 2ème input : Nom de la station d'arrivée
+DELTA
+
+# 3ème input : Heure de départ au format HH;MM;SS
+08;00;00
+
+# Si on veut refaire une recherche :
+# Entrer n'importe quel caractère lorsque le programme demande :
+Would you like to search for another itinerary? (no to exit):
+# Sinon, entrer "no" pour quitter.
 ```
