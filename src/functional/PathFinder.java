@@ -107,7 +107,10 @@ public class PathFinder {
         // Complexity:
         // So that means that the complexity of the
         // algorithm is not O(n) like the basic CSA but is O(n - k) where k is the
-        // number of connexions that have a departure time < the userStartTime
+        // number of connexions that have a departure time < the userStartTime.
+        // In the worst case we have to process all the connexions without the Starting
+        // criterion, and have a complexity of O(n) or O(n - m) if there is the Stopping
+        // criterion (see line 127).
         int startIndex = BinarySearch.findStartIndex(connexions, userStartTime);
         // ########################################################################################
 
@@ -147,7 +150,10 @@ public class PathFinder {
             // have
             // a departure time < the best arrival time
             // So the complexity of the algorithm is O(n - k - m) where n is the number of
-            // connexions
+            // connexions.
+            // In the worst case we have to process all the connexions without the Stopping
+            // criterion
+            // and have a complexity of O(n - k).
             if (connexion.getDepartureTime() > bestArrivalTime) {
                 break;
             }
