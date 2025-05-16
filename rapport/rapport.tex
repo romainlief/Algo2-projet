@@ -33,7 +33,6 @@
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e} % Retain only one package
 \usepackage{comment}
 \usepackage{placeins}
-
 \usepackage{listings}
 \lstset{literate=%
     {à}{{\`a}}1 {â}{{\^a}}1 {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1 {î}{{\^i}}1 {ï}{{\"i}}1 {ô}{{\^o}}1 {ö}{{\"o}}1 {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1 {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1{―}{{\textemdash}}1
@@ -365,27 +364,27 @@ est tout à fait acceptable contrairement à l'implémentation brute-force envri
     }
     
     \tcp{Trouver deux pivots distants}
-    $(p_1,p_2)\gets \Call{FindFarthest}{\texttt{stops}}$\;
+    $(p_1,p_2)\gets \texttt{FindFarthest}{\texttt{stops}}$\;
     
     \tcp{Partitionner selon la distance aux pivots}
     $\texttt{left}\gets\emptyset$, \quad $\texttt{right}\gets\emptyset$\;
     \ForEach{$s\in\texttt{stops}$}{
-      \If{$\dist(p_1,s)<\dist(p_2,s)$}{
-        $\texttt{left}\gets \texttt{left}\cup\{s\}$\;
-      }
+        \If{$\text{dist}(p_1,s) < \text{dist}(p_2,s)$}{
+            $\texttt{left} \gets \texttt{left} \cup \{s\}$\;
+        }  
       \Else{
         $\texttt{right}\gets \texttt{right}\cup\{s\}$\;
       }
     }
     
     \tcp{Calcul du centre et du rayon du nœud interne}
-    $c\gets \Call{ComputeCenter}{\texttt{stops}}$\;
-    $r\gets \Call{ComputeRadius}{\texttt{stops},\,c}$\;
+    $c\gets \texttt{ComputeCenter}{\texttt{stops}}$\;
+    $r\gets \texttt{ComputeRadius}{\texttt{stops},\,c}$\;
     $node\gets \texttt{InternalNode}(c,r)$\;
     
     \tcp{Appels récursifs}
-    $node.\mathit{left}\gets \Call{BuildTree}{\texttt{left}}$\;
-    $node.\mathit{right}\gets \Call{BuildTree}{\texttt{right}}$\;
+    $node.\mathit{left}\gets \texttt{BuildTree}{\texttt{left}}$\;
+    $node.\mathit{right}\gets \texttt{BuildTree}{\texttt{right}}$\;
     
     \Return $node$\;
     \caption{BuildTree - Construction récursive d'un BallTree}
@@ -413,15 +412,13 @@ nous donne une vitesse de requête de l'orde des 0,015 millisecondes (ce rayon e
     
     \If{\texttt{node} est une feuille}{
       \ForEach{$s \in \texttt{node.stops}$}{
-        \If{$\dist(q,s) \le \texttt{maxDist}$}{
+        \If{$\text{dist}(q,s) \le \texttt{maxDist}$}{
           \texttt{out} $\gets$ \texttt{out} $\cup \{s\}$\;
         }
       }
       \Return\;
     }
-    
-    $\texttt{distToCenter} \gets \dist(q, \texttt{node.center})$\;
-    
+    $\texttt{distToCenter <-- dist(q, node.center)}$\;
     \If{$\texttt{distToCenter} - \texttt{node.radius} > \texttt{maxDist}$}{
       \Return\;  \tcp*{prune le sous-arbre}
     }
@@ -452,14 +449,14 @@ requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de re
     \centering
     \includegraphics[width=1\textwidth]{images/feuille-nb-appels-récursifs.png}
     \caption{Nombre d'appels récursifs et temps de construction des transferts à pied en fonction de la taille des feuilles}
-    \label{fig:leafsize}
+    % \label{fig:leafsize}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/average-query-time.png}
     \caption{Temps de requête moyen en fonction de la taille des feuilles}
-    \label{fig:leafsize}
+    % \label{fig:leafsize}
 \end{figure}
 
 
