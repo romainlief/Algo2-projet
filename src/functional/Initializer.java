@@ -28,31 +28,31 @@ public class Initializer {
             parser.readFiles();
             Instant end_read = Instant.now();
             Duration duration_read = Duration.between(start_read, end_read);
-            System.out.println("\033[92m[INFO]\033[0m Files read in " + duration_read.toMillis() + " ms.");
-            System.out.println("\033[92m[INFO]\033[0m Trips: " + parser.getAllTrips().size());
-            System.out.println("\033[92m[INFO]\033[0m Stops: " + parser.getAllStops().size());
-            System.out.println("\033[92m[INFO]\033[0m Routes: " + parser.getAllRoutes().size());
+            System.out.println("[\033[92mINFO\033[0m] Files read in " + duration_read.toMillis() + " ms.");
+            System.out.println("[\033[92mINFO\033[0m] Trips: " + parser.getAllTrips().size());
+            System.out.println("[\033[92mINFO\033[0m] Stops: " + parser.getAllStops().size());
+            System.out.println("[\033[92mINFO\033[0m] Routes: " + parser.getAllRoutes().size());
 
             Instant start_build = Instant.now();
             builder.buildConnexions(parser.getAllTrips());
             Instant end_build = Instant.now();
             Duration duration_build = Duration.between(start_build, end_build);
-            System.out.println("\033[92m[INFO]\033[0m " + builder.getConnexions().size()
+            System.out.println("[\033[92mINFO\033[0m] " + builder.getConnexions().size()
                     + " connexions built and sorted in " + duration_build.toMillis() + " ms.");
 
             Instant start_balltree = Instant.now();
             builder.buildBallTree(parser.getAllStops());
             Instant end_balltree = Instant.now();
             Duration duration_balltree = Duration.between(start_balltree, end_balltree);
-            System.out.println("\033[92m[INFO]\033[0m BallTree built in " + duration_balltree.toMillis() + " ms.");
+            System.out.println("[\033[92mINFO\033[0m] BallTree built in " + duration_balltree.toMillis() + " ms.");
 
             Instant start_walks = Instant.now();
             builder.buildWalks(parser.getAllStops());
             Instant end_walks = Instant.now();
             Duration duration_walks = Duration.between(start_walks, end_walks);
-            System.out.println("\033[92m[INFO]\033[0m Walks built in " + duration_walks.toMillis() + " ms.");
+            System.out.println("[\033[92mINFO\033[0m] Walks built in " + duration_walks.toMillis() + " ms.");
 
-            System.out.println("\033[92m[INFO]\033[0m All data loaded and processed in " + (duration_read.toMillis()
+            System.out.println("[\033[92mINFO\033[0m] All data loaded and processed in " + (duration_read.toMillis()
                     + duration_build.toMillis() + duration_balltree.toMillis() + duration_walks.toMillis()) + " ms.");
 
         } else {

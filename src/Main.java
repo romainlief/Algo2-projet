@@ -10,24 +10,32 @@ public class Main {
     public static void main(String[] args) {
         try {
             System.out.println("#############################################################");
-            System.out.println("\033[92m[INFO]\033[0m Starting the program...");
-            System.out.println("\033[92m[INFO]\033[0m Initializing the GTFS data...");
+            System.out.println("[\033[92mINFO\033[0m] Starting the program...");
 
             // declaring constants
             final String DIRECTORY = "GTFS"; // Path to GTFS data
             final double MAX_FOOT_DISTANCE = 500; // in meters
             final double AVERAGE_WALKING_SPEED = 1.0; // in m/s
             final int BALL_TREE_LEAFE_SIZE = 30; // number of stops per leaf
+
+            System.out.println("[\033[92mINFO\033[0m] Parameters:");
+            System.out.println("[\033[92mINFO\033[0m] Max foot distance: " + MAX_FOOT_DISTANCE + " m");
+            System.out.println("[\033[92mINFO\033[0m] Average walking speed: " + AVERAGE_WALKING_SPEED + " m/s");
+            System.out.println("[\033[92mINFO\033[0m] Ball tree leaf size: " + BALL_TREE_LEAFE_SIZE);
+
+            System.out.println("#############################################################");
+            System.out.println("#-----------------------------------------------------------#");
+            System.out.println("#############################################################");
+            System.out.println("[\033[92mINFO\033[0m] Initializing the GTFS data...");
             Initializer initializer = new Initializer(DIRECTORY, MAX_FOOT_DISTANCE, AVERAGE_WALKING_SPEED,
                     BALL_TREE_LEAFE_SIZE);
             initializer.setup(true);
 
-            System.out.println("\033[92m[INFO]\033[0m GTFS data loaded successfully!");
+            System.out.println("[\033[92mINFO\033[0m] GTFS data loaded successfully!");
             System.out.println("#############################################################");
             System.out.println("#-----------------------------------------------------------#");
-
             System.out.println("#############################################################");
-            System.out.println("\033[92m[INFO]\033[0m PathFinder ready.");
+            System.out.println("[\033[92mINFO\033[0m] PathFinder ready.");
             // finding the best path
             solve(initializer);
         } catch (Exception e) {
@@ -60,7 +68,7 @@ public class Main {
             Instant end_time = Instant.now();
             Duration pathfinding_time = Duration.between(start_time, end_time);
 
-            System.out.println("\033[92m[INFO]\033[0m Pathfinding took " + pathfinding_time.toMillis() + " ms.");
+            System.out.println("[\033[92mINFO\033[0m] Pathfinding took " + pathfinding_time.toMillis() + " ms.");
 
             // Ask if the user wants to search for another itinerary
             System.out.print("Would you like to search for another itinerary? (no to exit): ");

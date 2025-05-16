@@ -54,7 +54,7 @@ public class Builder {
 
                 // error management
                 if (departure == null || destination == null) {
-                    System.out.println("\033[91m[ERROR]\033[0m Departure or destination is null");
+                    System.out.println("[\033[91mERROR\033[0m] Departure or destination is null");
                     continue;
                 }
 
@@ -74,7 +74,7 @@ public class Builder {
 
     public void buildWalks(Map<String, Stop> stops_map) {
         if (this.tree == null) {
-            System.out.println("\033[91m[ERROR]\033[0m BallTree not built yet. Please build the BallTree first.");
+            System.out.println("[\033[91mERROR\033[0m] BallTree not built yet. Please build the BallTree first.");
             return;
         }
 
