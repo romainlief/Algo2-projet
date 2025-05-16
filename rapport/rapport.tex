@@ -298,13 +298,13 @@ d'implémenter une classe \emph{Connexion}.
 
 \subsubsection{La class BallTree}
 Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons d'abord commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
-autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65\,000 arrêts, cette approche impliquait environ 4\,5 milliards d'itérations avec, à chaque 
+autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65 000 arrêts, cette approche impliquait environ 4,5 milliards d'itérations avec, à chaque 
 itération, une série d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos 
 machines rien que pour la création de ces transferts à pied, ce qui est, vous en conviendrez, absolument inacceptable.
 
-Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches, nous avons 
-considéré des options comme le \emph{R-Tree}, la \emph{Spatial Grid} (≃\emph{Hash Grid}) ou encore le \emph{BallTree}. Nous avons finalement opté pour ce dernier % TODO: justifier efficacement en comparant aux particularités des autres structures
-
+Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches et discussions avec
+nos collègues, nous avons opté pour le \emph{BallTree}, une structure de données arborescente où chaque nœud représente une boule dans l'espace N-dimensionnel contenant un sous-ensemble d'arrêts.
+Cette structure permet de récupérer efficacement les voisins d'un arrêts donné dans un rayon donné à l'aide de requêtes rapides.
 
 \subsubsection{La classe Walk}
 \label{sec:walk}
@@ -324,7 +324,7 @@ Classe simple, représentant un transfert à pied entre deux arrêts. Ces objets
     \caption{Classe Walk}
 \end{table}
 
-
+\newpage
 \subsection{Complexité de l'initialisation}
 Bien qu'étant une étape antérieure à l'exécution de l'algorithme, il reste important de discuter la complexité de cette étape. En effet, si nous avions choisi d'absolument ignorer
 l'aspect de la complexité, nous aurions pu rester sur une implémentation brute-force, prenant 10 minutes à l'exécution. Bien entendu, pour éviter ces absurdités, nous avons apporté
@@ -332,16 +332,138 @@ un soin particulier à la création de ces structures de données.
 
 \subsubsection{Complexité temporelle}
 L'initialisation des données se fait en plusieurs étapes, chacune ayant sa propre complexité. Premièrement, nous avons la lecture des fichiers CSV, qui a naturellement une complexité
-linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier. Ensuite, pour la création des connexions, nous itérons dans tous les trajets et, pour chaque trajet, nous itérons dans leurs heures
-d'arrêts associés. Notons $n$ le nombre de trajets et $m$ le nombre d'arrêts associés à chaque trajet. La complexité de cette étape est donc $O(n \cdot m)$. Une fois la liste de connexions créée, nous
-procédons au tri de celle-ci en se basant sur l'heure de départ de chaque connexion à l'aide de l'algorithme de tri \emph{TimSort}, utilisé par \emph{Collections.sort()}. Ceci se fait dans les pires et
+linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier. 
+
+Ensuite, pour la création des connexions, nous itérons dans tous les trajets et, pour chaque trajet, nous itérons dans leurs heures d'arrêts associés. Notons $n$ le nombre de trajets et $m$ le 
+nombre d'arrêts associés à chaque trajet. La complexité de cette étape est donc $O(n \cdot m)$. Une fois la liste de connexions créée, nous procédons au tri de celle-ci en se basant sur 
+l'heure de départ de chaque connexion à l'aide de l'algorithme de tri \emph{TimSort}, utilisé par \emph{Collections.sort()}. Ceci se fait dans les pires et
 moyen cas avec une complexité de $O(n \log n)$, où $n$ est le nombre de connexions avec un meilleur cas s'exécutant en $O(n)$ (si la liste est déjà majoritairement triée).
-% construction BallTree
-% n * recherche dans l'arbre
+
+Finalement, le plus intéressant, la construction du \emph{BallTree} et des transferts à pied. La construction de notre \emph{BallTree} se fait de manière récursive, en divisant à chaque appel 
+récursif l'ensemble des arrêts en deux sous-ensembles. Pour ce faire, des méthodes annexes comme \emph{FindFarthest} ou \emph{ComputeCenter} sont utilisées. Chacune d'entre elles s'exécute en 
+temps linéaire, $O(n)$, où $n$ est le nombre d'arrêts dans l'ensemble de données. Quatres fonctions linéaires sont executées à chaque appel récursif, ce qui nous amène à une complexité de 
+$4 * O(n)$, ce que l'on peut résumer à $O(n)$. Finalement, concernant les appels récursifs, en supposant le partitionnement parfait, nous avons une profondeur d'arbre de $\log n$ et donc 
+$O(n \log n)$ pour la construction de l'arbre complet.
+
+Suite à quelques essais et tests, nous nous sommes rendus compte que le partitionnement n'est pas toujours optimal, cela étant probablement dû à la non-uniformité dans la répartition des arrêts à
+travers la Belgique. Ceci nous permet de conclure, pour la complexité de la construction de notre \emph{BallTree}, que nous avons une complexité de $O(n \log n)$ dans le cas moyen ou optimal et de 
+$O(n^2)$ dans le pire des cas. Cependant, ce dernier cas est très peu probable dans la pratique. En effet, la construction de l'arbre se fait en 400 millisecondes en moyenne sur nos machines, ce qui 
+est tout à fait acceptable contrairement à l'implémentation brute-force envrion 1500 fois plus lente avec un temps d'exécution de 10 minutes.
+
+\begin{algorithm}[H]
+    \footnotesize
+    \SetAlgoNlRelativeSize{-1}
+    \DontPrintSemicolon
+    \KwIn{collection \texttt{stops}}
+    \KwOut{racine d'un \texttt{BallTree} ou \texttt{null}}
+    
+    \If{\texttt{stops} est vide}{
+      \Return \texttt{null}\;
+    }
+    \If{$|\texttt{stops}|\le\texttt{leafSize}$}{
+      \Return \texttt{LeafNode}(\texttt{stops})\;
+    }
+    
+    \tcp{Trouver deux pivots distants}
+    $(p_1,p_2)\gets \Call{FindFarthest}{\texttt{stops}}$\;
+    
+    \tcp{Partitionner selon la distance aux pivots}
+    $\texttt{left}\gets\emptyset$, \quad $\texttt{right}\gets\emptyset$\;
+    \ForEach{$s\in\texttt{stops}$}{
+      \If{$\dist(p_1,s)<\dist(p_2,s)$}{
+        $\texttt{left}\gets \texttt{left}\cup\{s\}$\;
+      }
+      \Else{
+        $\texttt{right}\gets \texttt{right}\cup\{s\}$\;
+      }
+    }
+    
+    \tcp{Calcul du centre et du rayon du nœud interne}
+    $c\gets \Call{ComputeCenter}{\texttt{stops}}$\;
+    $r\gets \Call{ComputeRadius}{\texttt{stops},\,c}$\;
+    $node\gets \texttt{InternalNode}(c,r)$\;
+    
+    \tcp{Appels récursifs}
+    $node.\mathit{left}\gets \Call{BuildTree}{\texttt{left}}$\;
+    $node.\mathit{right}\gets \Call{BuildTree}{\texttt{right}}$\;
+    
+    \Return $node$\;
+    \caption{BuildTree - Construction récursive d'un BallTree}
+  \end{algorithm}
+  
+Une fois l'arbre construit, nous l'utilisons pour faire des requêtes pour trouver les arrêts à une distance donnée de tous les arrêts. Pour analyser la complexité d'une requête, nous allons considérer
+plusieurs scénarios. Premièrement, dans un cas moyen voire optimal, à savoir quand la plupart des noeuds sont prunés (c'est-à-dire que plusieurs sous-arbres ne sont pas visités, améliorant ainsi l'efficacité
+de la recherche) grâce à la condition \emph{distToCenter - node.radius > maxDist} et que l'arbre est bien équilibré, la complexité est sous-linéaire en $O(\log n + k)$, où $n$ est le nombre d'arrêts 
+et $k$ le nombre d'arrêts trouvés dans la distance donnée. En revanche, comme abordé plus haut, nous nous devons de considérer le cas où l'arbre est déséquilibré et/ou que la plupart de noeuds ne sont 
+pas prunés durant la recherche (la plupart des sous-arbres sont visités car le rayon de recherche est grand). Dans ce cas, la complexité de la recherche tend vers la linéarité (parcours de l'arbre au complet)
+$O(n + k)$, où $n$ est le nombre d'arrêts et $k$ le nombre d'arrêts trouvés dans la distance donnée. Mais, une fois de plus, difficile d'arriver dans ce cas car la Belgique a une superficie de 30 528 km², une
+distance Nord-Sud de 225 km et une distance Ouest-Est de 282 km. Additionnellement, le rayon de recherche que nous utilisons est de 500 m, ce qui est relativement faible par rapport à la taille de la Belgique,
+nous donne une vitesse de requête de l'orde des 0,015 millisecondes (ce rayon est bien sûr changeable, mais nous avons considéré un rayon de transfert supposé acceptable pour la majorité de la population).
+
+\begin{algorithm}[H]
+    \footnotesize
+    \SetAlgoNlRelativeSize{-1}
+    \DontPrintSemicolon
+    \KwIn{nœud \texttt{node}, requête \texttt{q}, distance max \texttt{maxDist}, collection \texttt{out}}
+    \KwOut{ajoute dans \texttt{out} tous les stops à distance $\leq \texttt{maxDist}$ de \texttt{q}}
+    
+    \If{\texttt{node} = \texttt{null}}{
+      \Return\;
+    }
+    
+    \If{\texttt{node} est une feuille}{
+      \ForEach{$s \in \texttt{node.stops}$}{
+        \If{$\dist(q,s) \le \texttt{maxDist}$}{
+          \texttt{out} $\gets$ \texttt{out} $\cup \{s\}$\;
+        }
+      }
+      \Return\;
+    }
+    
+    $\texttt{distToCenter} \gets \dist(q, \texttt{node.center})$\;
+    
+    \If{$\texttt{distToCenter} - \texttt{node.radius} > \texttt{maxDist}$}{
+      \Return\;  \tcp*{prune le sous-arbre}
+    }
+    
+    \tcp{Sinon, on explore les deux sous-arbres}
+    \texttt{rangeSearch}(\texttt{node.left}, q, \texttt{maxDist}, \texttt{out})\;
+    \texttt{rangeSearch}(\texttt{node.right}, q, \texttt{maxDist}, \texttt{out})\;
+\caption{rangeSearch - Recherche en rayon dans un BallTree}
+\end{algorithm}
+
+Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, on récupère tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité
+linéaire pour la boucle princpale $O(n)$, où $n$ est le nombre d'arrêts. Couplé à ceci, les requêtes de voisins, dans un cas moyen voire optimal sont donc de $O(\log n + k)$, où $n$ est le nombre d'arrêts 
+et $k$ le nombre d'arrêts trouvés dans la distance donnée ce qui nous donne une complexité totale pour la construction des transferts à pied de $O(nlog(n + k))$.
+
 
 \subsubsection{Complexité spatiale}
-Chaque donnée des fichiers CSV est chargée en mémoire, ce qui implique une complexité spatiale de $O(n)$, où $n$ est le nombre de lignes total dans tous les fichiers réunis. 
+Chaque donnée des fichiers CSV est chargée en mémoire, impliquant une complexité spatiale de $O(n)$, où $n$ est le nombre de lignes total dans tous les fichiers réunis. Ensuite, les objets
+comme les connexions, le \emph{BallTree} et les transferts à pied sont créés mais en utilisant les données initiales par référence. De ce fait, la complexité spatiale de ces objets se résume à leurs
+donnée utiles (\emph{overhead}) et à la mémoire utilisée pour les références. En d'autres termes, la complexité spatiale de ces objets est très petite mais tout de même à considérer étant donné leur nombre.
 
+Abordons maintenant un aspect de la complexité spatial qui n'est que `temporaire'. Le tri \emph{TimSort} utilise un espace supplémentaire de $O(n)$ pour le stockage temporaire des données pendant le tri uniquement.
+La construction du \emph{BallTree} se faisant récursivement, il faut considérer les appels sur le stack. Ceux-ci dépendent en fonction de la taille des feuilles (le paramète \emph{leafSize}). En effet, celui-ci
+détermine le nombre maximal d'arrêts contenus sur une feuille. Plus ce nombre est grand, moins l'arbre sera grand et occupera d'espace en mémoire mais plus les requêtes seront longues. Plus ce nombre est petit,
+plus on augmente le nombre d'appels récursifs (risquant ainsi un StackOverflowError qui fait crash le programme) et plus on augmente la taille de l'arbre et donc l'espace en mémoire mais affinant la vitesse de
+requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de requête minimale). Voici un graphe pour illustrer ce propos:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{images/feuille-nb-appels-récursifs.png}
+    \caption{Nombre d'appels récursifs et temps de construction des transferts à pied en fonction de la taille des feuilles}
+    \label{fig:leafsize}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/average-query-time.png}
+    \caption{Temps de requête moyen en fonction de la taille des feuilles}
+    \label{fig:leafsize}
+\end{figure}
+
+
+\newpage
 \section{Le Connexion Scan Algorithm}
 \subsection{Choix de l'algorithme}
 Dans le cadre de ce projet, nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (CSA) pour la recherche de chemin.
@@ -464,7 +586,7 @@ l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la mé
           Afficher les infos de la connexion \;
       }
   }
-  \caption{CSA -- Recherche de chemin entre deux arrêts sans marche à pied}
+  \caption{CSA --- Recherche de chemin entre deux arrêts sans marche à pied}
   \end{algorithm}
     
 \subsection{Complexité sans la marche à pied}
