@@ -244,31 +244,11 @@ public class PathFinder {
             System.out.println("No path found from " + start + " to " + destination);
         } else {
             System.out.println("Path from " + start + " to " + destination + ":");
-
-            Connexion currentTransportStart = null;
-            Connexion lastConnexionOfCurrentTrip = null;
-
-            for (int i = 0; i <= path.size(); i++) {
-                Connexion current = (i < path.size()) ? path.get(i) : null;
-
-                if (current != null && current.getTripId() != null) {
-                    if (currentTransportStart == null) {
-                        currentTransportStart = current;
-                    }
-                    lastConnexionOfCurrentTrip = current;
+            for (Connexion connexion : path) {
+                if (connexion.getTripId() != null) {
+                    printTransport(connexion, previousConnection.get(connexion.getToId()));
                 } else {
-                    if (currentTransportStart != null && lastConnexionOfCurrentTrip != null) {
-                        printTransport(currentTransportStart, lastConnexionOfCurrentTrip);
-                        currentTransportStart = null;
-                        lastConnexionOfCurrentTrip = null;
-                    }
-
-                    if (current != null && current.getTripId() == null) {
-                        String toName = stopMap.get(current.getToId()).getStopName();
-                        if (!toName.equalsIgnoreCase(destination)) {
-                            printWalk(current);
-                        }
-                    }
+                    printWalk(connexion);
                 }
             }
         }
