@@ -192,10 +192,10 @@ Cette classe est une simple classe de stockage, chaque attribut correspondant à
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    route\_id & final String & L'identifiant de la route représentée \\
-    route\_short\_name & final String & Le nom de la route raccourci \\
-    route\_long\_name & final String & Le nom de la route complet \\
-    route\_type & final String & Le type de véhicule utilisant cette route \\
+    routeId & final String & L'identifiant de la route représentée \\
+    routeShortName & final String & Le nom de la route raccourci \\
+    routeLongName & final String & Le nom de la route complet \\
+    routeType & final String & Le type de véhicule utilisant cette route \\
     \hline
     \end{tabular}
     \caption{Classe Route}
@@ -211,11 +211,11 @@ de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    departure\_time & final String & L'heure du départ à partir de
+    departureTime & final String & L'heure du départ à partir de
                                    l'arrêt associé sur le trajet associé en format 
                                    heure;minutes;secondes \\
-    stop\_id & final String & L'identifiant de l'arrêt associé \\
-    stop\_sequence & final int & Le numéro de l'arrêt dans le trajet associé \\
+    stopId & final String & L'identifiant de l'arrêt associé \\
+    stopSequence & final int & Le numéro de l'arrêt dans le trajet associé \\
     \hline
     \end{tabular}
     \caption{Classe StopTime}
@@ -236,11 +236,11 @@ implémentée dans une classe annexe, la classe \emph{Calculator}.
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    stop\_id & final String & L'identifiant du stop représenté \\
-    stop\_name & final String & Le nom du stop \\
-    stop\_lat & final String & La latitude du stop \\
-    stop\_lon & final String & La longitude du stop \\
-    trip\_ids & List$<$String$>$ & La liste des tous les trips (leurs identifiants) partant de ce stop \\
+    stopId & final String & L'identifiant du stop représenté \\
+    stopName & final String & Le nom du stop \\
+    stopLat & final String & La latitude du stop \\
+    stopLon & final String & La longitude du stop \\
+    tripIds & List$<$String$>$ & La liste des tous les trips (leurs identifiants) partant de ce stop \\
     walks & List$<$Walk$>$ & La liste de tous les arrêts accessibles à pied depuis ce stop \\
     \hline
     \end{tabular}
@@ -260,9 +260,9 @@ de temps de départ et d'arrivée.
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    trip\_id & final String & L'identifiant du trip représenté \\
-    route\_id & final String & L'identifiant de la route sur laquelle il passe \\
-    stop\_times & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\
+    tripId & final String & L'identifiant du trip représenté \\
+    routeId & final String & L'identifiant de la route sur laquelle il passe \\
+    stopTimes & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\
     \hline
     \end{tabular}
     \caption{Classe Trip}
@@ -285,11 +285,11 @@ d'implémenter une classe \emph{Connexion}.
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    trip\_id & final String & L'identifiant du trajet utilisé par la connexion \\
-    from\_id & final String & L'identifiant de l'arrêt de de départ \\
-    to\_id & final String &  L'identifiant de l'arrêt d'arrivée \\
-    departure\_time & final int & L'heure de départ de l'arrêt \emph{from\_id} \\
-    arrival\_time & final int & L'heure d'arrivée à l'arrêt \emph{to\_id} \\
+    tripId & final String & L'identifiant du trajet utilisé par la connexion \\
+    fromId & final String & L'identifiant de l'arrêt de de départ \\
+    toId & final String &  L'identifiant de l'arrêt d'arrivée \\
+    departureTime & final int & L'heure de départ de l'arrêt \emph{from\_id} \\
+    arrivalTime & final int & L'heure d'arrivée à l'arrêt \emph{to\_id} \\
     \hline
     \end{tabular}
     \caption{Classe Trip}
