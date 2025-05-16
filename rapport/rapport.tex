@@ -298,12 +298,12 @@ d'implémenter une classe \emph{Connexion}.
 
 \subsubsection{La class BallTree}
 Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons d'abord commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
-autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65\,000 arrêts, cette approche impliquait environ 4\,5 milliards d'itérations avec, à chaque itération, une série
-d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos machines rien que pour la création de ces transferts à pied,
-ce qui est, vous en conviendrez, absolument inacceptable.
+autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65\,000 arrêts, cette approche impliquait environ 4\,5 milliards d'itérations avec, à chaque 
+itération, une série d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos 
+machines rien que pour la création de ces transferts à pied, ce qui est, vous en conviendrez, absolument inacceptable.
 
-Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches, nous avons considéré des options comme le \emph{R-Tree}, la \emph{spatial Grid}
-ou encore le \emph{BallTree}. Nous avons finalement opté pour ce dernier % TODO: justifier efficacement en comparant aux particularités des autres structures
+Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches, nous avons 
+considéré des options comme le \emph{R-Tree}, la \emph{Spatial Grid} (≃\emph{Hash Grid}) ou encore le \emph{BallTree}. Nous avons finalement opté pour ce dernier % TODO: justifier efficacement en comparant aux particularités des autres structures
 
 
 \subsubsection{La classe Walk}
@@ -334,9 +334,13 @@ un soin particulier à la création de ces structures de données.
 L'initialisation des données se fait en plusieurs étapes, chacune ayant sa propre complexité. Premièrement, nous avons la lecture des fichiers CSV, qui a naturellement une complexité
 linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier. Ensuite, pour la création des connexions, nous itérons dans tous les trajets et, pour chaque trajet, nous itérons dans leurs heures
 d'arrêts associés. Notons $n$ le nombre de trajets et $m$ le nombre d'arrêts associés à chaque trajet. La complexité de cette étape est donc $O(n \cdot m)$. Une fois la liste de connexions créée, nous
-procédons au tri de celle-ci en se basant sur l'heure de départ de chaque connexion. 
+procédons au tri de celle-ci en se basant sur l'heure de départ de chaque connexion à l'aide de l'algorithme de tri \emph{TimSort}, utilisé par \emph{Collections.sort()}. Ceci se fait dans les pires et
+moyen cas avec une complexité de $O(n \log n)$, où $n$ est le nombre de connexions avec un meilleur cas s'exécutant en $O(n)$ (si la liste est déjà majoritairement triée).
+% construction BallTree
+% n * recherche dans l'arbre
 
 \subsubsection{Complexité spatiale}
+Chaque donnée des fichiers CSV est chargée en mémoire, ce qui implique une complexité spatiale de $O(n)$, où $n$ est le nombre de lignes total dans tous les fichiers réunis. 
 
 \section{Le Connexion Scan Algorithm}
 \subsection{Choix de l'algorithme}
@@ -348,17 +352,17 @@ alors pourquoi avoir fait ce choix.
 
 \subsubsection{Fonctionnement}
 \textbf{CSA}: Est basé sur une approche de recherche de chemin qui utilise une liste triée de connexions entre arrêts, et parcourt ces connexions de manière séquentielle.
-Il parcourt les connexions dans l’ordre croissant du temps de départ, en mettant à jour les meilleurs temps d’arrivée à chaque arrêt. Il est
+Il parcourt les connexions dans l'ordre croissant du temps de départ, en mettant à jour les meilleurs temps d'arrivée à chaque arrêt. Il est
 spécialisé pour les horaires de transports publics. 
 
 
 \textbf{Dijkstra}: Cherche le plus court chemin en partant du noeud de départ et en explorant tous les voisins, en choisissant toujours le chemin avec 
 le coût total le plus faible.
-
+buildWalks
 \textbf{A*}: Est une amélioration de Dijkstra qui utilise une heuristique pour guider la recherche vers la destination. Il est plus efficace que Dijkstra dans certains cas,
 mais il nécessite une bonne heuristique pour fonctionner correctement.
 
-\subsubsection{Facilité d’implémentation avec GTFS}
+\subsubsection{Facilité d'implémentation avec GTFS}
 \textbf{CSA}: Est spécifiquement conçu pour fonctionner avec les fichiers GTFS et lit directement les connexions linéairement après le parsing et le tri des horaires.
 triées par heure, il n'y a pas besoin de convertir les données en graphe.
 
