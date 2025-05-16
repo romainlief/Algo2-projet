@@ -624,7 +624,9 @@ Avec ça, nous allons maintenant parler des deux optimisations que nous avons fa
     ou j est le nombre de connexion qu'on a pu enlever. Ceci nous permet d'avoir de meilleures performences globale.
 \end{itemize}
 
-Au final si l'on assemble tout ça, nous avons une complexité de $\Theta((n - k - j) * m)$
+Au final si l'on assemble tout ça, nous avons une complexité de $\Theta((n - k - j) * m)$ pour le coeur de l'algorithm.
+La reconstruction du chemin se fait en parcourant les connexions de path et donc nous sommes en $\Theta(p)$ ou p est le nombre de connexions dans path.
+
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
