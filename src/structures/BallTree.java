@@ -2,10 +2,8 @@ package structures;
 
 import objects.*;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @brief BallTree class used to partition stops into a tree structure in order

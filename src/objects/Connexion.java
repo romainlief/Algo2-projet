@@ -1,43 +1,42 @@
 package objects;
 
 public class Connexion implements Comparable<Connexion> {
-    private final String trip_id;
-    private final String from_id; // stop id
-    private final String to_id; // stop_id
-    private final int departure_time;
-    private final int arrival_time;
+    private final String tripId;
+    private final String fromId; // stopId
+    private final String toId; // stopId
+    private final int departureTime;
+    private final int arrivalTime;
 
-    public Connexion(String trip_id, String from_id, String to_id, int departure_time, int arrival_time) {
-        this.trip_id = trip_id;
-        this.from_id = from_id; // starting stop
-        this.to_id = to_id; // destination stop
-        this.departure_time = departure_time;
-        this.arrival_time = arrival_time;
+    public Connexion(String tripId, String fromId, String toId, int departureTime, int arrivalTime) {
+        this.tripId = tripId;
+        this.fromId = fromId; // starting stop
+        this.toId = toId; // destination stop
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     public String getTripId() {
-
-        return this.trip_id;
+        return this.tripId;
     }
 
     public String getFromId() {
-        return this.from_id;
+        return this.fromId;
     }
 
     public String getToId() {
-        return this.to_id;
+        return this.toId;
     }
 
     public int getDepartureTime() {
-        return this.departure_time;
+        return this.departureTime;
     }
 
     public int getArrivalTime() {
-        return this.arrival_time;
+        return this.arrivalTime;
     }
 
     @Override
     public int compareTo(Connexion other) {
-        return Integer.compare(this.departure_time, other.departure_time);
+        return Integer.compare(this.departureTime, other.departureTime);
     }
 }

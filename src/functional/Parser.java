@@ -96,9 +96,9 @@ public class Parser {
                 if (parts.length < 2)
                     continue;
                 try {
-                    String trip_id = parts[0];
-                    String route_id = parts[1];
-                    this.allTrips.put(trip_id, new Trip(trip_id, route_id));
+                    String tripId = parts[0];
+                    String routeId = parts[1];
+                    this.allTrips.put(tripId, new Trip(tripId, routeId));
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid numeric value in line: " + line);
                     continue;

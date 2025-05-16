@@ -16,44 +16,43 @@ public class Initializer {
     Parser parser;
     Builder builder;
 
-    public Initializer(String directory, double max_foot_distance, double average_walking_speed, int leaf_size) {
+    public Initializer(String directory, double maxFootDistance, double averageWalkingSpeed, int leafSize) {
         this.parser = new Parser(directory);
-        this.builder = new Builder(max_foot_distance, average_walking_speed, leaf_size);
+        this.builder = new Builder(maxFootDistance, averageWalkingSpeed, leafSize);
     }
 
     public void setup(boolean is_timed) {
         if (is_timed) {
-
-            Instant start_read = Instant.now();
+            Instant startRead = Instant.now();
             parser.readFiles();
-            Instant end_read = Instant.now();
-            Duration duration_read = Duration.between(start_read, end_read);
-            System.out.println("[\033[92mINFO\033[0m] Files read in " + duration_read.toMillis() + " ms.");
+            Instant endRead = Instant.now();
+            Duration durationRead = Duration.between(startRead, endRead);
+            System.out.println("[\033[92mINFO\033[0m] Files read in " + durationRead.toMillis() + " ms.");
             System.out.println("[\033[92mINFO\033[0m] Trips: " + parser.getAllTrips().size());
             System.out.println("[\033[92mINFO\033[0m] Stops: " + parser.getAllStops().size());
             System.out.println("[\033[92mINFO\033[0m] Routes: " + parser.getAllRoutes().size());
 
-            Instant start_build = Instant.now();
+            Instant startBuild = Instant.now();
             builder.buildConnexions(parser.getAllTrips());
-            Instant end_build = Instant.now();
-            Duration duration_build = Duration.between(start_build, end_build);
+            Instant endBuild = Instant.now();
+            Duration durationBuild = Duration.between(startBuild, endBuild);
             System.out.println("[\033[92mINFO\033[0m] " + builder.getConnexions().size()
-                    + " connexions built and sorted in " + duration_build.toMillis() + " ms.");
+                + " connexions built and sorted in " + durationBuild.toMillis() + " ms.");
 
-            Instant start_balltree = Instant.now();
+            Instant startBallTree = Instant.now();
             builder.buildBallTree(parser.getAllStops());
-            Instant end_balltree = Instant.now();
-            Duration duration_balltree = Duration.between(start_balltree, end_balltree);
-            System.out.println("[\033[92mINFO\033[0m] BallTree built in " + duration_balltree.toMillis() + " ms.");
+            Instant endBallTree = Instant.now();
+            Duration durationBallTree = Duration.between(startBallTree, endBallTree);
+            System.out.println("[\033[92mINFO\033[0m] BallTree built in " + durationBallTree.toMillis() + " ms.");
 
-            Instant start_walks = Instant.now();
+            Instant startWalks = Instant.now();
             builder.buildWalks(parser.getAllStops());
-            Instant end_walks = Instant.now();
-            Duration duration_walks = Duration.between(start_walks, end_walks);
-            System.out.println("[\033[92mINFO\033[0m] Walks built in " + duration_walks.toMillis() + " ms.");
+            Instant endWalks = Instant.now();
+            Duration durationWalks = Duration.between(startWalks, endWalks);
+            System.out.println("[\033[92mINFO\033[0m] Walks built in " + durationWalks.toMillis() + " ms.");
 
-            System.out.println("[\033[92mINFO\033[0m] All data loaded and processed in " + (duration_read.toMillis()
-                    + duration_build.toMillis() + duration_balltree.toMillis() + duration_walks.toMillis()) + " ms.");
+            System.out.println("[\033[92mINFO\033[0m] All data loaded and processed in " + (durationRead.toMillis()
+                + durationBuild.toMillis() + durationBallTree.toMillis() + durationWalks.toMillis()) + " ms.");
 
         } else {
             parser.readFiles();

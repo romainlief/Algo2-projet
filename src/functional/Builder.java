@@ -67,18 +67,18 @@ public class Builder {
         Collections.sort(this.connexions); // sort connexions by departure time
     }
 
-    public void buildBallTree(Map<String, Stop> stops_map) {
-        Collection<Stop> stops = stops_map.values();
+    public void buildBallTree(Map<String, Stop> stopsMap) {
+        Collection<Stop> stops = stopsMap.values();
         this.tree = new BallTree(stops, this.BALL_TREE_LEAFE_SIZE);
     }
 
-    public void buildWalks(Map<String, Stop> stops_map) {
+    public void buildWalks(Map<String, Stop> stopsMap) {
         if (this.tree == null) {
             System.out.println("[\033[91mERROR\033[0m] BallTree not built yet. Please build the BallTree first.");
             return;
         }
 
-        for (Stop stopA : stops_map.values()) {
+        for (Stop stopA : stopsMap.values()) {
             Collection<Stop> neighbours = this.tree.range(stopA, MAX_FOOT_DISTANCE);
 
             for (Stop stopB : neighbours) {
@@ -87,8 +87,8 @@ public class Builder {
 
                 double distance = stopA.getDistanceToOther(stopB);
                 if (distance < MAX_FOOT_DISTANCE) {
-                    double walk_duration = distance / AVERAGE_WALKING_SPEED;
-                    int duration = (int) walk_duration;
+                    double walkDuration = distance / AVERAGE_WALKING_SPEED;
+                    int duration = (int) walkDuration;
                     Walk walk = new Walk(stopA, stopB, duration);
                     stopA.addWalk(walk);
                 }

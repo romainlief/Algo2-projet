@@ -13,7 +13,7 @@ public class Stop {
     private final String stopName;
     private final double stopLat;
     private final double stopLon;
-    List<String> trip_ids = new ArrayList<String>(); // a list of trips departing from this stop
+    List<String> tripIds = new ArrayList<String>(); // a list of trips departing from this stop
 
     private List<Walk> walks = new ArrayList<Walk>(); // all walks departing from this stop
 
@@ -53,7 +53,7 @@ public class Stop {
     }
 
     public List<String> getTripIds() {
-        return this.trip_ids;
+        return this.tripIds;
     }
 
     public List<Walk> getWalk() {
@@ -68,7 +68,7 @@ public class Stop {
      * @param trip_id The trip ID to add.
      */
     public void addTrip(String trip_id) {
-        this.trip_ids.add(trip_id);
+        this.tripIds.add(trip_id);
     }
 
     /**

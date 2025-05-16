@@ -4,13 +4,13 @@ import objects.*;
 
 import java.util.*;
 
-// A data structure that we tried to use, but didn't in the end
-// We left it for the reader's appreciation
+// A data structure that we tried to use, but didn't in the end.
+// We left it for the reader's appreciation.
 public class HashGrid {
 
     // #### Attributes ####
 
-    private final double cell_size; // in degrees
+    private final double cellSize; // in degrees
     private final Map<String, List<Stop>> grid;
 
     // #### Constructors ####
@@ -18,13 +18,13 @@ public class HashGrid {
     /**
      * @brief Constructor of the HashGrid class.
      * 
-     * @param cell_size The size of each cell in degrees, representing the spatial
+     * @param cellSize The size of each cell in degrees, representing the spatial
      *                  resolution of the grid.
      *                  It defines the maximum range of distance within which stops
      *                  are grouped together in the same cell.
      */
-    public HashGrid(double cell_size) {
-        this.cell_size = cell_size;
+    public HashGrid(double cellSize) {
+        this.cellSize = cellSize;
         this.grid = new HashMap<String, List<Stop>>();
     }
 
@@ -63,22 +63,24 @@ public class HashGrid {
         List<Stop> neighbours = new ArrayList<Stop>();
 
         // getting hash key of the cell (region/area ~= 500m)
-        int lat_bucket = (int) (stop.getStopLat() / this.cell_size);
-        int lon_bucket = (int) (stop.getStopLon() / this.cell_size);
+        int latBucket = (int) (stop.getStopLat() / this.cellSize);
+        int longBucket = (int) (stop.getStopLon() / this.cellSize);
 
         // getting neighbours
-        for (int delta_lat = -1; delta_lat <= 1; delta_lat++) {
-            for (int delta_lon = -1; delta_lon <= 1; delta_lon++) {
-                String neighbour_key = getCellKey((lat_bucket + delta_lat),
-                        (lon_bucket + delta_lon));
-                List<Stop> candidates = grid.getOrDefault(neighbour_key, new ArrayList<>());
+        for (int deltaLat = -1; deltaLat <= 1; deltaLat++) {
+            for (int deltaLong = -1; deltaLong <= 1; deltaLong++) {
+                String neighbourKey = getCellKey((latBucket + deltaLat),
+                        (longBucket + deltaLong));
+                List<Stop> candidates = grid.getOrDefault(neighbourKey, new ArrayList<>());
                 neighbours.addAll(candidates);
             }
         }
 
         return neighbours;
     }
-
+    private String getCellKey(int latBucket, int lonBucket) {
+        return latBucket + "_" + lonBucket;
+    }
     /**
      * @brief Generates a unique key for a cell based on latitude and longitude
      *        coordinates.
@@ -88,8 +90,8 @@ public class HashGrid {
      * @return A string key representing the cell's position in the grid.
      */
     private String getCellKey(double lat, double lon) {
-        int lat_bucket = (int) (lat / this.cell_size);
-        int lon_bucket = (int) (lon / this.cell_size);
-        return lat_bucket + "_" + lon_bucket;
+        int latBucket = (int) (lat / this.cellSize);
+        int longBucket = (int) (lon / this.cellSize);
+        return latBucket + "_" + longBucket;
     }
 }
