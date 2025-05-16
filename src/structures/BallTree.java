@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BallTree {
     private final BallTreeNode root;
-    private final int leaf_size;
+    private final int leafSize;
     private int recursiveCallCount = 0; // Add counter as class field
 
     // Node class that represents a node in the Ball Tree
@@ -59,8 +59,8 @@ public class BallTree {
         }
     }
 
-    public BallTree(Collection<Stop> stops, int leaf_size) {
-        this.leaf_size = leaf_size;
+    public BallTree(Collection<Stop> stops, int leafSize) {
+        this.leafSize = leafSize;
         this.root = buildTree(stops);
     }
 
@@ -83,7 +83,7 @@ public class BallTree {
         }
         // Base case for recursion
         // If there is only one stop, create a leaf node
-        if (stops.size() <= this.leaf_size) {
+        if (stops.size() <= this.leafSize) {
             // System.out.println("[\033[92mINFO\033[0m] Base case of tree building reached,
             // returning...");
             return new BallTreeNode(stops);

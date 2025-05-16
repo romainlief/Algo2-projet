@@ -1,11 +1,9 @@
 package functional;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import objects.Route;
 import objects.Stop;
@@ -14,11 +12,20 @@ import objects.Walk;
 import objects.Connexion;
 
 public class PathFinder {
+    // #### Attributes ####
     private Map<String, Stop> stopMap;
     private Map<String, Trip> tripMap;
     private Map<String, Route> routeMap;
     private List<Connexion> connexions;
 
+    // #### Constructors ####
+    /**
+     * @brief Constructor for the PathFinder class.
+     * @param stopMap    The map of stops.
+     * @param tripMap    The map of trips.
+     * @param routeMap   The map of routes.
+     * @param connexions The list of connexions.
+     */
     public PathFinder(Map<String, Stop> stopMap, Map<String, Trip> tripMap, Map<String, Route> routeMap,
             List<Connexion> connexions) {
         this.stopMap = stopMap;
@@ -27,21 +34,25 @@ public class PathFinder {
         this.connexions = connexions;
     }
 
+    // #### Methods ####
     /**
      * @brief Implementation of the CSA algorithm to find the best path between
      *        start
-     *        and end positions.
+     *        and end positions with the starting and stopping criterion.
      * @param start       The starting position.
      * @param destination The ending position.
      * @param time        The time at which the journey starts
      */
     public void findPath(String start, String destination, String time) {
+        // #######################################################################################
+        // Check the validity of the input parameters
+        // #######################################################################################
         if (!isValidTimeFormat(time)) {
             System.err.println("Invalid time format: " + time);
             return;
         }
-        int userStartTime = Calculator.timeToInt(time);
-        List<Stop> startingStops = findStopsByName(start);
+        int userStartTime = Calculator.timeToInt(time); // Convert time to int
+        List<Stop> startingStops = findStopsByName(start); // Find all stops with the given name
         if (startingStops.isEmpty()) {
             System.err.println("No stops found with the name: " + start);
             return;
@@ -61,52 +72,119 @@ public class PathFinder {
             System.err.println("Start and destination are the same: " + start);
             return;
         }
+        // #######################################################################################
 
-        // for every connexion sorted by decreasing departure time
-        Map<String, Integer> shortestPath = new HashMap<>();
+        // #######################################################################################
+        // Initialize the shortest path and previous connection maps
+        // #######################################################################################
+        Map<String, Integer> shortestPath = new HashMap<>(); // for every connexion sorted by decreasing departure time
 
-        for (String stopId : stopMap.keySet()) {
-            shortestPath.put(stopId, Integer.MAX_VALUE); // biggest value for each stop
+        for (String stopId : stopMap.keySet()) { // for every stop put in the map
+            shortestPath.put(stopId, Integer.MAX_VALUE); // the biggest value for each stop
         }
-        for (Stop startingStop : startingStops) {
-            shortestPath.put(startingStop.getStopId(), userStartTime);
+        for (Stop startingStop : startingStops) { // for every starting stop put in the map
+            shortestPath.put(startingStop.getStopId(), userStartTime); // set the departure time for each starting stop
         }
 
-        Map<String, Connexion> previousConnection = new HashMap<>();
+        Map<String, Connexion> previousConnection = new HashMap<>(); // map to store the previous connection for each
+                                                                     // stop
+        // ########################################################################################
+
+        // ########################################################################################
+        // Init the best arrival time to the biggest value possible and chose the
+        // startIndex
+        // ########################################################################################
         int bestArrivalTime = Integer.MAX_VALUE;
 
+        // This is the "Starting criterion" optimisation
+        // ----------------------------------------------------------------------------------------
+        // With a binary search we can find the first connexion that has a departure
+        // time >= the userStartTime
+        // That optimisation is called "Starting criterion"
+        // In the algorithm we will only consider connexions that have a departure
+        // time >= the userStartTime.
+        // ------------------------------------------------------------------------------------------
+        // Complexity:
+        // So that means that the complexity of the
+        // algorithm is not O(n) like the basic CSA but is O(n - k) where k is the
+        // number of connexions that have a departure time < the userStartTime
         int startIndex = BinarySearch.findStartIndex(connexions, userStartTime);
+        // ########################################################################################
+
+        // ########################################################################################
+        // Main loop of the algorithm
+        // Runs all the connexions sorted by increasing departure time
+        // We sort the connexions by increasing departure time in the Builder class
+        // ########################################################################################
         for (int i = startIndex; i < connexions.size(); i++) {
             Connexion connexion = connexions.get(i);
+            // ####################################################################################
+            // If the departure time of the connexion is greater than the best arrival
+            // time then we can stop the algorithm, we have found the best path
+            // ####################################################################################
+            // This is the "Stopping criterion" optimisation
+            // --------------------------------------------------------------------------------------
+            // This optimization allows us to terminate the algorithm early when further
+            // processing of connections cannot improve the result. Specifically, we stop
+            // the algorithm as soon as the departure time of the current connection (cdep)
+            // exceeds the best arrival time found so far (bestArrivalTime).
+            // This works because the connections are processed in order of increasing
+            // departure time. If the departure time of the current connection is already
+            // greater than the best arrival time found so far, then all subsequent
+            // connections
+            // will also have a departure time greater than the best arrival time.
+            // Therefore, we can safely stop the algorithm at this point without missing
+            // any potential improvements to the result.
+            // --------------------------------------------------------------------------------------
+            // Complexity:
+            // So that means that the complexity of the
+            // algorithm is not O(n) like the basic CSA but is O(n - m) where m
+            // is the number of connexions that have a departure time < the best arrival
+            // time
+            // If we add the starting criterion with the stopping criterion we have:
+            // Complexity: O(n - k - m) where k is the number of connexions that have a
+            // departure time < the userStartTime and m is the number of connexions that
+            // have
+            // a departure time < the best arrival time
+            // So the complexity of the algorithm is O(n - k - m) where n is the number of
+            // connexions
             if (connexion.getDepartureTime() > bestArrivalTime) {
                 break;
             }
+            // ####################################################################################
+
             String departureStopId = connexion.getFromId();
             String arrivalStopId = connexion.getToId();
-
             int departureTime = connexion.getDepartureTime();
             int arrivalTime = connexion.getArrivalTime();
-
             int currentDepartureTime = shortestPath.get(departureStopId);
             int currentArrivalTime = shortestPath.get(arrivalStopId);
 
+            // ####################################################################################
+            // Check if the connection improves the shortest path
+            // ####################################################################################
             if (currentDepartureTime <= departureTime && currentArrivalTime > arrivalTime) {
+                // Update the shortest path and previous connection maps
                 shortestPath.put(arrivalStopId, arrivalTime);
                 previousConnection.put(arrivalStopId, connexion);
-
                 for (Stop endStop : endStops) { // Update bestArrivalTime if this arrivalStop is one of the destination
-                                                // stops
+                                                // stops.
+                                                // Part of the Stopping criterion
                     if (arrivalStopId.equals(endStop.getStopId()) && arrivalTime < bestArrivalTime) {
                         bestArrivalTime = arrivalTime;
                     }
                 }
-
+                // ################################################################################
+                // Check if there are any walks from the arrival stop to other stops
+                // ################################################################################
                 Stop arrivalStop = stopMap.get(arrivalStopId);
                 if (arrivalStop != null && arrivalStop.getWalk() != null) {
-                    for (Walk walk : arrivalStop.getWalk()) {
+                    for (Walk walk : arrivalStop.getWalk()) { // Run through all the walks from the arrival
+                                                              // stop
                         String walkDestId = walk.getDestination().getStopId();
                         int walkArrivalTime = arrivalTime + walk.getDuration();
                         int currentWalkArrivalTime = shortestPath.get(walkDestId);
+                        // Check if the walk improves the shortest path
                         if (currentWalkArrivalTime > walkArrivalTime) {
                             shortestPath.put(walkDestId, walkArrivalTime);
                             previousConnection.put(walkDestId, new Connexion(
@@ -118,9 +196,13 @@ public class PathFinder {
                         }
                     }
                 }
+                // ################################################################################
             }
         }
-
+        // ########################################################################################
+        // Find the best end stop in the list of end stops with the same name
+        // The best end stop is the one with the minimum arrival time
+        // ########################################################################################
         Stop bestEndStop = null;
         int minArrivalTime = Integer.MAX_VALUE;
         for (Stop endStop : endStops) {
@@ -130,18 +212,25 @@ public class PathFinder {
                 bestEndStop = endStop;
             }
         }
+        // ########################################################################################
+        // ########################################################################################
 
+        // ########################################################################################
+        // Build the path from the best end stop to the starting stops
+        // ########################################################################################
         List<Connexion> path = new ArrayList<>();
-
         Stop currentStop = bestEndStop;
-
+        // Remake the path from the best end stop to the starting stops by following the
+        // previous connection
         while (currentStop != null && previousConnection.containsKey(currentStop.getStopId())) {
             Connexion connexion = previousConnection.get(currentStop.getStopId());
             path.add(0, connexion); // Add to the beginning of the path
-            currentStop = stopMap.get(connexion.getFromId());
+            currentStop = stopMap.get(connexion.getFromId()); // Get the previous stop
         }
 
+        // ########################################################################################
         // Print the path
+        // ########################################################################################
         if (path.isEmpty() || bestEndStop == null) {
             System.out.println("No path found from " + start + " to " + destination);
         } else {
@@ -174,6 +263,7 @@ public class PathFinder {
                 }
             }
         }
+        // ########################################################################################
     }
 
     /**
