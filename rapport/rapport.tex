@@ -163,27 +163,24 @@ entre un point A et un point B sur base d'une heure de départ. En effet, sur ba
 fournies sous format \emph{General Transit Feed Specification} (\textbf{GTFS}), nous avons utilisé le \emph{Connexion Scan Algorithm} (\textbf{CSA})
 pour implémenter notre chercheur de chemin en \emph{Java}. 
 
-Dans les sections à suivre, nous abordons le parsing des données, des structures formées à partir de celles-ci pour notre
+Dans les sections à suivre, nous abordons l'initialisation des données, des structures formées à partir de celles-ci pour notre
 implémentation et certains détails techniques comme la complexité temporelle et spatiale. Nous justifierons également certains choix
 comme celui de l'algorithme précisé ci-dessus, à savoir le \textbf{CSA}.
 
 
-\section{Parsing}
+\section{Initialisation des données}
 Dans cette section nous expliquons les procédés utilisés pour charger les données en mémoire à partir des fichiers CSV fournis ainsi que
 les structures de données utilisées pour leur stockage et leur utilisation optimale dans l'algorithme choisi par nos soins.
 
-Nous utilisons une classe Parser, qui se charge de la lecture des fichiers CSV.
-Cette classe est responsable du remplissage de map avec les objets de type \emph{Connexion}, \emph{Route}, \emph{Stop}, \emph{StopTime} et \emph{Trip} en valeur venant des fichiers.
-Qui nous permettent de créer les connexions entre arrêts, les routes et les trajets avec les données des fichiers csv.
+Tout d'abord, décrivons brièvement la classe Parser, qui se charge de la lecture des fichiers CSV et de la création de dictionnaires (\emph{HashMap}) contenant les données chargées, faciles d'accès.
+Nous avons créé, pour chaque type de fichier CSV, une classe de stockage qui contient les attributs correspondants aux champs du fichier CSV. Quelques subtilités notables au sujet de ces classes sont
+décrites dans les sections suivantes.
 
-\subsection{Structures de données pour le stockage}
-Dû à notre choix d'implémentation algorithmique, nous avons opté pour des structures efficaces pour utiliser l'utiliser dans
-les meilleurs conditions possibles. En effet, le CSA, comme son nom le suggère, fait une forte utilisation des connexions entre arrêts,
-chose que nous détaillons plus loin dans ce rapport.
+\subsection{Objets de base pour le stockage}
+Les fichiers CSV fournis contiennent des informations sur les arrêts, les trajets, les horaires et les routes de quatre entreprises de transport en commun,
+à savoir la STIB en région Bruxelloise, TEC en région Wallone, DELIJN en région FLamande et, finalement, la SNCB pour le transport ferroviaire au niveau national.
 
-D'abord ont été créées les quatre classes principales, chacune correspondant à un type de fichier CSV donné. De manière générale, 
-chaque champ de chaque fichier est repris comme un attribut de classe. Cela n'est cependant pas toujours le cas, nous le précisons
-dans les sections adéquates.
+Pour chaque type de fichier CSV, voici donc les classes correspondantes créées pour contenir les données de manière accessible.
 
 \subsubsection{La classe Route}
 Cette classe est une simple classe de stockage, chaque attribut correspondant à un champ des fichiers \emph{routes.csv}.
@@ -195,19 +192,18 @@ Cette classe est une simple classe de stockage, chaque attribut correspondant à
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    routeId & final String & L'id de la route représentée \\
-    routeShortName & final String & Le nom de la route raccourci \\
-    routeLongName & final String & Le nom de la route complet \\
-    routeType & final String & Le type de véhicule utilisant cette route \\
+    route\_id & final String & L'identifiant de la route représentée \\
+    route\_short\_name & final String & Le nom de la route raccourci \\
+    route\_long\_name & final String & Le nom de la route complet \\
+    route\_type & final String & Le type de véhicule utilisant cette route \\
     \hline
     \end{tabular}
     \caption{Classe Route}
 \end{table}
 
 \subsubsection{La classe StopTime}
-La particularité de cette classe est qu'il lui manque le champ tripId donné dans les CSV concernés. Ce choix découle
-de la structure de la classe Trip détaillée dans la section 2.1.4. % TODO: ajouter un label au tableau trip ici
-\vspace{2cm}
+La particularité de cette classe est qu'il lui manque le champ trip\_id donné dans les CSV concernés. Ce choix découle
+de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip]{2.1.4}.
 % Table qui détaille la classe StopTime
 \begin{table}[h]
     \centering
@@ -215,11 +211,11 @@ de la structure de la classe Trip détaillée dans la section 2.1.4. % TODO: ajo
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    departureTime & final String & L'heure du départ à partir de
+    departure\_time & final String & L'heure du départ à partir de
                                    l'arrêt associé sur le trajet associé en format 
                                    heure;minutes;secondes \\
-    stopId & final String & L'id de l'arrêt associé \\
-    stopSequence & final int & Le numéro de l'arrêt dans le trajet associé \\
+    stop\_id & final String & L'identifiant de l'arrêt associé \\
+    stop\_sequence & final int & Le numéro de l'arrêt dans le trajet associé \\
     \hline
     \end{tabular}
     \caption{Classe StopTime}
@@ -227,7 +223,11 @@ de la structure de la classe Trip détaillée dans la section 2.1.4. % TODO: ajo
 
 \subsubsection{La classe Stop}
 Dans cette classe, hormis le fait que chaque champ des fichiers \emph{routes.csv} est repris, nous avons fait le choix d'ajouter
-une liste de tripId, permettant de retrouver efficacement chaque Trip partant de cet arrêt. 
+une liste de trip\_id, permettant de retrouver efficacement chaque trajet partant de cet arrêt ainsi qu'une liste de \hyperref[sec:walk]{\emph{Walk}}, permettant
+d'avoir un accès rapide à tous les arrêts accessibles à pied depuis cet arrêt.
+
+Cette classe comprend également une méthode \emph{getDistanceToOther} qui permet de calculer la distance entre deux arrêts en utilisant la formule de Haversine,
+implémentée dans une classe annexe, la classe \emph{Calculator}.
 
 % Table qui détaille la classe Stop
 \begin{table}[h]
@@ -236,19 +236,21 @@ une liste de tripId, permettant de retrouver efficacement chaque Trip partant de
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    stopId & final String & L'id du stop représenté \\
-    stopName & final String & Le nom du stop \\
-    stopLat & final String & La latitude du stop \\
-    stopLon & final String & La longitude du stop \\
-    trip\_ids & List$<$String$>$ & La liste des tous les trips (leurs ids) partant de ce stop \\
+    stop\_id & final String & L'identifiant du stop représenté \\
+    stop\_name & final String & Le nom du stop \\
+    stop\_lat & final String & La latitude du stop \\
+    stop\_lon & final String & La longitude du stop \\
+    trip\_ids & List$<$String$>$ & La liste des tous les trips (leurs identifiants) partant de ce stop \\
+    walks & List$<$Walk$>$ & La liste de tous les arrêts accessibles à pied depuis ce stop \\
     \hline
     \end{tabular}
     \caption{Classe Stop}
 \end{table}
 
 \subsubsection{La classe Trip}
+\label{sec:trip}
 Une fois de plus, en plus des champs trouvés dans les fichiers \emph{trips.csv} retranscrits en attribut, nous avons ajouté
-une liste de StopTime associés à ce Trip. Ceci nous permet de construire efficacement les connexions entre arrêts affublées
+une liste d'heures d'arrêt associés à ce trajet. Ceci nous permet de construire efficacement les connexions entre arrêts affublées
 de temps de départ et d'arrivée.
 
 % Table qui détaille la classe Trip
@@ -258,13 +260,83 @@ de temps de départ et d'arrivée.
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    tripId & final String & L'id du trip représenté \\
-    routeId & final String & L'id de la route sur laquelle il passe \\
-    stopTimes & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\
+    trip\_id & final String & L'identifiant du trip représenté \\
+    route\_id & final String & L'identifiant de la route sur laquelle il passe \\
+    stop\_times & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\
     \hline
     \end{tabular}
     \caption{Classe Trip}
 \end{table}
+
+\subsection{Création des structures de données}
+Une fois les données lues et contenues dans des dictionnaires faciles d'accès (accès en temps constant), nous procédons à la création de structures de données
+pertinentes à notre algorithme de recherche de chemin, le CSA à l'aide de la classe Builder.
+
+La classe Builder est responsable de la création d'une liste de connexions entre arrêts, de la création du BallTree utilisé pour construire efficacement les transferts à pied entre arrêts
+et, finalement, la création de ces transferts à pied.
+
+\subsubsection{La classe Connexion}
+L'algorithme CSA se base, comme son nom l'indique, sur des connexions entre les différents arrêts. Pour traiter cet aspect, nous avons fait le choix logique
+d'implémenter une classe \emph{Connexion}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    trip\_id & final String & L'identifiant du trajet utilisé par la connexion \\
+    from\_id & final String & L'identifiant de l'arrêt de de départ \\
+    to\_id & final String &  L'identifiant de l'arrêt d'arrivée \\
+    departure\_time & final int & L'heure de départ de l'arrêt \emph{from\_id} \\
+    arrival\_time & final int & L'heure d'arrivée à l'arrêt \emph{to\_id} \\
+    \hline
+    \end{tabular}
+    \caption{Classe Trip}
+\end{table}
+
+
+\subsubsection{La class BallTree}
+Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons d'abord commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
+autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65\,000 arrêts, cette approche impliquait environ 4\,5 milliards d'itérations avec, à chaque itération, une série
+d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos machines rien que pour la création de ces transferts à pied,
+ce qui est, vous en conviendrez, absolument inacceptable.
+
+Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches, nous avons considéré des options comme le \emph{R-Tree}, la \emph{spatial Grid}
+ou encore le \emph{BallTree}. Nous avons finalement opté pour ce dernier % TODO: justifier efficacement en comparant aux particularités des autres structures
+
+
+\subsubsection{La classe Walk}
+\label{sec:walk}
+Classe simple, représentant un transfert à pied entre deux arrêts. Ces objets sont contenus sous forme de liste dans les arrêts correspondants.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
+    \hline
+    departure & final Stop & L'arrêt de départ du transfert à pied \\
+    destination & final Stop & L'arrêt d'arrivée du transfert à pied \\
+    duration & final int & La durée en secondes du transfert à pied \\
+    \hline
+    \end{tabular}
+    \caption{Classe Walk}
+\end{table}
+
+
+\subsection{Complexité de l'initialisation}
+Bien qu'étant une étape antérieure à l'exécution de l'algorithme, il reste important de discuter la complexité de cette étape. En effet, si nous avions choisi d'absolument ignorer
+l'aspect de la complexité, nous aurions pu rester sur une implémentation brute-force, prenant 10 minutes à l'exécution. Bien entendu, pour éviter ces absurdités, nous avons apporté
+un soin particulier à la création de ces structures de données.
+
+\subsubsection{Complexité temporelle}
+L'initialisation des données se fait en plusieurs étapes, chacune ayant sa propre complexité. Premièrement, nous avons la lecture des fichiers CSV, qui a naturellement une complexité
+linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier. Ensuite, pour la création des connexions, nous itérons dans tous les trajets et, pour chaque trajet, nous itérons dans leurs heures
+d'arrêts associés. Notons $n$ le nombre de trajets et $m$ le nombre d'arrêts associés à chaque trajet. La complexité de cette étape est donc $O(n \cdot m)$. Une fois la liste de connexions créée, nous
+procédons au tri de celle-ci en se basant sur l'heure de départ de chaque connexion. 
+
+\subsubsection{Complexité spatiale}
 
 \section{Le Connexion Scan Algorithm}
 \subsection{Choix de l'algorithme}
