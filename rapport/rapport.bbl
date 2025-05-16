@@ -17,6 +17,31 @@
 \endgroup
 
 \datalist[entry]{anyt/global//global/global}
+  \entry{baeldung_collections_sort}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=B}{%
+         family={Baeldung},
+         familyi={B\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Baeldung}%
+    }
+    \strng{namehash}{B1}
+    \strng{fullhash}{B1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Bae23}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{note}{Consulté le 14 mai 2025}
+    \field{title}{Time Complexity of Java Collections Sort in Java}
+    \verb{url}
+    \verb https://www.baeldung.com/java-time-complexity-collections-sort
+    \endverb
+    \field{year}{2023}
+  \endentry
+
   \entry{butts2020raptor}{misc}{}
     \name{author}{1}{}{%
       {{hash=BK}{%
@@ -90,6 +115,32 @@
     \field{title}{Algorithme de Dijkstra}
     \verb{url}
     \verb https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
+    \endverb
+    \field{year}{2025}
+  \endentry
+
+  \entry{wikipedia_timsort}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=C}{%
+         family={{Contributeurs de Wikipédia}},
+         familyi={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wikipédia}%
+    }
+    \strng{namehash}{C1}
+    \strng{fullhash}{C1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{{Con}25}
+    \field{extraalpha}{3}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{note}{Consulté le 14 mai 2025}
+    \field{title}{Timsort}
+    \verb{url}
+    \verb https://fr.wikipedia.org/wiki/Timsort
     \endverb
     \field{year}{2025}
   \endentry

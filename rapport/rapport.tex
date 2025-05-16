@@ -210,7 +210,7 @@ de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip
     \hline
     \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
     \hline
-    departureTime & final String & L'heure du départ à partir de
+    departureTime & final int & L'heure du départ à partir de
                                    l'arrêt associé sur le trajet associé en format 
                                    heure;minutes;secondes \\
     stopId & final String & L'identifiant de l'arrêt associé \\
@@ -525,12 +525,10 @@ l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la mé
   routeMap & Map$<$String, Route$>$ & Map contenant les routes, indexées par leur identifiant. \\
   connexions & List$<$Connexion$>$ & Liste des connexions disponibles. \\
   \hline
-  PathFinder & Constructeur & Initialise les maps des arrêts, trajets et routes. \\
   findPath & void & Implémente l'algorithme pour trouver le meilleur chemin dans le graphe. \\
-  findStopsByName & List<Stop> & Recherche tous les arrêts du même nom dans la map des arrêts à partir du string donné en paramètre. \\
   \hline
   \end{tabular}
-  \caption{Classe PathFinder}
+  \caption{Classe PathFinder sans les méthodes annexes}
 \end{table}
 
 \subsection{Pseudo-code}
@@ -600,6 +598,8 @@ est le nombre de connexions. Cette complexité est particulièrement avantageuse
 des requêtes après le prétraitement initial, cependant celle-ci demande un tri sur l'entièreté des connexions et est donc la partie la plus lourde du processus.
 
 Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le parsing et la recherche de chemin, où $n$ est le nombre de connexions.
+La complexité de l'algorithme en lui est donc de $\Theta(n)$, où $n$ est le nombre de connexions.
+\subsection{Complexité avec la marche à pied et algorithme optimal}
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
@@ -627,6 +627,8 @@ Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le pa
 \cite{wikipedia_astar}
 \cite{geeksforgeeks_astar}
 \cite{wikipedia_dijkstra}
+\cite{baeldung_collections_sort}
+\cite{wikipedia_timsort}
 
 \printbibliography
 
