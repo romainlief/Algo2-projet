@@ -474,16 +474,16 @@ alors pourquoi avoir fait ce choix.
 Il parcourt les connexions dans l'ordre croissant du temps de départ, en mettant à jour les meilleurs temps d'arrivée à chaque arrêt. Il est
 spécialisé pour les horaires de transports publics. 
 
-
 \textbf{Dijkstra}: Cherche le plus court chemin en partant du noeud de départ et en explorant tous les voisins, en choisissant toujours le chemin avec 
 le coût total le plus faible.
 buildWalks
+
 \textbf{A*}: Est une amélioration de Dijkstra qui utilise une heuristique pour guider la recherche vers la destination. Il est plus efficace que Dijkstra dans certains cas,
 mais il nécessite une bonne heuristique pour fonctionner correctement.
 
 \subsubsection{Facilité d'implémentation avec GTFS}
-\textbf{CSA}: Est spécifiquement conçu pour fonctionner avec les fichiers GTFS et lit directement les connexions linéairement après le parsing et le tri des horaires.
-triées par heure, il n'y a pas besoin de convertir les données en graphe.
+\textbf{CSA}: Est spécifiquement conçu pour fonctionner avec les fichiers GTFS et lit directement les connexions linéairement après le parsing et le tri des horaires
+triées par heures.
 
 \textbf{Dijkstra}: Nécessite de transformer les données de GTFS en graphe temporel (chaque arrêt devient un noeud).
 Cette implémentation est moins naturelle que pour CSA mais marche tout aussi bien.
@@ -494,6 +494,7 @@ Il nécessite aussi une représentation temporelle du graphe.
 \subsubsection{Complexité}
 \textbf{CSA}: $O(n)$, où $n$ est le nombre de connexions. Très rapide en pratique pour les requêtes "earliest arrival" grâce au tri temporel. 
 Cependant, il demande un tri préalablement, ce qui donne une complexité de $O(n \log n)$ pour le tri.
+Pour le cas du CSA, nous verrons après qu'il y a encore des optimisations possibles pour diminuer la complexité temporelle.
 
 \textbf{Dijkstra}: $O((V + E) \log V)$, où $V$ est le nombre de noeuds et $E$ le nombre d'arêtes.
 
@@ -599,7 +600,31 @@ des requêtes après le prétraitement initial, cependant celle-ci demande un tr
 
 Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le parsing et la recherche de chemin, où $n$ est le nombre de connexions.
 La complexité de l'algorithme en lui est donc de $\Theta(n)$, où $n$ est le nombre de connexions.
+
 \subsection{Complexité avec la marche à pied et algorithme optimal}
+Comme dit dans la subsection précédente, l'algorithme de base est en $\Theta(n)$, où $n$ est le nombre de connexions.
+Cependant, nous devons aussi prendre en compte les marches à pied dedans et les optimisations que nous avons faites.
+Lorsque nous lancons notre algorithme, nous allons checker si nous avons des marches à pied à chaque arrêt.
+Pour ceci, nous allons devoir parcourir l'ensemble des \emph{Walk} de chaque arrêt.
+Nous avons donc une complexité de $\Theta(n * m)$, où $n$ est le nombre d'arrêts et $m$ le nombre de marches à pied par arrêt.
+Avec ça, nous allons maintenant parler des deux optimisations que nous avons faites:
+\begin{itemize}
+    \item \textbf{Starting criterion:} Avec l'algorithme élémentaire qu'est la recherche dichotomique (en $O(\log n)$), nous avons pu trouver le premier arrêt 
+    qui est supérieur ou égal à l'heure de départ. Ceci nous permet de ne pas parcourir toutes les connexions, mais de commencer à partir de l'indice trouvé.
+    Cela nous permet de réduire le nombre d'itérations nécessaires pour trouver le chemin optimal. Grâce à cela, L'algorithme passe de $\Theta(n)$ à $\Theta(n - k)$ avec k le 
+    nombre de connexions avant l'heure de départ. Cela nous permet de grandement réduire le temps d'exécution de l'algorithme, et encore plus si l'heure de départ est
+    est élevée, vu que la liste est en moins en mois grande.
+    Si l'heure entrée par l'utilisateur est la 1ere dans la liste de connexion, alors nous devons quand même tout parcourir et sommes donc en $\Theta(n)$.
+    \item \textbf{Stopping criterion:} Cette optimisation, permet qu'une fois que nous avons atteint la destination ou que toutes 
+    les connexions possibles ont été explorées, 
+    nous arrêtons l'algorithme. Cela permet d'éviter de parcourir inutilement des connexions qui ne contribuent pas à améliorer le chemin trouvé. 
+    En pratique, cela signifie que si l'heure d'arrivée à un arrêt est déjà optimale (c'est-à-dire qu'aucune connexion ultérieure ne peut améliorer cette heure), 
+    nous pouvons ignorer les connexions restantes. Cette optimisation réduit le nombre d'itérations nécessaires, surtout lorsque la destination est atteinte 
+    rapidement dans la liste triée des connexions. En terme de complexité, si l'on part de l'algorithm en $\Theta(n)$, alors on passe en $\Theta(n - j)$ 
+    ou j est le nombre de connexion qu'on a pu enlever. Ceci nous permet d'avoir de meilleures performences globale.
+\end{itemize}
+
+Au final si l'on assemble tout ça, nous avons une complexité de $\Theta((n - k - j) * m)$
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
