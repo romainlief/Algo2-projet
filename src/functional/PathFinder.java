@@ -301,6 +301,10 @@ public class PathFinder {
      * @param walk The walk connexion to print.
      */
     private void printWalk(Connexion walk) {
+        if (walk.getFromId().equals(walk.getToId()) || walk.getDepartureTime() == walk.getArrivalTime()) {
+            return; // Ne rien imprimer si le walk est invalide
+        }
+
         String fromName = stopMap.get(walk.getFromId()).getStopName();
         String toName = stopMap.get(walk.getToId()).getStopName();
 
