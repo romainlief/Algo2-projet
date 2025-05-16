@@ -182,6 +182,9 @@ public class PathFinder {
                 }
                 // ################################################################################
                 // Check if there are any walks from the arrival stop to other stops
+                // --------------------------------------------------------------------------------
+                // Complexity:
+                // O(n) where n is the number of walks from the arrival stop
                 // ################################################################################
                 Stop arrivalStop = stopMap.get(arrivalStopId);
                 if (arrivalStop != null && arrivalStop.getWalk() != null) {
