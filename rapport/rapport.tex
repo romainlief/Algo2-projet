@@ -26,6 +26,9 @@
 \usepackage{siunitx}
 \usepackage{textcomp}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
 \usepackage{commath}
 \usepackage{cancel}
 \usepackage{pdflscape}
@@ -679,6 +682,25 @@ TODO TODO TODO @ROMAIN
 
 Il existe une troisième optimisation du CSA s'appellant `Limited Walking'. Malheureusement, celle-ci s'est révélée plus compliquée à mettre en place et, par manque de temps, 
 nous n'avons pas eu l'occasion de l'implémenter. % TODO: détailler tout de même en qlq mots ?? 
+
+\subsection{Preuve du fonctionnement de l'algorithme}
+
+Dans cette section, nous allons prouver la véracité de notre algorithme de CSA, pour chaque sommet $v$ accessible depuis une source $s$, une 
+valeur $d(v)$ correspondant à la longueur d’un plus court chemin de $s$ à $v$. Pour cela, nous vérifions qu’il satisfait les trois conditions énoncées 
+dans le syllabus de notre cours d'algorithmique 2 page 72 Proposition 26, qui sont nécessaires et suffisantes.
+
+\textbf{Proposition 26:} Soit $G = (V, \mathcal{E})$ un graphe orienté, pondéré positivement sur les arcs, $s \in V$ un sommet source, et une fonction 
+d: V -> R.
+On a:
+\begin{enumerate}
+    \item $d(s) = 0$ ;
+    \item Pour tout sommet $v \in V$, $d(v)$ est la longueur d’un chemin de $s$ vers $v$ ;
+    \item Pour tout arc $e = (u, v) \in \mathcal{E}$, $d(v) \leq d(u) + w(e)$.
+\end{enumerate}
+
+\noindent Démontrons maintenant que l’algorithme CSA vérifie chacune de ces conditions.
+
+
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
