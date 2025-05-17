@@ -676,6 +676,10 @@ manque de temps, nous n'avons pas eu le temps de l'implémenter.
   \caption{Graphique du temps d'exécution en fonction de l'heure de départ.}
   \label{fig:graphique_traffique}
 \end{figure}
+De part ce graphe, nous pouvons voir que le temps d'exécution de l'algorithme est relativement constant jusqu'à 16h, puis grâce au Starting criterion,
+l'algorithme devient de plus en plus rapide. En effet, à partir de 16h, il y a moins de connexions et il arrive a chaque fois à trouver le chemin optimal en mois d'une seconde.
+Nous pouvons aussi parler du Stopping criterion, qui lui permet de ne pas parcourir toutes les connexions et donc de ne pas perdre de temps à chercher des connexions inutiles.
+Et bien que nous ne puissions pas le voir sur le graphe, il est tout de même présent et permet de réduire le temps d'exécution de l'algorithme.
 
 \section{Classes utilisées}
 
