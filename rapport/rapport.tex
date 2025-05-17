@@ -708,6 +708,11 @@ $d(s)$:= $\tau_0$ - $\tau_0$ = 0.
 Cela revient à poser $d(s)$ = 0 en considérant que le départ est à l’instant zéro. Cette condition est donc bien satisfaite.
 
 \paragraph{Condition 2:}
+Chaque $d(v)$ correspond à un chemin valide de $s$ à $v$.
+L’algorithme ne met à jour la valeur $d(v)$ (le plus tôt possible où $v$ peut être atteint) que s’il existe une connexion $(u, v)$ utilisable, 
+c’est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algorithme dit donc:
+
+
 
 
 
