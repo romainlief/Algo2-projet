@@ -718,6 +718,10 @@ c’est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algori
 Chaque mise à jour de $d(v)$ correspond donc à l’agrandissement d’un chemin valide depuis $s$ jusqu’à $v$, en passant par les arcs du graphe. 
 On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
 
+\paragraph{Condition 3:}
+Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
+À chaque traitement d’un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\texttt{connexion.getArrivalTime} - \texttt{connexion.getDepartureTime}$),
+l’algorithme vérifie si:
 
 
 
