@@ -721,7 +721,15 @@ On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
 \paragraph{Condition 3:}
 Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
 À chaque traitement d’un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\texttt{connexion.getArrivalTime} - \texttt{connexion.getDepartureTime}$),
-l’algorithme vérifie si:
+l’algorithme vérifie si:\\
+$d(v)$ > $d(u)$ + $w(e)$
+et effectue la mise à jour dans ce cas. Une fois toutes les connexions traitées, aucune mise à jour n’est plus possible, ce qui implique:
+$d(v) \leq d(u) + w(e),\quad \text{pour tout } (u, v) \in \mathcal{E}.$
+Cela garantit que la fonction $d$ satisfait l’inégalité triangulaire pour tous les arcs du graphe.
+
+\textbf{Fin de la preuve:} Les trois conditions de la Proposition~26 sont remplies par l’algorithme CSA. On en déduit que les valeurs $d(v)$ 
+calculées représentent exactement les longueurs des plus courts chemins en temps du sommet $s$ vers tous les sommets atteignables dans le graphe.
+
 
 
 
