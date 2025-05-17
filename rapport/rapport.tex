@@ -168,6 +168,7 @@ comme celui de l'algorithme précisé ci-dessus, à savoir le \textbf{CSA}.
 
 
 \section{Initialisation des données}
+\label{sec:init}
 Dans cette section nous expliquons les procédés utilisés pour charger les données en mémoire à partir des fichiers CSV fournis ainsi que
 les structures de données utilisées pour leur stockage et leur utilisation optimale dans l'algorithme choisi par nos soins.
 
@@ -329,6 +330,7 @@ l'aspect de la complexité, nous aurions pu rester sur une implémentation brute
 un soin particulier à la création de ces structures de données.
 
 \subsubsection{Complexité temporelle}
+\label{sec:complexitetempinit}
 L'initialisation des données se fait en plusieurs étapes, chacune ayant sa propre complexité. Premièrement, nous avons la lecture des fichiers CSV, qui a naturellement une complexité
 linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier. 
 
@@ -340,7 +342,7 @@ moyen cas avec une complexité de $O(n \log n)$, où $n$ est le nombre de connex
 Finalement, le plus intéressant, la construction du \emph{BallTree} et des transferts à pied. La construction de notre \emph{BallTree} se fait de manière récursive, en divisant à chaque appel 
 récursif l'ensemble des arrêts en deux sous-ensembles. Pour ce faire, des méthodes annexes comme \emph{FindFarthest} ou \emph{ComputeCenter} sont utilisées. Chacune d'entre elles s'exécute en 
 temps linéaire, $O(n)$, où $n$ est le nombre d'arrêts dans l'ensemble de données. Quatres fonctions linéaires sont executées à chaque appel récursif, ce qui nous amène à une complexité de 
-$4 * O(n)$, ce que l'on peut résumer à $O(n)$. Finalement, concernant les appels récursifs, en supposant le partitionnement parfait, nous avons une profondeur d'arbre de $\log n$ et donc 
+$4 * O(n)$, ce que nous pouvons résumer à $O(n)$. Finalement, concernant les appels récursifs, en supposant le partitionnement parfait, nous avons une profondeur d'arbre de $\log n$ et donc 
 $O(n \log n)$ pour la construction de l'arbre complet.
 
 Suite à quelques essais et tests, nous nous sommes rendus compte que le partitionnement n'est pas toujours optimal, cela étant probablement dû à la non-uniformité dans la répartition des arrêts à
@@ -422,13 +424,13 @@ nous donne une vitesse de requête de l'orde des 0,015 millisecondes (ce rayon e
       \Return\;  \tcp*{prune le sous-arbre}
     }
     
-    \tcp{Sinon, on explore les deux sous-arbres}
+    \tcp{Sinon, nous explorons les deux sous-arbres}
     \texttt{rangeSearch}(\texttt{node.left}, q, \texttt{maxDist}, \texttt{out})\;
     \texttt{rangeSearch}(\texttt{node.right}, q, \texttt{maxDist}, \texttt{out})\;
 \caption{rangeSearch - Recherche en rayon dans un BallTree}
 \end{algorithm}
 
-Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, on récupère tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité
+Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, nous récupérons tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité
 linéaire pour la boucle princpale $O(n)$, où $n$ est le nombre d'arrêts. Couplé à ceci, les requêtes de voisins, dans un cas moyen voire optimal sont donc de $O(\log n + k)$, où $n$ est le nombre d'arrêts 
 et $k$ le nombre d'arrêts trouvés dans la distance donnée ce qui nous donne une complexité totale pour la construction des transferts à pied de $O(nlog(n + k))$.
 
@@ -440,8 +442,8 @@ donnée utiles (\emph{overhead}) et à la mémoire utilisée pour les référenc
 
 Abordons maintenant un aspect de la complexité spatial qui n'est que `temporaire'. Le tri \emph{TimSort} utilise un espace supplémentaire de $O(n)$ pour le stockage temporaire des données pendant le tri uniquement.
 La construction du \emph{BallTree} se faisant récursivement, il faut considérer les appels sur le stack. Ceux-ci dépendent en fonction de la taille des feuilles (le paramète \emph{leafSize}). En effet, celui-ci
-détermine le nombre maximal d'arrêts contenus sur une feuille. Plus ce nombre est grand, moins l'arbre sera grand et occupera d'espace en mémoire mais plus les requêtes seront longues. Plus ce nombre est petit,
-plus on augmente le nombre d'appels récursifs (risquant ainsi un StackOverflowError qui fait crash le programme) et plus on augmente la taille de l'arbre et donc l'espace en mémoire mais affinant la vitesse de
+détermine le nombre maximal d'arrêts contenus sur une feuille. Plus ce nombre est grand, moins l'arbre sera grand et occupera d'espace en mémoire. En revanche les requêtes seront longues. D'autre part, plus ce nombre est petit,
+plus nous augmentons le nombre d'appels récursifs (risquant ainsi un StackOverflowError qui fait planter le programme) et plus nous augmentons la taille de l'arbre et donc l'espace en mémoire tout en affinant la vitesse de
 requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de requête minimale). Voici un graphe pour illustrer ce propos:
 
 \begin{figure}[h]
@@ -462,49 +464,52 @@ requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de re
 \newpage
 \section{Le Connexion Scan Algorithm}
 \subsection{Choix de l'algorithme}
-Dans le cadre de ce projet, nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (CSA) pour la recherche de chemin.
+Comme expliqué plus haut, pour résoudre le problème de recherche du plus court chemin, nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (\textbf{CSA}).
 Cet algorithme est particulièrement adapté pour les réseaux de transport en commun, car il permet de trouver rapidement le meilleur chemin
 entre deux arrêts en tenant compte des horaires de départ et d'arrivée. Le CSA a été conçu spécifiquement pour traiter les problèmes de planification d'itinéraires 
-dans les systèmes de transport en commun. Cependant, il y avait d'autres algorithmes qui auraient pu être utilisés, tels que \emph{Dijkstra} ou \emph{A*}, 
-alors pourquoi avoir fait ce choix.
+dans les systèmes de transport en commun. Cependant, au travers de nos recherches, nous avons découvert des alternatives algorithmiques comme \emph{Dijkstra} ou \emph{A*}.
+Nous jugeons donc important de justifier notre choix.
 
 \subsubsection{Fonctionnement}
-\textbf{CSA}: Est basé sur une approche de recherche de chemin qui utilise une liste triée de connexions entre arrêts, et parcourt ces connexions de manière séquentielle.
-Il parcourt les connexions dans l'ordre croissant du temps de départ, en mettant à jour les meilleurs temps d'arrivée à chaque arrêt. Il est
-spécialisé pour les horaires de transports publics. 
+\textbf{CSA}: Basé sur une approche de recherche de chemin utilisant une liste triée de connexions entre arrêts, et parcourant ces connexions linéairement.
+Plus précisément, l'algorithme parcourt les connexions dans un ordre croissant suivant les temps de départ, en mettant à jour les meilleurs temps d'arrivée à 
+chaque arrêt  \cite{dibbelt2017connection}.
+
 
 \textbf{Dijkstra}: Cherche le plus court chemin en partant du noeud de départ et en explorant tous les voisins, en choisissant toujours le chemin avec 
-le coût total le plus faible.
-buildWalks
+le coût total le plus faible. Il utilise une file de priorité pour gérer les noeuds à explorer \cite{dijkstra1959note}.
 
-\textbf{A*}: Est une amélioration de Dijkstra qui utilise une heuristique pour guider la recherche vers la destination. Il est plus efficace que Dijkstra dans certains cas,
-mais il nécessite une bonne heuristique pour fonctionner correctement.
+\textbf{A*}: Une amélioration de Dijkstra ayant la particularité d'utiliser une heuristique afin de guider la recherche vers la destination. Nécessitant une
+heuristique optimale pour garantir la complétude et l'optimalité de l'algorithme. Celui-ci est donc plus rapide que Dijkstra à condition d'avoir une heuristique
+correcte \cite{astart2021literature}.
 
 \subsubsection{Facilité d'implémentation avec GTFS}
-\textbf{CSA}: Est spécifiquement conçu pour fonctionner avec les fichiers GTFS et lit directement les connexions linéairement après le parsing et le tri des horaires
-triées par heures.
+\textbf{CSA}: Essentiellement une simple itération sur les connexions.
 
 \textbf{Dijkstra}: Nécessite de transformer les données de GTFS en graphe temporel (chaque arrêt devient un noeud).
-Cette implémentation est moins naturelle que pour CSA mais marche tout aussi bien.
+Cette implémentation est moins naturelle que celle du CSA mais marche tout aussi bien \cite{dijkstra1959note}.
 
-\textbf{A*}: Etant comme Dijkstra mais avec une heuristique, donc il faut lui ajouter l'heuristique. 
-Il nécessite aussi une représentation temporelle du graphe.
+\textbf{A*}: En plus de la construction du graphe temporel, il est primordial de définir une heuristique efficace.
 
 \subsubsection{Complexité}
-\textbf{CSA}: $O(n)$, où $n$ est le nombre de connexions. Très rapide en pratique pour les requêtes "earliest arrival" grâce au tri temporel. 
-Cependant, il demande un tri préalablement, ce qui donne une complexité de $O(n \log n)$ pour le tri.
+\textbf{CSA}: $O(n)$, où $n$ est le nombre de connexions (de manière naïve). Très rapide en pratique pour les requêtes \emph{earliest arrival} grâce au tri temporel. 
+Cependant, il demande un tri réalisé au préalable, durant l'initialisation des données, déjà expliqué en détail à la section \hyperref[sec:complexitetempinit]{2.3.1.}
 Pour le cas du CSA, nous verrons après qu'il y a encore des optimisations possibles pour diminuer la complexité temporelle.
 
-\textbf{Dijkstra}: $O((V + E) \log V)$, où $V$ est le nombre de noeuds et $E$ le nombre d'arêtes.
+\textbf{Dijkstra}: $O((V + E) \log V)$, où $V$ est le nombre de noeuds et $E$ le nombre d'arêtes du graphe temporel.
 
-\textbf{A*}: $O((V + E) \log V)$, mais dépend de la qualité de l'heuristique. Il peut être plus rapide que Dijkstra si l'heuristique est bonne.
+\textbf{A*}: $O((V + E) \log V)$, mais dépend de la qualité de l'heuristique.
 
 \subsubsection{Choix final}
-De part la facilité d'implémentation avec les fichiers GTFS, la rapidité de l'algorithme et le fait qu'il soit conçu pour les horaires de transports publics,
-nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (CSA) pour notre projet.
+Les algorithmes Dijkstra et A* utilisent donc des structures de données plus complexes comme des graphes temporels et des files de priorité. Ceci implique donc
+un certain niveau de complexité supplémentaire dans l'implémentation.
+
+Nous avons donc décider de miser sur la simplicité d'implémentation et la rapidité de l'algorithme CSA, celui-ci
+se basant essentiellement sur une liste de connexions triées. De plus, celui-ci est par défaut adapté aux fichiers GTFS et les horaires de transports publics.
+nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (\textbf{CSA}) pour notre projet \cite{linkGTFSCSA}.
 
 \subsection{Explication et description de l'algorithme}
-Le Connection Scan Algorithm (CSA) est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
+Le \emph{Connection Scan Algorithm} est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
 les réseaux de transports en commun basés sur des horaires, comme les trains et les bus. Contrairement aux algorithmes classiques 
 qui utilisent une file de priorité (comme Dijkstra), le CSA se base sur une liste triée de tous les transports en commun, classés par 
 leur heure de départ.
@@ -513,7 +518,7 @@ Il parcourt cette liste de manière séquentielle pour déterminer rapidement le
 destination dans un délai optimal ou avec le moins de changements de véhicule.
 
 \subsection{Structures de l'algorithme et implémentation}
-l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la méthode findPath qui implémente l'algorithme CSA.
+L'algorithme est stocké dans une classe \texttt{PathFinder} contenant la méthode findPath, qui implémente l'algorithme CSA.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|p{8cm}|}
@@ -570,20 +575,15 @@ l'algorithme est stocké dans une classe \texttt{PathFinder} qui contient la mé
   \end{algorithm}
     
 \subsection{Complexité sans la marche à pied et autres optimisations}
-Le début de l'algorithme se passe dans le parser, où nous lisons les fichiers CSV et construisons les connexions entre arrêts.
-C'est alors, qu'en fin de parsing nous allons trier les connexions par heure de départ.
-Ce tri a une complexité en $O(n \log n)$, où $n$ est le nombre de connexions. Nous utilisons Collections.sort(allConnexions) qui utilise un 
-TimSort qui est un algorithme de tri se basant sur le tri par insertion et le tri fusion.
+Une fois l'initialisation des données terminée (cf. section \hyperref[sec:init]{2}), l'algorithme CSA est donc relativement direct à implémenter.
+Il débute par le parcours de toutes les connexions une par une. Cette opération est naturellement linéaire, $O(n)$, où $n$ est le nombre de connexions.
+Cette complexité est particulièrement avantageuse pour les grands ensembles de données, car elle permet un traitement efficace 
+des requêtes après le prétraitement initial.
 
-Vient ensuite la partie principale du CSA, où nous allons parcourir toutes les connexions une par une.
-Ceci se fait en $O(n)$, où $n$ est le nombre de connexions. Etant donné que nous avons déjà trié les connexions, il suffit de les parcourir. 
-De plus, étant donné que nous parcourons toutes les connexions, nous pouvons même dire que nous sommes en $\Theta(n)$.
-Ainsi, la complexité totale de l'algorithme est dominée par le tri initial des connexions, ce qui donne une complexité globale de $O(n \log n)$, où $n$ 
-est le nombre de connexions. Cette complexité est particulièrement avantageuse pour les grands ensembles de données, car elle permet un traitement efficace 
-des requêtes après le prétraitement initial, cependant celle-ci demande un tri sur l'entièreté des connexions et est donc la partie la plus lourde du processus.
+Tout ceci nous amène donc à une complexité totale de $O(n)$ pour la recherche de chemin, où $n$ est le nombre de connexions.
 
-Tout ceci nous amène donc à une complexité totale de $O(n \log n)$ pour le parsing et la recherche de chemin, où $n$ est le nombre de connexions.
-La complexité de l'algorithme en lui est donc de $\Theta(n)$, où $n$ est le nombre de connexions.
+Notons tout de même le fait que cette compléxité est valable uniquement dans le cas où nous ne considérons pas les transferts à pied, chose que nous
+explicitons dans la section suivante.
 
 \subsection{Pseudo-code avec la marche à pied et algorithme optimal}
 \begin{algorithm}[H]
@@ -641,33 +641,44 @@ La complexité de l'algorithme en lui est donc de $\Theta(n)$, où $n$ est le no
 
 
 \subsection{Complexité avec la marche à pied et algorithme optimal}
-Comme dit dans la subsection précédente, l'algorithme de base est en $\Theta(n)$, où $n$ est le nombre de connexions.
-Cependant, nous devons aussi prendre en compte les marches à pied dedans et les optimisations que nous avons faites.
-Lorsque nous lancons notre algorithme, nous allons checker si nous avons des marches à pied à chaque arrêt.
-Pour ceci, nous allons devoir parcourir l'ensemble des \emph{Walk} de chaque arrêt.
-Nous avons donc une complexité de $\Theta(n * m)$, où $n$ est le nombre d'arrêts et $m$ le nombre de marches à pied par arrêt.
-Avec ça, nous allons maintenant parler des deux optimisations que nous avons faites:
+Comme expliqué dans la sous-section précédente, l'algorithme de base est en $O(n)$, avec $n$ est le nombre de connexions. Mais, il n'est clairement pas logique
+de considérer un voyage où nous ne marchons pas du tout. C'est pourquoi nous devons aussi prendre en compte les transferts à pied. Lors de l'exécution de
+l'algorithme, à chaque itération, autrement dit à chaque connexion, nous devons vérifier si l'arrêt de départ concerné possède des arrêts voisins à une distance
+donnée (500m dans notre cas, cf. \hyperref[sec:complexitetempinit]{2.3.1.}). Un transfert entre deux arrêts voisins est représenté comme un \emph{Walk}, une
+classe décrite dans la section \hyperref[sec:walk]{2.2.3.}. Donc, pour chaque arrêt nous allons parcourons l'ensemble des transferts à pied disponibles.
+En prenant $\bar{m}$ comme nombre moyen de transferts à pied moyen, nous avons une complexité totale de $O(n * \bar{m})$, avec $n$ étant toujours le nombre de connexions.
+
+Nous pourrions croire que la complexité de l'algorithme avec les transferts à pied se rapproche de $O(n^2)$, mais ce n'est pas le cas. Pour répondre à cette incertitude,
+nous avons tout simplement calculé la moyenne du nombre de transferts à pied par arrêt à l'aide d'un script Python. Ceci nous a mené à une valeur de 7 voisins dans un
+rayon de 500 mètres par arrêt. Nous concluons donc que, avec un nombre de connexions étant de l'ordre de dizaines de millions, $\bar{m}$ est négligeable par rapport à $n$ et
+nous arrivons à une complexité totale de $O(n)$.
+
+\subsubsection{Optimisations}
+Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons donc décidé d'implémenter deux optimisations afin d'améliorer la vitesse de l'algorithme.
 \begin{itemize}
-    \item \textbf{Starting criterion:} Avec l'algorithme élémentaire qu'est la recherche dichotomique (en $O(\log n)$), nous avons pu trouver le premier arrêt 
-    qui est supérieur ou égal à l'heure de départ. Ceci nous permet de ne pas parcourir toutes les connexions, mais de commencer à partir de l'indice trouvé.
-    Cela nous permet de réduire le nombre d'itérations nécessaires pour trouver le chemin optimal. Grâce à cela, L'algorithme passe de $\Theta(n)$ à $\Theta(n - k)$ avec k le 
-    nombre de connexions avant l'heure de départ. Cela nous permet de grandement réduire le temps d'exécution de l'algorithme, et encore plus si l'heure de départ est
-    est élevée, vu que la liste est en moins en mois grande.
-    Si l'heure entrée par l'utilisateur est la 1ere dans la liste de connexion, alors nous devons quand même tout parcourir et sommes donc en $\Theta(n)$.
-    \item \textbf{Stopping criterion:} Cette optimisation, permet qu'une fois que nous avons atteint la destination ou que toutes 
-    les connexions possibles ont été explorées, 
-    nous arrêtons l'algorithme. Cela permet d'éviter de parcourir inutilement des connexions qui ne contribuent pas à améliorer le chemin trouvé. 
-    En pratique, cela signifie que si l'heure d'arrivée à un arrêt est déjà optimale (c'est-à-dire qu'aucune connexion ultérieure ne peut améliorer cette heure), 
-    nous pouvons ignorer les connexions restantes. Cette optimisation réduit le nombre d'itérations nécessaires, surtout lorsque la destination est atteinte 
-    rapidement dans la liste triée des connexions. En terme de complexité, si l'on part de l'algorithm en $\Theta(n)$, alors on passe en $\Theta(n - j)$ 
-    ou j est le nombre de connexion qu'on a pu enlever. Ceci nous permet d'avoir de meilleures performences globale.
+    \item \textbf{Starting criterion:} Nous utilisons l'algorithme élémentaire qu'est la recherche dichotomique (en $O(\log n)$), pour trouver le premier arrêt 
+    qui est supérieur ou égal à l'heure de départ. Ceci nous évite le parcours toutes les connexions en nous permettant de commencer à partir de l'indice trouvé.
+    À travers ce procédé, nous de réduisons le nombre d'itérations nécessaire pour trouver le chemin optimal. En effet, pour une requête de trajet débutant en fin
+    de journée, pourquoi itérer dans les premières connexions ? Ceci est tout naturellement inutile. Grâce à cela, l'algorithme passe de $O(n)$ à $O(n - k)$ 
+    avec $k$ le nombre de connexions avant l'heure de départ. La variable $k$ pouvant prendre des valeurs de $0$ à $n$, elle n'est pas négligeable dans le calcul
+    de complexité totale. En conclusion, cela nous permet de grandement réduire le temps d'exécution de l'algorithme, et encore plus si l'heure de départ est
+    est élevée. Toutefois, si l'heure entrée par l'utilisateur est la première dans la liste de connexion, la complexité ne change pas et reste $O(n)$ car nous
+    devons parcourir toutes les connexions.
+    \item \textbf{Stopping criterion:} Cette seconde optimisation nous permet d'arrêter l'algorithme soit lorsque la destination atteinte, soit lorque toutes 
+    les connexions possibles ont été explorées. Cela nous éviter le parcours inutile des connexions qui ne contribuent pas à améliorer le chemin trouvé. 
+    En pratique, dans le cas où l'heure d'arrivée à un arrêt est déjà optimale (c'est-à-dire qu'aucune connexion ultérieure ne peut améliorer cette heure), cela signifie
+    que nous pouvons ignorer les connexions restantes. Cette optimisation réduit potentiellement une fois de plus le nombre d'itérations nécessaires afin de trouver le
+    chemin optimal. En ce qui concerne la complexité, en prenant la complexité de base de l'algorithme, nous passons de $O(n)$ à $O(n - j)$ où $j$ est le nombre de 
+    connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globale.
 \end{itemize}
 
-Au final si l'on assemble tout ça, nous avons une complexité de $\Theta((n - k - j) * m)$ pour le coeur de l'algorithm.
-La reconstruction du chemin se fait en parcourant les connexions de path et donc nous sommes en $\Theta(p)$ ou p est le nombre de connexions dans path.
+En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
 
-Il existe une troisième optimisation du CSA s'appellant "Limited Walking", cependant celle-ci est plus compliquée a mettre en place et par 
-manque de temps, nous n'avons pas eu le temps de l'implémenter.
+Il reste finalement l'étape de la reconstruction du chemin. Celle-ci se fait en parcourant les connexions de path et donc nous sommes en $\Theta(p)$ ou p est le nombre de connexions dans path.
+TODO TODO TODO @ROMAIN
+
+Il existe une troisième optimisation du CSA s'appellant `Limited Walking'. Malheureusement, celle-ci s'est révélée plus compliquée à mettre en place et, par manque de temps, 
+nous n'avons pas eu l'occasion de l'implémenter. % TODO: détailler tout de même en qlq mots ?? 
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
@@ -679,7 +690,7 @@ manque de temps, nous n'avons pas eu le temps de l'implémenter.
 De part ce graphe, nous pouvons voir que le temps d'exécution de l'algorithme est relativement constant jusqu'à 16h, puis grâce au Starting criterion,
 l'algorithme devient de plus en plus rapide. En effet, à partir de 16h, il y a moins de connexions et il arrive a chaque fois à trouver le chemin optimal en mois d'une seconde.
 Nous pouvons aussi parler du Stopping criterion, qui lui permet de ne pas parcourir toutes les connexions et donc de ne pas perdre de temps à chercher des connexions inutiles.
-Et bien que nous ne puissions pas le voir sur le graphe, il est tout de même présent et permet de réduire le temps d'exécution de l'algorithme.
+Bien que nous ne puissions pas le voir sur le graphe, il est tout de même présent et permet de réduire le temps d'exécution de l'algorithme.
 
 \section{Classes utilisées}
 
