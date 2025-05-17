@@ -42,31 +42,6 @@
     \field{year}{2023}
   \endentry
 
-  \entry{butts2020raptor}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=BK}{%
-         family={Butts},
-         familyi={B\bibinitperiod},
-         given={Kuan},
-         giveni={K\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{BK1}
-    \strng{fullhash}{BK1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{But20}
-    \field{sortinit}{B}
-    \field{sortinithash}{B}
-    \field{note}{Consulté le 29 avril 2025}
-    \field{title}{RAPTOR transit routing algorithm basics}
-    \verb{url}
-    \verb https://kuanbutts.com/2020/09/12/raptor-simple-example/
-    \endverb
-    \field{month}{09}
-    \field{year}{2020}
-  \endentry
-
   \entry{wikipedia_astar}{misc}{}
     \name{author}{1}{}{%
       {{hash=C}{%
@@ -145,6 +120,37 @@
     \field{year}{2025}
   \endentry
 
+  \entry{dijkstra1959note}{article}{}
+    \name{author}{2}{}{%
+      {{hash=D}{%
+         family={Dijkstra},
+         familyi={D\bibinitperiod},
+      }}%
+      {{hash=E}{%
+         family={E.W.},
+         familyi={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DE1}
+    \strng{fullhash}{DE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{DE59}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \verb{doi}
+    \verb 10.1007/BF01386390
+    \endverb
+    \field{pages}{269\bibrangedash 271}
+    \field{title}{A note on two problems in connexion with graphs}
+    \verb{url}
+    \verb https://doi.org/10.1007/BF01386390
+    \endverb
+    \field{volume}{1}
+    \field{journaltitle}{Numerische Mathematik}
+    \field{year}{1959}
+  \endentry
+
   \entry{dibbelt2017connection}{article}{}
     \name{author}{4}{}{%
       {{hash=DJ}{%
@@ -179,7 +185,6 @@
     \field{labelalpha}{Dib+17}
     \field{sortinit}{D}
     \field{sortinithash}{D}
-    \field{note}{Consulté le 2 mai 2025}
     \field{pages}{1\bibrangedash 49}
     \field{title}{Connection Scan Algorithm}
     \verb{url}
@@ -213,6 +218,89 @@
     \verb Tree.java
     \endverb
     \field{year}{2025}
+  \endentry
+
+  \entry{astart2021literature}{article}{}
+    \name{author}{6}{}{%
+      {{hash=FD}{%
+         family={Foeada},
+         familyi={F\bibinitperiod},
+         given={Daniel},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Ghifaria},
+         familyi={G\bibinitperiod},
+         given={Alifio},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=}{%
+         family={*},
+         familyi={\bibinitperiod},
+      }}%
+      {{hash=KMB}{%
+         family={Kusumaa},
+         familyi={K\bibinitperiod},
+         given={Marchel\bibnamedelima Budi},
+         giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+      {{hash=HN}{%
+         family={Hanafiahb},
+         familyi={H\bibinitperiod},
+         given={Novita},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=GE}{%
+         family={Gunawanb},
+         familyi={G\bibinitperiod},
+         given={Eric},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FD+1}
+    \strng{fullhash}{FDGAKMBHNGE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Foe+21}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{pages}{1\bibrangedash 3}
+    \field{title}{A Systematic Literature Review of A* Pathfinding}
+    \verb{url}
+    \verb https://pdf.sciencedirectassets.com/280203/1-s2.0-S1877050921X00026/1
+    \verb -s2.0-S1877050921000399/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2V
+    \verb jEKX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIGQVUwAfSjLy
+    \verb rkQS%2Bf%2F4QcXHHK2bYWusiy0boDTj2l03AiAh%2BTC6BRppD%2BIP2V2T5I5CTNTlU
+    \verb BVaENFsbhjkF0xt7SqzBQheEAUaDDA1OTAwMzU0Njg2NSIMTwCu0AeImeZueLMUKpAFg8
+    \verb 49OknR8Ud0NltGFF7soUKFXhxFizko2wGoHQmYWOHELKqKR%2FBsSkUebAqIFJO0VKJUN
+    \verb BsV3qFQpuA5ayBzVQHAS%2FdwzVEPhiRQ21Z4kqKnqaP24Xj3RXkWs6GqfYq8YJX7rqbr
+    \verb nmaOVRqMa2nr0aZlp0K%2BGBW2gd3m2qsp1tPbgIfW0DiNZZY6%2F20Ak6Nc0LMTQJELY
+    \verb UiZuAOKylHAU5ceiK6%2BRZ2ivcEfrgm7ghiUV21E2ckABimMm7fJY%2Fy1CmC7rwkr9f
+    \verb uFrFcyWt7d8IvsWnmOTHp%2BDEYSeFN4AG1Fxu2pgC%2FxclbR7lwlEHQE3XRv%2B0vNS
+    \verb blaK%2B%2BWG6on0DHQ%2BnU2oFA1P9hDZf2lIHM%2BwQ%2Fo15cbOiW4SL4Ch3RFV8PP
+    \verb OKsF1FS50kom8dqCqgKyUz7hL6OWoY3K6OqTCYc%2F1Gte5bsF9ueKPPpIGz%2Fc%2FZ1
+    \verb mcTLXf8OHNmWfHnJgI1GLajer01FNZ0gDd5vyvnegp38YnAgcJ67XR5K22GTTwFRomUrN
+    \verb zgTg0HQCs0u4waXtyWj1pNRavUHlv6YUYdnHdONKS4ZN0Ddd6K%2BvYhz9aI5a167J7a8
+    \verb Zu%2FuAvCgOnY3MJwLoLFtWL9gGjjOt5JLL6A%2BbV5gJnYhnddR8BrMborRS5L8exrP%
+    \verb 2By%2B%2B5NGMGFjZ4QouMTZHrI1f4AZgCwWArWAzSZVbaOrIo3ntqiXXehL1E8VNafgL
+    \verb sk0D0%2BU0AGRaYZ9PvIpiaXQyrd%2FI78mMZWcT3StCGyzobgCJW6fYzjTIM5xJQkHpq
+    \verb vzW45ZBAcA9Cn2Lnu310NXS5dhJTGA7ZjJz2NjD5uyaKbu7OIVXOtp8KVbLjBr2tQZyNI
+    \verb WfzY2vhIGwyJoZSY7Hzp6RGNYYw34CiwQY6sgGSrUYN25EdtGOveFUoL3EF3v5tM7yDgD
+    \verb r3hgGmOgbGH%2BWFe3cJ0bO89p25%2FUF%2F0uu2wzyba0PBI7D0TxfTzVwIMf2Q9yVb5
+    \verb tzBM3CihELjyOk2GmtsdxKCobaqnDAN1d4bdcRnXrEYjLW7%2BrgxzIZwKdRgAUvhefOG
+    \verb uiE%2BsuT87O%2BQT3r1RwUYWemWdCl%2BS%2FiS7rZasTzfqkL2F7tDkfEZeRl72%2BA
+    \verb C8YMUdN0NAe6rFeMr&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=2025051
+    \verb 7T130459Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential
+    \verb =ASIAQ3PHCVTY4CYSRTPH%2F20250517%2Fus-east-1%2Fs3%2Faws4_request&X-Am
+    \verb z-Signature=411ae4224f597c6e3dd2aceba7660a4fb04751a95b8f6f29ce39a67e6
+    \verb a946853&hash=d2f00376c08ab617af9cac4bc6d1645b1d0caa1ac836e1553c5e8715
+    \verb 926a049a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe
+    \verb 7c76c2c61&pii=S1877050921000399&tid=spdf-926585d8-f3d7-4b9b-ae3b-e5a2
+    \verb 81a9b6fd&sid=b148f7d52a166142403bde80f56ab7d535f3gxrqb&type=client&ts
+    \verb oh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&rh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&ua=04
+    \verb 035f575452515d0554&rr=941352e08cf0b74d&cc=be
+    \endverb
+    \field{year}{2021}
   \endentry
 
   \entry{futura2009distance}{misc}{}
@@ -341,6 +429,16 @@
     \verb https://gtfs.org/documentation/schedule/reference/
     \endverb
     \field{year}{2024}
+  \endentry
+
+  \entry{linkGTFSCSA}{misc}{}
+    \field{labelalpha}{Lin}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \field{howpublished}{Github repositories}
+    \verb{url}
+    \verb https://linkedconnections.org/tools
+    \endverb
   \endentry
 
   \entry{mattaparthi2024ballkd}{misc}{}
