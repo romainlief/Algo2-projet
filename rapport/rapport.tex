@@ -677,12 +677,6 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
 
 En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
 
-Il reste finalement l'étape de la reconstruction du chemin. Celle-ci se fait en parcourant les connexions de path et donc nous sommes en $\Theta(p)$ ou p est le nombre de connexions dans path.
-TODO TODO TODO @ROMAIN
-
-Il existe une troisième optimisation du CSA s'appellant `Limited Walking'. Malheureusement, celle-ci s'est révélée plus compliquée à mettre en place et, par manque de temps, 
-nous n'avons pas eu l'occasion de l'implémenter. % TODO: détailler tout de même en qlq mots ?? 
-
 \subsection{Preuve du fonctionnement de l'algorithme}
 
 Dans cette section, nous allons prouver la véracité de notre algorithme de CSA, pour chaque sommet $v$ accessible depuis une source $s$, une 
