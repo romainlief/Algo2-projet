@@ -712,6 +712,13 @@ Chaque $d(v)$ correspond à un chemin valide de $s$ à $v$.
 L’algorithme ne met à jour la valeur $d(v)$ (le plus tôt possible où $v$ peut être atteint) que s’il existe une connexion $(u, v)$ utilisable, 
 c’est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algorithme dit donc:
 
+\texttt{si } $d(v)$ > \texttt{connexion.getArrivalTime},\\
+\texttt{alors } $d(v)$ := \texttt{connexion.getArrivalTime}.
+
+Chaque mise à jour de $d(v)$ correspond donc à l’agrandissement d’un chemin valide depuis $s$ jusqu’à $v$, en passant par les arcs du graphe. 
+On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
+
+
 
 
 
