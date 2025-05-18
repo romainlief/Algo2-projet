@@ -1,3 +1,12 @@
 GTFS/
-bin/*
-rapport/
+rapport.aux
+rapport.log
+rapport.out
+rapport.fls
+rapport.fdb_latexmk
+rapport.synctex.gz
+rapport.toc
+rapport.pdf
+rapport.synctex(busy)
+logo.png
+bin/
