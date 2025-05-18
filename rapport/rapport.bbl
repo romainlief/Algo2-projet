@@ -17,31 +17,6 @@
 \endgroup
 
 \datalist[entry]{anyt/global//global/global}
-  \entry{baeldung_collections_sort}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=B}{%
-         family={Baeldung},
-         familyi={B\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Baeldung}%
-    }
-    \strng{namehash}{B1}
-    \strng{fullhash}{B1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{Bae23}
-    \field{sortinit}{B}
-    \field{sortinithash}{B}
-    \field{note}{Consulté le 14 mai 2025}
-    \field{title}{Time Complexity of Java Collections Sort in Java}
-    \verb{url}
-    \verb https://www.baeldung.com/java-time-complexity-collections-sort
-    \endverb
-    \field{year}{2023}
-  \endentry
-
   \entry{syllabusAlgo2}{misc}{}
     \name{author}{1}{}{%
       {{hash=CJ}{%
@@ -65,84 +40,6 @@
     \verb gorithmique.pdf
     \endverb
     \field{year}{2024-2025}
-  \endentry
-
-  \entry{wikipedia_astar}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=C}{%
-         family={{Contributeurs de Wikipédia}},
-         familyi={C\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Wikipédia}%
-    }
-    \strng{namehash}{C1}
-    \strng{fullhash}{C1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Con}25}
-    \field{extraalpha}{1}
-    \field{sortinit}{C}
-    \field{sortinithash}{C}
-    \field{note}{Consulté le 13 mai 2025}
-    \field{title}{Algorithme A*}
-    \verb{url}
-    \verb https://fr.wikipedia.org/wiki/Algorithme_A*
-    \endverb
-    \field{year}{2025}
-  \endentry
-
-  \entry{wikipedia_dijkstra}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=C}{%
-         family={{Contributeurs de Wikipédia}},
-         familyi={C\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Wikipédia}%
-    }
-    \strng{namehash}{C1}
-    \strng{fullhash}{C1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Con}25}
-    \field{extraalpha}{2}
-    \field{sortinit}{C}
-    \field{sortinithash}{C}
-    \field{note}{Consulté le 13 mai 2025}
-    \field{title}{Algorithme de Dijkstra}
-    \verb{url}
-    \verb https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
-    \endverb
-    \field{year}{2025}
-  \endentry
-
-  \entry{wikipedia_timsort}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=C}{%
-         family={{Contributeurs de Wikipédia}},
-         familyi={C\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Wikipédia}%
-    }
-    \strng{namehash}{C1}
-    \strng{fullhash}{C1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Con}25}
-    \field{extraalpha}{3}
-    \field{sortinit}{C}
-    \field{sortinithash}{C}
-    \field{note}{Consulté le 14 mai 2025}
-    \field{title}{Timsort}
-    \verb{url}
-    \verb https://fr.wikipedia.org/wiki/Timsort
-    \endverb
-    \field{year}{2025}
   \endentry
 
   \entry{dijkstra1959note}{article}{}
@@ -219,32 +116,6 @@
     \field{year}{2017}
   \endentry
 
-  \entry{fieldsend_onlineballtree}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=F}{%
-         family={Fieldsend},
-         familyi={F\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {GitHub}%
-    }
-    \strng{namehash}{F1}
-    \strng{fullhash}{F1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{Fie25}
-    \field{sortinit}{F}
-    \field{sortinithash}{F}
-    \field{note}{Consulté le 12 mai 2025}
-    \field{title}{OnlineBallTree.java}
-    \verb{url}
-    \verb https://github.com/fieldsend/ball_tree/blob/main/ball_tree/OnlineBall
-    \verb Tree.java
-    \endverb
-    \field{year}{2025}
-  \endentry
-
   \entry{astart2021literature}{article}{}
     \name{author}{6}{}{%
       {{hash=FD}{%
@@ -297,132 +168,26 @@
     \field{year}{2021}
   \endentry
 
-  \entry{futura2009distance}{misc}{}
+  \entry{RTreedoc}{misc}{}
     \name{author}{1}{}{%
-      {{hash=dfFSU}{%
-         prefix={du\bibnamedelima forum},
-         prefixi={d\bibinitperiod\bibinitdelim f\bibinitperiod},
-         family={Futura-Sciences},
-         familyi={F\bibinithyphendelim S\bibinitperiod},
-         given={Utilisateur},
-         giveni={U\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{FSUdf1}
-    \strng{fullhash}{FSUdf1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{FS09}
-    \field{sortinit}{F}
-    \field{sortinithash}{F}
-    \field{note}{Consulté le 10 mai 2025}
-    \field{title}{Calcul de distance entre 2 points dont j'ai les coordonnées géographiques (longitude, latitude)}
-    \verb{url}
-    \verb https://forums.futura-sciences.com/mathematiques-superieur/306536-cal
-    \verb cul-de-distance-entre-2-points-dont-jai-coordonnees-geographiques-lon
-    \verb gitude-latitude.html
-    \endverb
-    \field{year}{2009}
-  \endentry
-
-  \entry{geeko2018distance}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=G}{%
-         family={Geeko},
+      {{hash=GA}{%
+         family={Guttman},
          familyi={G\bibinitperiod},
+         given={Antonin},
+         giveni={A\bibinitperiod},
       }}%
     }
-    \list{publisher}{1}{%
-      {Le Soir}%
-    }
-    \strng{namehash}{G1}
-    \strng{fullhash}{G1}
+    \strng{namehash}{GA1}
+    \strng{fullhash}{GA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{labelalpha}{Gee18}
+    \field{labelalpha}{Gut}
     \field{sortinit}{G}
     \field{sortinithash}{G}
-    \field{note}{Consulté le 10 mai 2025}
-    \field{title}{Comment calculer une distance à vol d’oiseau sur Google Maps}
+    \field{title}{R-TREES - A DYNAMIC INDEX STRUCTURE FOR SPATIAL SEARCHING}
     \verb{url}
-    \verb https://geeko.lesoir.be/2018/10/18/comment-calculer-une-distance-a-vo
-    \verb l-doiseau-sur-google-maps/
+    \verb http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf
     \endverb
-    \field{journaltitle}{Geeko}
-    \field{year}{2018}
-  \endentry
-
-  \entry{geeksforgeeks_haversine}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=G}{%
-         family={{GeeksforGeeks}},
-         familyi={G\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {GeeksforGeeks}%
-    }
-    \strng{namehash}{G2}
-    \strng{fullhash}{G2}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Gee}22}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{note}{Consulté le 10 mai 2025}
-    \field{title}{Haversine formula to find distance between two points on a sphere}
-    \verb{url}
-    \verb https://www.geeksforgeeks.org/haversine-formula-to-find-distance-betw
-    \verb een-two-points-on-a-sphere/
-    \endverb
-    \field{year}{2022}
-  \endentry
-
-  \entry{geeksforgeeks_astar}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=G}{%
-         family={{GeeksforGeeks}},
-         familyi={G\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {GeeksforGeeks}%
-    }
-    \strng{namehash}{G2}
-    \strng{fullhash}{G2}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Gee}24}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{note}{Consulté le 13 mai 2025}
-    \field{title}{A* Search Algorithm}
-    \verb{url}
-    \verb https://www.geeksforgeeks.org/a-search-algorithm/
-    \endverb
-    \field{year}{2024}
-  \endentry
-
-  \entry{gtfsReference}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=G}{%
-         family={{GTFS Contributors}},
-         familyi={G\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{G3}
-    \strng{fullhash}{G3}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{GTF}24}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{note}{Consulté le 29 avril 2025}
-    \field{title}{General Transit Feed Specification}
-    \verb{url}
-    \verb https://gtfs.org/documentation/schedule/reference/
-    \endverb
-    \field{year}{2024}
   \endentry
 
   \entry{linkGTFSCSA}{misc}{}
@@ -433,131 +198,6 @@
     \verb{url}
     \verb https://linkedconnections.org/tools
     \endverb
-  \endentry
-
-  \entry{mattaparthi2024ballkd}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=MG}{%
-         family={Mattaparthi},
-         familyi={M\bibinitperiod},
-         given={Geetha},
-         giveni={G\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Medium}%
-    }
-    \strng{namehash}{MG1}
-    \strng{fullhash}{MG1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{Mat24}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
-    \field{note}{Consulté le 11 mai 2025}
-    \field{title}{Ball Tree and KD Tree Algorithms}
-    \verb{url}
-    \verb https://medium.com/@geethasreemattaparthi/ball-tree-and-kd-tree-algor
-    \verb ithms-a03cdc9f0af9
-    \endverb
-    \field{year}{2024}
-  \endentry
-
-  \entry{transnetlabCSA}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=T}{%
-         family={{TransnetLab}},
-         familyi={T\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{T1}
-    \strng{fullhash}{T1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Tra}24}
-    \field{sortinit}{T}
-    \field{sortinithash}{T}
-    \field{note}{Consulté le 3 mai 2025}
-    \field{title}{Connection Scan Algorithm}
-    \verb{url}
-    \verb https://transnetlab.github.io/transit-routing/html/Algorithms/CSA/
-    \endverb
-    \field{year}{2024}
-  \endentry
-
-  \entry{wikipedia_geohash}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=W}{%
-         family={{Wikipedia contributors}},
-         familyi={W\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Wikipedia}%
-    }
-    \strng{namehash}{W1}
-    \strng{fullhash}{W1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Wik}25}
-    \field{sortinit}{W}
-    \field{sortinithash}{W}
-    \field{note}{Consulté le 11 mai 2025}
-    \field{title}{Geohash}
-    \verb{url}
-    \verb https://en.wikipedia.org/wiki/Geohash
-    \endverb
-    \field{journaltitle}{Wikipedia}
-    \field{year}{2025}
-  \endentry
-
-  \entry{woltmann2025astar}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=WS}{%
-         family={Woltmann},
-         familyi={W\bibinitperiod},
-         given={Sven},
-         giveni={S\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {HappyCoders}%
-    }
-    \strng{namehash}{WS1}
-    \strng{fullhash}{WS1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{Wol25}
-    \field{sortinit}{W}
-    \field{sortinithash}{W}
-    \field{note}{Consulté le 13 mai 2025}
-    \field{title}{A* Algorithm (+ Java Code Examples)}
-    \verb{url}
-    \verb https://www.happycoders.eu/algorithms/a-star-algorithm-java/
-    \endverb
-    \field{year}{2025}
-  \endentry
-
-  \entry{epfl2024cs108}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=�}{%
-         family={{École polytechnique fédérale de Lausanne}},
-         familyi={�\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{�1}
-    \strng{fullhash}{�1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{{Éc}25}
-    \field{sortinit}{�}
-    \field{sortinithash}{�}
-    \field{note}{Consulté le 2 mai 2025}
-    \field{title}{Recherche de voyages optimaux, ReCHor – étape 7}
-    \verb{url}
-    \verb https://cs108.epfl.ch/p/07.html
-    \endverb
-    \field{year}{2025}
   \endentry
 \enddatalist
 \endinput

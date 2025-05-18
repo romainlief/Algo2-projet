@@ -472,7 +472,7 @@ requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de re
 \newpage
 \section{Le Connexion Scan Algorithm}
 \subsection{Choix de l'algorithme}
-Comme expliqué plus haut, pour résoudre le problème de recherche du plus court chemin, nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (\textbf{CSA}).
+Comme expliqué plus haut, pour résoudre le problème de recherche du plus court chemin, nous avons choisi d'implémenter le \emph{Connexion Scan Algorithm} (\textbf{CSA}).
 Cet algorithme est particulièrement adapté pour les réseaux de transport en commun, car il permet de trouver rapidement le meilleur chemin
 entre deux arrêts en tenant compte des horaires de départ et d'arrivée. Le CSA a été conçu spécifiquement pour traiter les problèmes de planification d'itinéraires 
 dans les systèmes de transport en commun. Cependant, au travers de nos recherches, nous avons découvert des alternatives algorithmiques comme \emph{Dijkstra} ou \emph{A*}.
@@ -514,10 +514,10 @@ un certain niveau de complexité supplémentaire dans l'implémentation.
 
 Nous avons donc décider de miser sur la simplicité d'implémentation et la rapidité de l'algorithme CSA, celui-ci
 se basant essentiellement sur une liste de connexions triées. De plus, celui-ci est par défaut adapté aux fichiers GTFS et les horaires de transports publics.
-nous avons choisi d'implémenter le \emph{Connection Scan Algorithm} (\textbf{CSA}) pour notre projet \cite{linkGTFSCSA}.
+nous avons choisi d'implémenter le \emph{Connexion Scan Algorithm} (\textbf{CSA}) pour notre projet \cite{linkGTFSCSA}.
 
 \subsection{Explication et description de l'algorithme}
-Le \emph{Connection Scan Algorithm} est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
+Le \emph{Connexion Scan Algorithm} est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
 les réseaux de transports en commun basés sur des horaires, comme les trains et les bus. Contrairement aux algorithmes classiques 
 qui utilisent une file de priorité (comme Dijkstra), le CSA se base sur une liste triée de tous les transports en commun, classés par 
 leur heure de départ.
@@ -719,31 +719,31 @@ $d(s)$:= $\tau_0$ - $\tau_0$ = 0.
 Cela revient à poser $d(s)$ = 0 en considérant que le départ est à l'instant zéro. Cette condition est donc bien satisfaite.
 
 \paragraph{Condition 2:} 
-Pour tout sommet $v \in V$, $d(v)$ est la longueur d’un chemin de $s$ vers $v$.
+Pour tout sommet $v \in V$, $d(v)$ est la longueur d'un chemin de $s$ vers $v$.
 
 \medskip
 
 \textbf{Preuve:}
 Par récurence sur l'ordre topologique des sommets,
-soit $v_1$, $v_2$, $\dots$, $v_n$ un ordre topologique de $G$. On note $P(v)$ un plus court chemin de $s$ vers $v$ découvert par l’algorithme.
+soit $v_1$, $v_2$, $\dots$, $v_n$ un ordre topologique de $G$. On note $P(v)$ un plus court chemin de $s$ vers $v$ découvert par l'algorithme.
 
 \textbf{Cas de base:} $v_1 = s$. Par définition, $d(s) = 0$ et il existe un chemin trivial de $s$ à $s$ de longueur 0. La propriété est vraie.
 
 \textbf{Démonstration:} Supposons que pour tout $v_i$ avec $i < k$, il existe un chemin $P(v_i)$ de $s$ à $v_i$ tel que $d(v_i)$ est la longueur de ce 
-chemin. Considérons maintenant $v_k$. Par l’ordre topologique, tous les prédécesseurs $u$ de $v_k$ ont déjà été traités. Pour chaque arc $(u, v_k)$ $\in$ $\mathcal{E}$, l’algorithme met à jour:
+chemin. Considérons maintenant $v_k$. Par l'ordre topologique, tous les prédécesseurs $u$ de $v_k$ ont déjà été traités. Pour chaque arc $(u, v_k)$ $\in$ $\mathcal{E}$, l'algorithme met à jour:
 
 
 $d(v_k)$ := $\min_{(u, v_k) \in \mathcal{E}}$ $\left\{ d(u) + w(u, v_k) \right\}$.
 
 
-Par hypothèse de récurrence, pour chaque $u$, tel qu'il existe un chemin $P(u)$ de $s$ à $u$ de longueur $d(u)$. En ajoutant l’arc $(u, v_k)$, on obtient un chemin
-$P(u) \cdot (u, v_k)$ de $s$ à $v_k$ de longueur $d(u) + w(u, v_k)$. Comme l’algorithme prend le minimum parmi tous ces chemins, il sélectionne l’un 
-d’eux comme étant $P(v_k)$, un chemin effectif de $s$ à $v_k$, de longueur:
+Par hypothèse de récurrence, pour chaque $u$, tel qu'il existe un chemin $P(u)$ de $s$ à $u$ de longueur $d(u)$. En ajoutant l'arc $(u, v_k)$, on obtient un chemin
+$P(u) \cdot (u, v_k)$ de $s$ à $v_k$ de longueur $d(u) + w(u, v_k)$. Comme l'algorithme prend le minimum parmi tous ces chemins, il sélectionne l'un 
+d'eux comme étant $P(v_k)$, un chemin effectif de $s$ à $v_k$, de longueur:
 
 $d(v_k)$ = $\min_{(u, v_k) \in \mathcal{E}}$ $\left\{ d(u) + w(u, v_k) \right\}$.
 
 
-Donc $d(v_k)$ est bien la longueur d’un chemin de $s$ vers $v_k$. Par conséquent, tout sommet $v$ possède un chemin de $s$ vers $v$ de 
+Donc $d(v_k)$ est bien la longueur d'un chemin de $s$ vers $v_k$. Par conséquent, tout sommet $v$ possède un chemin de $s$ vers $v$ de 
 longueur $d(v)$. La condition 2 est donc satisfaite.
 
 \paragraph{Condition 3:}
@@ -782,32 +782,38 @@ Certaines classes ne sont que mentionnées dans les sections précédentes, à s
                                 la propriété multi-source à notre algorithme, à savoir, pour un nom d'arrêts, nour récupérons tous les autres arrêts possédant ce nom.
 \end{itemize} 
 
+\section{Commentaires}
+Au travers de ce rapport, nous avons jusitifé nos choix d'implémentation, de structures de données et autres d'un point de vue théorique et pratique. Nous avons développé et démontré
+la complexité des étapes de notre programme et expliqué pourquoi celles-ci sont optimales. 
 
+Suite à des conversations avec nos collègues étudiants suivies de recherches supplémentaires, nous nous sommes rendus compte que notre implémentation n'est pas la plus optimale. Nous
+dédions donc cette section à souligner les défauts de notre implémentation et à expliquer comment nous aurions pu l'améliorer.
+
+\subsection{Les requêtes de voisins}
+L'utilisation du \emph{BallTree}, bien qu'amplement justifiée, n'est pas la plus optimale. En effet, le \emph{BallTree} est en fait une structure de données pour la recherche des
+plus proches voisins adaptée pour des données de hautes dimensions. Dans notre cas, nous utilisons que deux dimensions, à savoir la latitude et la longitude. Certaines
+alternatives plus intéressantes comme par exemple le \emph{R-Tree}, un arbre équilibré de recherche spatiale \cite{RTreedoc}.
+
+\subsection{Le choix de l'algorithme}
+Bien que le \emph{Connexion Scan Algorithm} semble, à première vue, très efficace en vitesse d'exécution et facile d'implémentation, nous nous sommes rendus compte que,
+dans le cas spécifique de ce projet, il n'est pas le plus adapté. L'algorihme \emph{CSA} est très adapté pour la recherche de plus court chemin uniquement sur base de l'heure
+mais est très peu adaptable à d'autres critères (cités dans les consignes du projet). L'aspect générique de notre implémentation est donc très limité.
+
+Nous avons tout de même considéré la piste suivante: Ne construire que des connexions sur base de contraintes données par l'utilisateur. Dans un cas concret, si l'utilisateur ne
+souhaite pas faire usage de bus par exemple, nous pourrions nous limiter à construire toutes les connexions sauf celles en bus. Un autre exemple serait de construire
+les transferts à pied avec un rayon relativement faible dans le cas où l'utilisateur ne souhaite pas marcher longtemps.
+Nous n'avons pas poursuivi cette piste suite à des conversations avec nos collègues étudiants affirmant l'impossibilité de cette piste ainsi que (surtout) par manque de temps.
+
+\subsection{L'optimisation `Limited Waliking'}
+Une dernière optimisation est listée et détaillée dans le document \emph{Connexion Scan Algorithm} \cite{dibbelt2017connection} à la page 8. TODO ROMAIN SI TU NE LE FAIS PAS JE TE RETIENS
 
 \section{Conclusion}
+L'algorithme \emph{Connexion Scan Algorithm} choisi afin de répondre à la problématique proposée par ce projet est donc une solution rapide et efficace pour la recherche du plus court chemin
+sur base d'un ensemble de connexions. Comme expliqué dans la secion précédente, malgré sa facilité d'implémentation, il ne répond pas à l'ensemble de la problématique imposée. Nous
+tenions à souligner les défauts de l'implémentation et les pistes d'amélioration possibles par souci de complétude et de transparence.
 
 
 \section{Sources-bibliographie}
-\cite{dibbelt2017connection} 
-\cite{epfl2024cs108}
-\cite{transnetlabCSA}
-\cite{gtfsReference}
-\cite{futura2009distance}
-\cite{geeko2018distance}
-\cite{geeksforgeeks_haversine}
-\cite{wikipedia_geohash}
-\cite{mattaparthi2024ballkd}
-\cite{fieldsend_onlineballtree}
-\cite{woltmann2025astar}
-\cite{wikipedia_astar}
-\cite{geeksforgeeks_astar}
-\cite{wikipedia_dijkstra}
-\cite{baeldung_collections_sort}
-\cite{wikipedia_timsort}
-\cite{linkGTFSCSA}
-\cite{dijkstra1959note}
-\cite{astart2021literature}
-
 \printbibliography
 
 
