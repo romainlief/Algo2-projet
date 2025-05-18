@@ -67,18 +67,4 @@ public class Calculator {
             return String.format("%02d:%02d:%02d", hours, minutes, secs);
         }
     }
-
-    /**
-     * @brief Converts a time from double format to String format "HH:MM:SS".
-     * @param seconds The time in seconds to convert.
-     * @return Converted time in String "HH:MM:SS" format.
-     */
-    public static String timeToString(double seconds) {
-        int totalSeconds = (int) Math.round(seconds);
-        int hours = totalSeconds / 3600;
-        int minutes = (totalSeconds % 3600) / 60;
-        int secs = totalSeconds % 60;
-
-        return String.format("%02d:%02d:%02d", hours, minutes, secs);
-    }
 }
