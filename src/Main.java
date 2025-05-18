@@ -92,7 +92,9 @@ public class Main {
                 System.out.print("tram: (true/false): ");
                 String tram = scanner.nextLine().trim().toLowerCase();
                 finder.setTram(tram.equals("true"));
-
+                if (bus.equals("true") && train.equals("true") && metro.equals("true") && tram.equals("true")) {
+                    variant = false;
+                }
             } else if (mode.equals("default")) {
                 variant = false;
                 System.out.println("[\033[92mINFO\033[0m] Using default mode.");
