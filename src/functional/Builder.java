@@ -79,7 +79,7 @@ public class Builder {
         }
 
         for (Stop stopA : stopsMap.values()) {
-            Collection<Stop> neighbours = this.tree.range(stopA, MAX_FOOT_DISTANCE);
+            Collection<Stop> neighbours = this.tree.query_neighbours(stopA, MAX_FOOT_DISTANCE);
 
             for (Stop stopB : neighbours) {
                 if (stopA.getStopId().equals(stopB.getStopId()))

@@ -9,15 +9,10 @@ import java.util.Collection;
  * @brief BallTree class used to partition stops into a tree structure in order
  *        to optimize the search for the nearest stop by having quick access to
  *        the neighbours of a Stop.
- * @details Its implementation is based on the Ball Tree Wikipedia page:
- *          https://en.wikipedia.org/wiki/Ball_tree
- *          Will be further developed in report.
- * 
  */
 public class BallTree {
     private final BallTreeNode root;
     private final int leafSize;
-    private int recursiveCallCount = 0; // Add counter as class field
 
     // Node class that represents a node in the Ball Tree
     private class BallTreeNode {
@@ -69,12 +64,6 @@ public class BallTree {
      * @return The root node of the constructed Ball Tree.
      */
     private BallTreeNode buildTree(Collection<Stop> stops) {
-        // try {
-        // TimeUnit.SECONDS.sleep(1);
-        recursiveCallCount++; // Increment counter at start of each call
-        // System.out.println("[\033[92mINFO\033[0m] Recursive call #" +
-        // recursiveCallCount + " on buildTree method with " + stops.size()
-        // + " stops.");
         if (stops == null || stops.isEmpty()) {
             System.out.println("[\033[92mINFO\033[0m] Empty stop collection received, returning null.");
             return null;
@@ -82,19 +71,14 @@ public class BallTree {
         // Base case for recursion
         // If there is only one stop, create a leaf node
         if (stops.size() <= this.leafSize) {
-            // System.out.println("[\033[92mINFO\033[0m] Base case of tree building reached,
-            // returning...");
             return new BallTreeNode(stops);
         }
-        // System.out.println("[\033[92mINFO\033[0m] Searching for farthest stop.");
         Stop[] pivots = findFarthest(stops);
         Stop pivot1 = pivots[0], pivot2 = pivots[1];
 
         Collection<Stop> left = new ArrayList<>();
         Collection<Stop> right = new ArrayList<>();
 
-        // Partition selon la proximité aux deux pivots
-        // System.out.println("[\033[92mINFO\033[0m] Creating two subsets of stops.");
         for (Stop s : stops) {
             double d1 = pivot1.getDistanceToOther(s);
             double d2 = pivot2.getDistanceToOther(s);
@@ -103,29 +87,21 @@ public class BallTree {
             else
                 right.add(s);
         }
-        // System.out.println("[\033[92mINFO\033[0m] Left subset size: " + left.size());
-        // System.out.println("[\033[92mINFO\033[0m] Right subset size: " +
-        // right.size());
-
-        // Noeud interne avec centre et rayon
-        // System.out.println("[\033[92mINFO\033[0m] Computing center.");
         Stop center = computeCenter(stops);
-        // System.out.println("[\033[92mINFO\033[0m] Computing radius.");
         double radius = computeRadius(stops, center);
 
         BallTreeNode node = new BallTreeNode(center, radius);
-        // System.out.println("[\033[92mINFO\033[0m] Left tree recursion call.");
         node.left = buildTree(left);
-        // System.out.println("[\033[92mINFO\033[0m] Right tree recursion call.");
         node.right = buildTree(right);
         return node;
-        // }
-        // catch(InterruptedException e) {
-        // System.out.println("[\033[91mERROR\033[0m] " + e);
-        // return null;
-        // }
     }
 
+    /**
+     * @brief Finds the two farthest stops in a collection of stops.
+     * 
+     * @param stops The collection of stops to search.
+     * @return An array containing the two farthest stops.
+     */
     private Stop[] findFarthest(Collection<Stop> stops) {
         // First pass: find farthest point from arbitrary first point
         Stop stopA = stops.iterator().next();
@@ -144,7 +120,7 @@ public class BallTree {
         Stop stopC = stopB;
         maxDist = Double.MIN_VALUE;
         for (Stop s : stops) {
-            double d = stopB.getDistanceToOther(s); // <-- Fixed: Using stopB instead of stopA
+            double d = stopB.getDistanceToOther(s);
             if (d > maxDist) {
                 maxDist = d;
                 stopC = s;
@@ -153,6 +129,12 @@ public class BallTree {
         return new Stop[] { stopB, stopC };
     }
 
+    /**
+     * @brief Computes the center of a collection of stops.
+     * 
+     * @param stops The collection of stops to compute the center.
+     * @return A Stop object representing the center of the collection.
+     */
     private Stop computeCenter(Collection<Stop> stops) {
         double sumLat = 0, sumLon = 0;
         for (Stop s : stops) {
@@ -164,6 +146,14 @@ public class BallTree {
         return new Stop("", "", avgLat, avgLon); // creating a virtual Stop used only for partitioning
     }
 
+    /**
+     * @brief Computes the radius of a collection of stops based on the center Stop
+     *        of the stops collection.
+     * 
+     * @param stops  The collection of stops to compute the radius.
+     * @param center The center of the collection.
+     * @return The radius of the collection.
+     */
     private double computeRadius(Collection<Stop> stops, Stop center) {
         double maxDist = 0;
         for (Stop s : stops) {
@@ -175,45 +165,46 @@ public class BallTree {
     }
 
     /**
-     * Retourne tous les stops à distance ≤ maxDist (en mètres)
+     * @brief Queries the Ball Tree for stops within a given range from a query
+     *        stop.
      * 
-     * @param query   le Stop requête
-     * @param maxDist rayon maximum en mètres
+     * @param query   The query stop.
+     * @param maxDist The maximum range to search for neighbours.
+     * @return A collection of stops within the specified range from the query stop.
      */
-    public Collection<Stop> range(Stop query, double maxDist) {
+    public Collection<Stop> query_neighbours(Stop query, double maxDist) {
         Collection<Stop> result = new ArrayList<>();
-        rangeSearch(root, query, maxDist, result);
+        knn_search(root, query, maxDist, result);
         return result;
     }
 
-    private void rangeSearch(BallTreeNode node, Stop q, double maxDist, Collection<Stop> out) {
-        if (node == null)
+    /**
+     * @brief Searches for stops within a given range from a query stop in the Ball
+     *        Tree using the KNN method.
+     * 
+     * @param node    The current node in the Ball Tree.
+     * @param q       The query stop.
+     * @param maxDist The maximum range to search for neighbours.
+     * @param out     The collection to store the found stops.
+     */
+    private void knn_search(BallTreeNode node, Stop q, double maxDist, Collection<Stop> out) {
+        if (node == null) // base case of recursion
             return;
 
-        if (node.isLeaf()) {
-            // Dans une feuille, test direct pour chaque Stop
+        if (node.isLeaf()) { // if leaf is node, we retrieve all the stops within the given range
             for (Stop s : node.stops) {
                 if (q.getDistanceToOther(s) <= maxDist) {
                     out.add(s);
                 }
             }
-        } else {
-            // Calcul de la distance de la requête au centre du nœud
+        } else { // we continue searching in subtrees
             double distToCenter = q.getDistanceToOther(node.center);
-            // Si la boule est trop loin (distance au centre – rayon > maxDist), on prune
-            if (distToCenter - node.radius > maxDist) {
+            if (distToCenter - node.radius > maxDist) { // if the distance to the center is greater than the radius, we
+                                                        // can prune this branch
                 return;
             }
-            // Sinon on descend dans les deux branches (l’une pourrait encore contenir des
-            // solutions)
-            rangeSearch(node.left, q, maxDist, out);
-            rangeSearch(node.right, q, maxDist, out);
+            knn_search(node.left, q, maxDist, out);
+            knn_search(node.right, q, maxDist, out);
         }
     }
-
-    // Add getter to access the count
-    public int getRecursiveCallCount() {
-        return recursiveCallCount;
-    }
-
 }
