@@ -679,10 +679,9 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
     que nous pouvons ignorer les connexions restantes. Cette optimisation réduit potentiellement une fois de plus le nombre d'itérations nécessaires afin de trouver le
     chemin optimal. En ce qui concerne la complexité, en prenant la complexité de base de l'algorithme, nous passons de $O(n)$ à $O(n - j)$ où $j$ est le nombre de 
     connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globale.
-    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémentée est de limiter le nombre de transferts à pied. En effet, nous avons remarqué que si
-    nous ne limitions pas la distance de marche, l'algorithme pouvait trouver des chemins très longs avec de nombreux transferts à pied, or cela n'était pas du tout optimal.
-    Nous avons donc décidé de limiter la distance de marche maximale à 500 mètres, ce qui est une distance raisonnable pour la plupart des utilisateurs.
-    De plus, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
+    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémentée est de limiter le nombre et la distance des transferts à pied. 
+    Nous parlons de la distance choisie et ce que cela apporte dans la section \hyperref[sec:walk]{2.3.1.} donc nous n'en reparlerons plus ici.
+    Cela-dit, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
     pu amener à des chemins non optimaux et même impossibles pour des chemins demandant beaucoup de correspondances. En effet, si nous avions limité le nombre de transferts à pied,
     l'algorihme aurait pu trouver un chemin avec beaucoup de correspondances mais être dans l'impossibilité car il serait limité à un nombre de transferts à pied trop faible.
 \end{itemize}
@@ -834,6 +833,30 @@ souhaite pas faire usage de bus par exemple, nous pourrions nous limiter à cons
 les transferts à pied avec un rayon relativement faible dans le cas où l'utilisateur ne souhaite pas marcher longtemps.
 Nous n'avons pas poursuivi cette piste car celle-ci impliquait une modification au niveau de l'initialisation des données avec le point focal du projet étant l'aspect algorithmique.
 Nous avons donc jugé cela non pertinent.
+
+\subsection{Variantes de l'algorithme}
+\subsubsection{Version par défaut}
+La version par défaut de l'algorithme est celle que nous avons implémentée dans notre code source. Elle est décrite dans la section \hyperref[sec:algorithme]{3.2} et
+est la plus simple à comprendre. Elle est basée sur le \emph{Connexion Scan Algorithm} et utilise les transferts à pied pour trouver le chemin optimal entre deux arrêts.
+Toutefois,  il existe d'autres variantes de l'algorithme qui peuvent être utilisées en fonction des besoins de l'utilisateur.
+\subsubsection{Autres variantes}
+Nous n'avons pas implémenté d'autres variantes de l'algorithme, mais nous allons quand même en parler brièvement.
+\begin{itemize}
+  \item \textbf{Limitation des trajets à pieds:} Cette version de l'algorithme est relativement similaire à la version par défaut, néanmoins, elle limite le nombre de transferts à pied à un certain
+  afin que l'utilisateur ne marche pas trop, même si au lieu de marcher et que cela prenne 10 minutes, il pourrait prendre le train et faire le trajet en 30 minutes. 
+  \item \textbf{Préférence de transport:} Dans celle-ci, l'utilisateur peut choisir de privilégier un certain type de transport (bus, tram, train, etc.) en fonction de ses préférences.
+\end{itemize}
+
+\subsubsection{Comment aurions-nous pu les implémenter?}
+\begin{itemize}
+  \item Concerntant la première variante, nous aurions pu faire en sorte que dans notre algorithme, nous ne prenions pas en compte les transferts à pied s'il existait un chemin en transport en commun.
+  S'il n'y en avait pas, alors seulement nous aurions pris en compte les transferts à pied. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme.
+  \item Pour la seconde variante, nous aurions pu ajouter un paramètre à la méthode findPath qui permettrait à l'utilisateur de choisir le type de transport qu'il préfère.
+  Nous aurions ensuite pu filtrer les connexions en fonction de ce paramètre avant de les traiter dans l'algorithme. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme également.
+\end{itemize}
+
+Nous pensons sincèrement que ces variantes auraient pu être implémentées, notre algorithme est assez générique pour le permettre.
+
 
 \section{Conclusion}
 Ce projet nous a mené vers la découverte de nombreux concepts intéressants comme la recherche de voisins les plus proches à l'aide de différentes structures de données ainsi que
