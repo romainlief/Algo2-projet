@@ -770,7 +770,7 @@ dédions donc cette section à souligner les défauts de notre implémentation e
 \subsection{Les requêtes de voisins}
 L'utilisation du \emph{BallTree}, bien qu'amplement justifiée, n'est pas la plus optimale. En effet, le \emph{BallTree} est en fait une structure de données pour la recherche des
 plus proches voisins adaptée pour des données de hautes dimensions. Dans notre cas, nous utilisons que deux dimensions, à savoir la latitude et la longitude. Certaines
-alternatives plus intéressantes comme par exemple le \emph{R-Tree}, un arbre équilibré de recherche spatiale \cite{RTreedoc}.
+alternatives plus intéressantes comme par exemple le \emph{R-Tree}, un arbre équilibré de recherche spatiale permettant une recherche plus rapide \cite{RTreedoc}.
 
 \subsection{Le choix de l'algorithme}
 Bien que le \emph{Connection Scan Algorithm} soit rapide et simple à implémenter, nous avons constaté qu'il est peu adapté à la prise en compte de critères personnalisés autres que 
@@ -783,8 +783,17 @@ ne souhaitant pas marcher longtemps.
 Nous n'avons pas poursuivi cette piste car celle-ci impliquait une modification au niveau de l'initialisation des données avec le point focal du projet étant l'aspect algorithmique.
 Nous avons donc jugé cela non pertinent.
 
-Nous avons également envisagé l'ajout de paramètres à notre implémentation de l'algorithme de sorte que les connexions soient filtrées avant d'être traitées directement
-durant l'exécution. Cette option nous paraissait pertinente et réalisable mais, par manque de temps, nous n'avons pas eu l'occasion d'essayer de l'implémenter.
+Afin de répondre à cet problématique, nous avons fait usage de \emph{flags} contenus en tant qu'attributs dans la classe \emph{PathFinder}. Ces \emph{flags} sont des booléens permettant
+d'exclure certains types de connexions directement durant l'exécution de l'algorithme. L'utilisateur peut donc choisir s'il ne souhaite pas prendre le bus, le tram ou autres par exemple.
+
+Malheureusement, cette solution ne répond pas à toutes les situations. Illustrons ceci par un exemple:
+
+Un utilisateur souhaite se rendre d'un arrêt dense en services de transports à un arrêt éloigné peu desservi. En supposant que l'utilisateur ne souhaite pas prendre le train et 
+que ces deux arrêts uniquement reliés par une ligne de train, l'algorithme ne trouvera pas de chemin.
+
+Notre algorithme ne prend pas en compte le concept de `poids' et n'est donc pas complètement générique, mais nous avons tout de même cherché une solution comme décrit ci-dessus.
+
+
 
 \section{Conclusion}
 Ce projet nous a menés vers la découverte de nombreux concepts intéressants comme la recherche de voisins les plus proches à l'aide de différentes structures de données ainsi que
