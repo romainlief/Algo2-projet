@@ -701,16 +701,33 @@ L’algorithme initialise, pour chaque arrêt de source $s$, l’heure d’arriv
 $d(s)$:= $\tau_0$ - $\tau_0$ = 0.
 Cela revient à poser $d(s)$ = 0 en considérant que le départ est à l’instant zéro. Cette condition est donc bien satisfaite.
 
-\paragraph{Condition 2:}
-Chaque $d(v)$ correspond à un chemin valide de $s$ à $v$.
-L’algorithme ne met à jour la valeur $d(v)$ (le plus tôt possible où $v$ peut être atteint) que s’il existe une connexion $(u, v)$ utilisable, 
-c’est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algorithme dit donc:
+\paragraph{Condition 2:} 
+Pour tout sommet $v \in V$, $d(v)$ est la longueur d’un chemin de $s$ vers $v$.
 
-\texttt{si } $d(v)$ > \texttt{connexion.getArrivalTime},\\
-\texttt{alors } $d(v)$ := \texttt{connexion.getArrivalTime}.
+\medskip
 
-Chaque mise à jour de $d(v)$ correspond donc à l’agrandissement d’un chemin valide depuis $s$ jusqu’à $v$, en passant par les arcs du graphe. 
-On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
+\textbf{Preuve:}
+Par récurence sur l'ordre topologique des sommets,
+soit $v_1$, $v_2$, $\dots$, $v_n$ un ordre topologique de $G$. On note $P(v)$ un plus court chemin de $s$ vers $v$ découvert par l’algorithme.
+
+\textbf{Cas de base:} $v_1 = s$. Par définition, $d(s) = 0$ et il existe un chemin trivial de $s$ à $s$ de longueur 0. La propriété est vraie.
+
+\textbf{Démonstration:} Supposons que pour tout $v_i$ avec $i < k$, il existe un chemin $P(v_i)$ de $s$ à $v_i$ tel que $d(v_i)$ est la longueur de ce 
+chemin. Considérons maintenant $v_k$. Par l’ordre topologique, tous les prédécesseurs $u$ de $v_k$ ont déjà été traités. Pour chaque arc $(u, v_k)$ $\in$ $\mathcal{E}$, l’algorithme met à jour:
+
+
+$d(v_k)$ := $\min_{(u, v_k) \in \mathcal{E}}$ $\left\{ d(u) + w(u, v_k) \right\}$.
+
+
+Par hypothèse de récurrence, pour chaque $u$, tel qu'il existe un chemin $P(u)$ de $s$ à $u$ de longueur $d(u)$. En ajoutant l’arc $(u, v_k)$, on obtient un chemin
+$P(u) \cdot (u, v_k)$ de $s$ à $v_k$ de longueur $d(u) + w(u, v_k)$. Comme l’algorithme prend le minimum parmi tous ces chemins, il sélectionne l’un 
+d’eux comme étant $P(v_k)$, un chemin effectif de $s$ à $v_k$, de longueur:
+
+$d(v_k)$ = $\min_{(u, v_k) \in \mathcal{E}}$ $\left\{ d(u) + w(u, v_k) \right\}$.
+
+
+Donc $d(v_k)$ est bien la longueur d’un chemin de $s$ vers $v_k$. Par conséquent, tout sommet $v$ possède un chemin de $s$ vers $v$ de 
+longueur $d(v)$. La condition 2 est donc satisfaite.
 
 \paragraph{Condition 3:}
 Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
