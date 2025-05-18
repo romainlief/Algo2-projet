@@ -313,7 +313,7 @@ public class PathFinder {
      */
     private void printWalk(Connexion walk) {
         if (walk.getFromId().equals(walk.getToId()) || walk.getDepartureTime() == walk.getArrivalTime()) {
-            return; // Ne rien imprimer si le walk est invalide
+            return; 
         }
 
         String fromName = stopMap.get(walk.getFromId()).getStopName();
@@ -341,14 +341,13 @@ public class PathFinder {
      * @return true if the flags are valid, false otherwise.
      */
     private boolean checkFlags(Connexion connexion) {
-        // Si c’est une marche (pas de tripId), on l'autorise toujours
         if (connexion.getTripId() == null) {
             return true;
         }
 
         String routeType = getRouteType(connexion);
         if (routeType == null) {
-            return false; // On exclut les connexions avec type inconnu
+            return false; 
         }
         switch (routeType.toLowerCase()) {
             case "bus":
@@ -360,7 +359,7 @@ public class PathFinder {
             case "metro":
                 return metro;
             default:
-                return false; // On exclut les types inconnus
+                return false; 
         }
     }
 
