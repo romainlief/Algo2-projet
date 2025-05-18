@@ -18,6 +18,12 @@ public class PathFinder {
     private Map<String, Route> routeMap;
     private List<Connexion> connexions;
 
+    // flags
+    private boolean bus = true;
+    private boolean train = true;
+    private boolean tram = true;
+    private boolean metro = false;
+
     // #### Constructors ####
     /**
      * @brief Constructor for the PathFinder class.
@@ -121,6 +127,9 @@ public class PathFinder {
         // ########################################################################################
         for (int i = startIndex; i < connexions.size(); i++) {
             Connexion connexion = connexions.get(i);
+            if (!checkFlags(connexion)) {
+                continue; // skip the connexion if not demanded by the user
+            }
             // ####################################################################################
             // If the departure time of the connexion is greater than the best arrival
             // time then we can stop the algorithm, we have found the best path
@@ -134,8 +143,7 @@ public class PathFinder {
             // This works because the connections are processed in order of increasing
             // departure time. If the departure time of the current connection is already
             // greater than the best arrival time found so far, then all subsequent
-            // connections
-            // will also have a departure time greater than the best arrival time.
+            // connections will also have a departure time greater than the best arrival time.
             // Therefore, we can safely stop the algorithm at this point without missing
             // any potential improvements to the result.
             // --------------------------------------------------------------------------------------
@@ -322,5 +330,27 @@ public class PathFinder {
      */
     private boolean isValidTimeFormat(String time) {
         return time != null && time.matches("^\\d{2};\\d{2}(;\\d{2})?$");
+    }
+
+    private boolean checkFlags(Connexion connexion) {
+        String routeType = getRouteType(connexion);
+        if (routeType == null) {
+            return true; // Skip if route type is null
+        }
+        if (routeType.equals("bus") && !bus) {
+            return true;
+        } else if (routeType.equals("train") && !train) {
+            return true;
+        } else if (routeType.equals("tram") && !tram) {
+            return true;
+        } else if (routeType.equals("metro") && !metro) {
+            return true;
+        }
+        return false; // Include the connexion if it matches the flags
+    }
+
+    private String getRouteType(Connexion connexion) {
+        String routeId = tripMap.get(connexion.getTripId()).getRouteId();
+        return routeMap.get(routeId).getRouteType();
     }
 }
