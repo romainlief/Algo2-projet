@@ -47,7 +47,8 @@ DELTA
 
 # 4ème input: Choix du mode (default/variant)
 default -> pour le mode par défaut et le programme se lance directement
-sinon -> une liste d'input va vous etre demandée afin de savoir quels moyen de transport voulez vous utiliser.
+Sinon, une liste d'inputs va vous être demandée afin de savoir quels moyens de transport 
+voulez-vous utiliser.
 
 # Si on veut refaire une recherche:
 # Entrer n'importe quel caractère lorsque le programme demande:
