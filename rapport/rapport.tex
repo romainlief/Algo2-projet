@@ -276,7 +276,7 @@ et, finalement, la création de ces transferts à pied.
 \subsubsection{La classe Connexion}
 \label{sec:connexion}
 L'algorithme CSA se base, comme son nom l'indique, sur des connexions entre les différents arrêts. Pour traiter cet aspect, nous avons fait le choix logique
-d'implémenter une classe \emph{Connexion}.
+d'implémenter une classe \emph{Connexion} \cite{dibbelt2017connection}.
 
 \begin{table}[h]
     \centering
@@ -302,11 +302,11 @@ machines rien que pour la création de ces transferts à pied, ce qui est, vous 
 
 Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches et discussions avec
 nos collègues, nous avons opté pour le \emph{BallTree}, une structure de données arborescente où chaque nœud représente une boule dans l'espace N-dimensionnel contenant un sous-ensemble d'arrêts.
-Cette structure permet de récupérer efficacement les voisins d'un arrêt donné dans un rayon donné à l'aide de requêtes rapides.
+Cette structure permet de récupérer efficacement les voisins d'un arrêt donné dans un rayon donné à l'aide de requêtes rapides \cite{BallTreedoc}.
 
 \subsubsection{La classe Walk}
 \label{sec:walk}
-Classe simple, représentant un transfert à pied entre deux arrêts. Ces objets sont contenus sous forme de liste dans les arrêts correspondants.
+Classe simple, représentant un transfert à pied entre deux arrêts. Ces objets sont contenus sous forme de liste dans les arrêts correspondants \cite{dibbelt2017connection}.
 
 \begin{table}[h]
     \centering
@@ -333,14 +333,14 @@ linéaire $O(n)$, où $n$ est le nombre de lignes dans le fichier.
 
 Ensuite, pour la création des connexions, nous itérons dans tous les trajets et, pour chaque trajet, nous itérons dans leurs heures d'arrêts associés. Notons $n$ le nombre de trajets et $m$ le 
 nombre d'arrêts associés à chaque trajet. La complexité de cette étape est donc $O(n \cdot m)$. Une fois la liste de connexions créée, nous procédons au tri de celle-ci en se basant sur 
-l'heure de départ de chaque connexion à l'aide de l'algorithme de tri \emph{TimSort}, utilisé par \emph{Collections.sort()}. Ceci se fait dans les pires et
+l'heure de départ de chaque connexion à l'aide de l'algorithme de tri \emph{TimSort}, utilisé par \emph{Collections.sort()} \cite{javaTimSort}. Ceci se fait dans les pires et
 moyen cas avec une complexité de $O(n \log n)$, où $n$ est le nombre de connexions avec un meilleur cas s'exécutant en $O(n)$ (si la liste est déjà majoritairement triée).
 
 Finalement, le plus intéressant, la construction du \emph{BallTree} et des transferts à pied. La construction de notre \emph{BallTree} se fait de manière récursive, en divisant à chaque appel 
 récursif l'ensemble des arrêts en deux sous-ensembles. Pour ce faire, des méthodes annexes comme \emph{FindFarthest} ou \emph{ComputeCenter} sont utilisées. Chacune d'entre elles s'exécute en 
 temps linéaire, $O(n)$, où $n$ est le nombre d'arrêts dans l'ensemble de données. Quatres fonctions linéaires sont executées à chaque appel récursif, ce qui nous amène à une complexité de 
 $4 * O(n)$, ce que nous pouvons résumer à $O(n)$. Finalement, concernant les appels récursifs, en supposant le partitionnement parfait, nous avons une profondeur d'arbre de $\log n$ et donc 
-$O(n \log n)$ pour la construction de l'arbre complet.
+$O(n \log n)$ pour la construction de l'arbre complet \cite{BallTreedoc}.
 
 Suite à quelques essais et tests, nous nous sommes rendu compte que le partitionnement n'est pas toujours optimal, cela étant probablement dû à la non-uniformité dans la répartition des arrêts à
 travers la Belgique. Ceci nous permet de conclure, pour la complexité de la construction de notre \emph{BallTree}, que nous avons une complexité de $O(n \log n)$ dans le cas moyen ou optimal et de 
@@ -422,9 +422,9 @@ nous obtenons une vitesse de requête de l'ordre de la 0,015 milliseconde (ce ra
     }
     
     \tcp{Sinon, nous explorons les deux sous-arbres}
-    \texttt{rangeSearch}(\texttt{node.left}, q, \texttt{maxDist}, \texttt{out})\;
-    \texttt{rangeSearch}(\texttt{node.right}, q, \texttt{maxDist}, \texttt{out})\;
-\caption{rangeSearch - Recherche en rayon dans un BallTree}
+    \texttt{knn_search}(\texttt{node.left}, q, \texttt{maxDist}, \texttt{out})\;
+    \texttt{knn_search}(\texttt{node.right}, q, \texttt{maxDist}, \texttt{out})\;
+\caption{knn_search - Recherche en rayon dans un BallTree}
 \end{algorithm}
 
 Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, nous récupérons tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité
@@ -658,7 +658,7 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
     l'algorithme aurait pu trouver un chemin avec beaucoup de correspondances mais être dans l'impossibilité car il serait limité à un nombre de transferts à pied trop faible.
 \end{itemize}
 
-En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
+En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme \cite{dibbelt2017connection}.
 
 \subsection{Chiffres concrets}
 \begin{figure}[H]
