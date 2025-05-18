@@ -59,12 +59,48 @@ public class Main {
             System.out.print("What time do you wish to depart (format: 'hour;minute;second') ?: ");
             String departure_time = scanner.nextLine();
 
-            // Searching for best path
+            System.out.print("Would you like to use the default mode or the variant mode ? (default/variant): ");
+            String mode = scanner.nextLine().trim().toLowerCase();
+
+            if (mode == null || mode.isEmpty()) {
+                System.out.println("[\033[91mERROR\033[0m] Invalid mode. Please enter 'default' or 'variant'.");
+                continue;
+            }
+            if (!mode.equals("default") && !mode.equals("variant")) {
+                System.out.println("[\033[91mERROR\033[0m] Invalid mode. Please enter 'default' or 'variant'.");
+                continue;
+            }
             PathFinder finder = new PathFinder(initializer.getStops(), initializer.getTrips(), initializer.getRoutes(),
                     initializer.getConnexions());
+            boolean variant = false;
+            if (mode.equals("variant")) {
+                variant = true;
+                System.out.print("Which transportation mode would you like to use ? (bus/train/metro/tram): \n");
+
+                System.out.print("bus: (true/false): ");
+                String bus = scanner.nextLine().trim().toLowerCase();
+                finder.setTrain(bus.equals("true"));
+
+                System.out.print("train: (true/false): ");
+                String train = scanner.nextLine().trim().toLowerCase();
+                finder.setTrain(train.equals("true"));
+
+                System.out.print("metro: (true/false): ");
+                String metro = scanner.nextLine().trim().toLowerCase();
+                finder.setMetro(metro.equals("true"));
+
+                System.out.print("tram: (true/false): ");
+                String tram = scanner.nextLine().trim().toLowerCase();
+                finder.setTram(tram.equals("true"));
+
+            } else if (mode.equals("default")) {
+                variant = false;
+                System.out.println("[\033[92mINFO\033[0m] Using default mode.");
+            }
 
             Instant start_time = Instant.now();
-            finder.findPath(start, destination, departure_time);
+            // Searching for best path
+            finder.findPath(start, destination, departure_time, variant);
             Instant end_time = Instant.now();
             Duration pathfinding_time = Duration.between(start_time, end_time);
 
