@@ -35,18 +35,22 @@ Etre a la racine du projet et faire "make run" pour exécuter le programme.
 ### Exemple type
 
 ```sh
-# Exemple type d'utilisation du programme :
-# 1er input : Nom de la station de départ
+# Exemple type d'utilisation du programme:
+# 1er input: Nom de la station de départ
 Aubange
 
-# 2ème input : Nom de la station d'arrivée
+# 2ème input: Nom de la station d'arrivée
 DELTA
 
-# 3ème input : Heure de départ au format HH;MM;SS
+# 3ème input: Heure de départ au format HH;MM;SS
 08;00;00
 
-# Si on veut refaire une recherche :
-# Entrer n'importe quel caractère lorsque le programme demande :
+# 4ème input: Choix du mode (default/variant)
+default -> pour le mode par défaut et le programme se lance directement
+sinon -> une liste d'input va vous etre demandée afin de savoir quels moyen de transport voulez vous utiliser.
+
+# Si on veut refaire une recherche:
+# Entrer n'importe quel caractère lorsque le programme demande:
 Would you like to search for another itinerary? (no to exit):
 # Sinon, entrer "no" pour quitter.
 ```
