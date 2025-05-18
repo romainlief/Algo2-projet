@@ -186,6 +186,7 @@ Les fichiers CSV fournis contiennent des informations sur les arrêts, les traje
 Pour chaque type de fichier CSV, voici donc les classes correspondantes créées pour contenir les données de manière accessible.
 
 \subsubsection{La classe Route}
+\label{sec:route}
 Cette classe est une simple classe de stockage, chaque attribut correspondant à un champ des fichiers \emph{routes.csv}.
 
 % Table qui détaille la classe Route
@@ -205,6 +206,7 @@ Cette classe est une simple classe de stockage, chaque attribut correspondant à
 \end{table}
 
 \subsubsection{La classe StopTime}
+\label{sec:stoptime}
 La particularité de cette classe est qu'il lui manque le champ trip\_id donné dans les CSV concernés. Ce choix découle
 de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip]{2.1.4}.
 % Table qui détaille la classe StopTime
@@ -225,6 +227,7 @@ de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip
 \end{table}
 
 \subsubsection{La classe Stop}
+\label{sec:stop}
 Dans cette classe, hormis le fait que chaque champ des fichiers \emph{routes.csv} est repris, nous avons fait le choix d'ajouter
 une liste d'identifiants de trajet, permettant de retrouver efficacement chaque trajet partant de cet arrêt ainsi qu'une liste de \hyperref[sec:walk]{\emph{Walk}}, permettantd'avoir un accès rapide à tous les arrêts accessibles à pied depuis cet arrêt.
 
@@ -278,6 +281,7 @@ La classe Builder est responsable de la création d'une liste de connexions entr
 et, finalement, la création de ces transferts à pied.
 
 \subsubsection{La classe Connexion}
+\label{sec:connexion}
 L'algorithme CSA se base, comme son nom l'indique, sur des connexions entre les différents arrêts. Pour traiter cet aspect, nous avons fait le choix logique
 d'implémenter une classe \emph{Connexion}.
 
@@ -299,6 +303,7 @@ d'implémenter une classe \emph{Connexion}.
 
 
 \subsubsection{La classe BallTree}
+\label{sec:balltree}
 Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons d'abord commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
 autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65 000 arrêts, cette approche impliquait environ 4,5 milliards d'itérations avec, à chaque 
 itération, une série d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos 
@@ -677,59 +682,6 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
 
 En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
 
-\subsection{Preuve du fonctionnement de l'algorithme}
-
-Dans cette section, nous allons prouver la véracité de notre algorithme de CSA, pour chaque sommet $v$ accessible depuis une source $s$, une 
-valeur $d(v)$ correspondant à la longueur d’un plus court chemin de $s$ à $v$. Pour cela, nous vérifions qu’il satisfait les trois conditions énoncées 
-dans le syllabus de notre cours d'algorithmique 2 page 72 Proposition 26, qui sont nécessaires et suffisantes.
-
-\textbf{Proposition 26:} Soit $G = (V, \mathcal{E})$ un graphe orienté, pondéré positivement sur les arcs, $s \in V$ un sommet source, et une fonction 
-d: V -> R.
-On a:
-\begin{enumerate}
-    \item $d(s) = 0$ ;
-    \item Pour tout sommet $v \in V$, $d(v)$ est la longueur d’un chemin de $s$ vers $v$ ;
-    \item Pour tout arc $e = (u, v) \in \mathcal{E}$, $d(v) \leq d(u) + w(e)$.
-\end{enumerate}
-
-\noindent Démontrons maintenant que l’algorithme CSA vérifie chacune de ces conditions.
-
-\paragraph{Condition 1:}
- $d(s) = 0$.
-L’algorithme initialise, pour chaque arrêt de source $s$, l’heure d’arrivée à la valeur de départ $\tau_0$. On note:
-
-$d(s)$:= $\tau_0$ - $\tau_0$ = 0.
-Cela revient à poser $d(s)$ = 0 en considérant que le départ est à l’instant zéro. Cette condition est donc bien satisfaite.
-
-\paragraph{Condition 2:}
-Chaque $d(v)$ correspond à un chemin valide de $s$ à $v$.
-L’algorithme ne met à jour la valeur $d(v)$ (le plus tôt possible où $v$ peut être atteint) que s’il existe une connexion $(u, v)$ utilisable, 
-c’est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algorithme dit donc:
-
-\texttt{si } $d(v)$ > \texttt{connexion.getArrivalTime},\\
-\texttt{alors } $d(v)$ := \texttt{connexion.getArrivalTime}.
-
-Chaque mise à jour de $d(v)$ correspond donc à l’agrandissement d’un chemin valide depuis $s$ jusqu’à $v$, en passant par les arcs du graphe. 
-On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
-
-\paragraph{Condition 3:}
-Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
-À chaque traitement d’un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\texttt{connexion.getArrivalTime} - \texttt{connexion.getDepartureTime}$),
-l’algorithme vérifie si:\\
-$d(v)$ > $d(u)$ + $w(e)$
-et effectue la mise à jour dans ce cas. Une fois toutes les connexions traitées, aucune mise à jour n’est plus possible, ce qui implique:
-$d(v) \leq d(u) + w(e),\quad \text{pour tout } (u, v) \in \mathcal{E}.$
-Cela garantit que la fonction $d$ satisfait l’inégalité triangulaire pour tous les arcs du graphe.
-
-\textbf{Fin de la preuve:} Les trois conditions de la Proposition~26 sont remplies par l’algorithme CSA. On en déduit que les valeurs $d(v)$ 
-calculées représentent exactement les longueurs des plus courts chemins en temps du sommet $s$ vers tous les sommets atteignables dans le graphe.
-
-
-
-
-
-
-
 \subsection{Chiffres concrets}
 \begin{figure}[H]
   \centering
@@ -742,9 +694,80 @@ l'algorithme devient de plus en plus rapide. En effet, à partir de 16h, il y a 
 Nous pouvons aussi parler du Stopping criterion, qui lui permet de ne pas parcourir toutes les connexions et donc de ne pas perdre de temps à chercher des connexions inutiles.
 Bien que nous ne puissions pas le voir sur le graphe, il est tout de même présent et permet de réduire le temps d'exécution de l'algorithme.
 
-\section{Classes utilisées}
+\subsection{Preuve du fonctionnement de l'algorithme}
 
-\section{Conclusiion}
+Finalement, dans cette section concernant l'algorithme CSA, nous allons prouver sa véracité, pour chaque sommet $v$ accessible depuis une source $s$, une 
+valeur $d(v)$ correspondant à la longueur d'un plus court chemin de $s$ à $v$. Pour cela, nous vérifions qu'il satisfait les trois conditions énoncées 
+à la \emph{Proposition 26} trouvée dans le Syllabus d'algorithme 2, qui sont nécessaires et suffisantes \cite{syllabusAlgo2}.
+
+\textbf{Proposition 26:} Soit $G = (V, \mathcal{E})$ un graphe orienté, pondéré positivement sur les arcs, $s \in V$ un sommet source, et une fonction 
+d: V -> R.
+On a:
+\begin{enumerate}
+    \item $d(s) = 0$;
+    \item Pour tout sommet $v \in V$, $d(v)$ est la longueur d'un chemin de $s$ vers $v$;
+    \item Pour tout arc $e = (u, v) \in \mathcal{E}$, $d(v) \leq d(u) + w(e)$.
+\end{enumerate}
+
+\noindent Démontrons maintenant que l'algorithme CSA vérifie chacune de ces conditions.
+
+\paragraph{Condition 1:}
+ $d(s) = 0$.
+L'algorithme initialise, pour chaque arrêt de source $s$, l'heure d'arrivée à la valeur de départ $\tau_0$. On note:
+
+$d(s)$:= $\tau_0$ - $\tau_0$ = 0.
+Cela revient à poser $d(s)$ = 0 en considérant que le départ est à l'instant zéro. Cette condition est donc bien satisfaite.
+
+\paragraph{Condition 2:}
+Chaque $d(v)$ correspond à un chemin valide de $s$ à $v$.
+L'algorithme ne met à jour la valeur $d(v)$ (le plus tôt possible où $v$ peut être atteint) que s'il existe une connexion $(u, v)$ utilisable, 
+c'est-à-dire telle que $d(u) \leq \texttt{connexion.departureTime}$. L'algorithme dit donc:
+
+\texttt{si } $d(v)$ > \texttt{connexion.getArrivalTime},\\
+\texttt{alors } $d(v)$ := \texttt{connexion.getArrivalTime}.
+
+Chaque mise à jour de $d(v)$ correspond donc à l'agrandissement d'un chemin valide depuis $s$ jusqu'à $v$, en passant par les arcs du graphe. 
+On obtient donc un chemin de $s$ à $v$ de longueur $d(v)$.
+
+\paragraph{Condition 3:}
+Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
+À chaque traitement d'un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\texttt{connexion.getArrivalTime} - \texttt{connexion.getDepartureTime}$),
+l'algorithme vérifie si:\\
+$d(v)$ > $d(u)$ + $w(e)$
+et effectue la mise à jour dans ce cas. Une fois toutes les connexions traitées, aucune mise à jour n'est plus possible, ce qui implique:
+$d(v) \leq d(u) + w(e),\quad \text{pour tout } (u, v) \in \mathcal{E}$.
+Cela garantit que la fonction $d$ satisfait l'inégalité triangulaire pour tous les arcs du graphe.
+
+\textbf{Fin de la preuve:} 
+Les trois conditions de la Proposition~26 sont remplies par l'algorithme CSA. On en déduit que les valeurs $d(v)$ 
+calculées représentent exactement les longueurs des plus courts chemins en temps du sommet $s$ vers tous les sommets atteignables dans le graphe.
+
+
+\section{Classes utilisées}
+Afin de clôturer ce rapport, revenons sur les classes utilisées dans notre code source afin de tout clarifier. À la section \hyperref[sec:init]{2}, nous expliquons
+en détail les classes \hyperref[sec:route]{\emph{Route}}, \hyperref[sec:stoptime]{\emph{StopTime}}, \hyperref[sec:stop]{\emph{Stop}}, \hyperref[sec:trip]{\emph{Trip}},
+\hyperref[sec:connexion]{\emph{Connexion}}, \hyperref[sec:balltree]{\emph{BallTree}} et, finalement, \hyperref[sec:walk]{\emph{Walk}}. Nous ne reviendrons donc pas sur
+celles-ci.
+
+Certaines classes ne sont que mentionnées dans les sections précédentes, à savoir les classes trouvées dans le dossier \emph{functional}.
+\begin{itemize}
+  \item \textbf{BinarySearch: } Une classe utilitaire possédant une unique méthode statique \emph{findStartIndex} permettant d'appliquer la première optimisation, c'est-à-dire
+                                le \emph{Starting criterion}. Cette méthode est une implémentation de la recherche dichotomique.
+  \item \textbf{Calculator: }   Une classe utilitaire possédant plusieurs méthodes statiques. Nous y trouvons d'abord \emph{haversine\_distance} permettant de calculer la distance entre deux arrêts
+                                en utilisant la formule de Haversine. Ensuite, nous avons une série de méthodes de conversion temporelles, plus précisément des moyens de convertir un temps
+                                en format \emph{HH:mm:ss} en secondes et inversement.
+  \item \textbf{Initialiszer: } Une classe s'occupant de toute la partie initialisation des données. Elle possède une instance de la classe \emph{Parser} qui lit les fichiers CSV et les convertit
+                                en objets Java et une instance de la classe \emph{Builder} qui, sur base des données chargées, construit les structures utiles à l'exécution du CSA.
+  \item \textbf{Parser: }       Une classe s'occupant de la lecture des fichiers CSV et de la conversion de chaque ligne en objets Java. Elle est utilisée par la classe \emph{Initialiszer}.
+  \item \textbf{Builder: }      Une classe s'occupant de la construction des objets Java à partir des données lues par la classe \emph{Parser}. Elle est utilisée par la classe \emph{Initialiszer}.
+  \item \textbf{PathFinder: }   La pièce maîtresse du programme, elle contient la méthode \emph{findPath} implémentant l'algorithme CSA. D'autres méthodes annexes sont également trouvables comme
+                                une méthode pour afficher une transfert à pied, ou une connexion. Nous soulignons la présence de la méthode \emph{findStopsByName} qui permet d'ajouter
+                                la propriété multi-source à notre algorithme, à savoir, pour un nom d'arrêts, nour récupérons tous les autres arrêts possédant ce nom.
+\end{itemize} 
+
+
+
+\section{Conclusion}
 
 
 \section{Sources-bibliographie}
