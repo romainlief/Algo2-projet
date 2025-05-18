@@ -679,7 +679,7 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
     que nous pouvons ignorer les connexions restantes. Cette optimisation réduit potentiellement une fois de plus le nombre d'itérations nécessaires afin de trouver le
     chemin optimal. En ce qui concerne la complexité, en prenant la complexité de base de l'algorithme, nous passons de $O(n)$ à $O(n - j)$ où $j$ est le nombre de 
     connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globale.
-    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémentée est de limiter le nombre et la distance des transferts à pied. 
+    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémenté est la limitation du nombre et des distances des transferts à pied. 
     Nous parlons de la distance choisie et ce que cela apporte dans la section \hyperref[sec:walk]{2.3.1.} donc nous n'en reparlerons plus ici.
     Cela-dit, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
     pu amener à des chemins non optimaux et même impossibles pour des chemins demandant beaucoup de correspondances. En effet, si nous avions limité le nombre de transferts à pied,
@@ -766,29 +766,6 @@ Les trois conditions de la Proposition~26 sont remplies par l'algorithme CSA. On
 calculées représentent exactement les longueurs des plus courts chemins en temps du sommet $s$ vers tous les sommets atteignables dans le graphe.
 
 
-\section{Variantes de l'algorithme}
-\subsection{Version par défaut}
-La version par défaut de l'algorithme est celle que nous avons implémentée dans notre code source. Elle est décrite dans la section \hyperref[sec:algorithme]{3.2} et
-est la plus simple à comprendre. Elle est basée sur le \emph{Connexion Scan Algorithm} et utilise les transferts à pied pour trouver le chemin optimal entre deux arrêts.
-Toutefois,  il existe d'autres variantes de l'algorithme qui peuvent être utilisées en fonction des besoins de l'utilisateur.
-\subsection{Autres variantes}
-Nous n'avons pas implémenté d'autres variantes de l'algorithme, mais nous allons quand même en parler brièvement.
-\begin{itemize}
-  \item \textbf{Limitation des trajets à pieds:} Cette version de l'algorithme est relativement similaire à la version par défaut, néanmoins, elle limite le nombre de transferts à pied à un certain
-  afin que l'utilisateur ne marche pas trop, même si au lieu de marcher et que cela prenne 10 minutes, il pourrait prendre le train et faire le trajet en 30 minutes. 
-  \item \textbf{Préférence de transport:} Dans celle-ci, l'utilisateur peut choisir de privilégier un certain type de transport (bus, tram, train, etc.) en fonction de ses préférences.
-\end{itemize}
-
-\subsection{Comment aurions-nous pu les implémenter?}
-\begin{itemize}
-  \item Concerntant la première variante, nous aurions pu faire en sorte que dans notre algorithme, nous ne prenions pas en compte les transferts à pied s'il existait un chemin en transport en commun.
-  S'il n'y en avait pas, alors seulement nous aurions pris en compte les transferts à pied. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme.
-  \item Pour la seconde variante, nous aurions pu ajouter un paramètre à la méthode findPath qui permettrait à l'utilisateur de choisir le type de transport qu'il préfère.
-  Nous aurions ensuite pu filtrer les connexions en fonction de ce paramètre avant de les traiter dans l'algorithme. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme également.
-\end{itemize}
-
-Nous pensons sincèrement que ces variantes auraient pu être implémentées, notre algorithme est assez générique pour le permettre.
-
 \section{Classes utilisées}
 Afin de clôturer ce rapport, revenons sur les classes utilisées dans notre code source afin de tout clarifier. À la section \hyperref[sec:init]{2}, nous expliquons
 en détail les classes \hyperref[sec:route]{\emph{Route}}, \hyperref[sec:stoptime]{\emph{StopTime}}, \hyperref[sec:stop]{\emph{Stop}}, \hyperref[sec:trip]{\emph{Trip}},
@@ -824,39 +801,18 @@ plus proches voisins adaptée pour des données de hautes dimensions. Dans notre
 alternatives plus intéressantes comme par exemple le \emph{R-Tree}, un arbre équilibré de recherche spatiale \cite{RTreedoc}.
 
 \subsection{Le choix de l'algorithme}
-Bien que le \emph{Connexion Scan Algorithm} semble, à première vue, très efficace en vitesse d'exécution et facile d'implémentation, nous nous sommes rendus compte que,
-dans le cas spécifique de ce projet, il n'est pas le plus adapté. L'algorihme \emph{CSA} est très adapté pour la recherche de plus court chemin uniquement sur base de l'heure
-mais est très peu adaptable à d'autres critères (cités dans les consignes du projet). L'aspect générique de notre implémentation est donc très limité.
+Bien que le \emph{Connection Scan Algorithm} soit rapide et simple à implémenter, nous avons constaté qu'il est peu adapté à la prise en compte de critères personnalisés autres que 
+l'heure (comme le type de transport préféré). L'algorithme montre donc des limites en termes de flexibilité et de généricité.
 
-Nous avons tout de même considéré la piste suivante: Ne construire que des connexions sur base de contraintes données par l'utilisateur. Dans un cas concret, si l'utilisateur ne
-souhaite pas faire usage de bus par exemple, nous pourrions nous limiter à construire toutes les connexions sauf celles en bus. Un autre exemple serait de construire
-les transferts à pied avec un rayon relativement faible dans le cas où l'utilisateur ne souhaite pas marcher longtemps.
+Nous avons envisagé une piste consistant à ne construire que les connexions correspondant aux contraintes de l'utilisateur. Par exemple, si un utilisateur souhaite éviter les bus, 
+il serait possible d'exclure toutes les connexions de ce type lors de l'initialisation. De même, les transferts à pied pourraient être générés avec un rayon réduit pour des utilisateurs
+ne souhaitant pas marcher longtemps.
+
 Nous n'avons pas poursuivi cette piste car celle-ci impliquait une modification au niveau de l'initialisation des données avec le point focal du projet étant l'aspect algorithmique.
 Nous avons donc jugé cela non pertinent.
 
-\subsection{Variantes de l'algorithme}
-\subsubsection{Version par défaut}
-La version par défaut de l'algorithme est celle que nous avons implémentée dans notre code source. Elle est décrite dans la section \hyperref[sec:algorithme]{3.2} et
-est la plus simple à comprendre. Elle est basée sur le \emph{Connexion Scan Algorithm} et utilise les transferts à pied pour trouver le chemin optimal entre deux arrêts.
-Toutefois,  il existe d'autres variantes de l'algorithme qui peuvent être utilisées en fonction des besoins de l'utilisateur.
-\subsubsection{Autres variantes}
-Nous n'avons pas implémenté d'autres variantes de l'algorithme, mais nous allons quand même en parler brièvement.
-\begin{itemize}
-  \item \textbf{Limitation des trajets à pieds:} Cette version de l'algorithme est relativement similaire à la version par défaut, néanmoins, elle limite le nombre de transferts à pied à un certain
-  afin que l'utilisateur ne marche pas trop, même si au lieu de marcher et que cela prenne 10 minutes, il pourrait prendre le train et faire le trajet en 30 minutes. 
-  \item \textbf{Préférence de transport:} Dans celle-ci, l'utilisateur peut choisir de privilégier un certain type de transport (bus, tram, train, etc.) en fonction de ses préférences.
-\end{itemize}
-
-\subsubsection{Comment aurions-nous pu les implémenter?}
-\begin{itemize}
-  \item Concerntant la première variante, nous aurions pu faire en sorte que dans notre algorithme, nous ne prenions pas en compte les transferts à pied s'il existait un chemin en transport en commun.
-  S'il n'y en avait pas, alors seulement nous aurions pris en compte les transferts à pied. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme.
-  \item Pour la seconde variante, nous aurions pu ajouter un paramètre à la méthode findPath qui permettrait à l'utilisateur de choisir le type de transport qu'il préfère.
-  Nous aurions ensuite pu filtrer les connexions en fonction de ce paramètre avant de les traiter dans l'algorithme. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme également.
-\end{itemize}
-
-Nous pensons sincèrement que ces variantes auraient pu être implémentées, notre algorithme est assez générique pour le permettre.
-
+Nous avons également considéré d'ajouter des paramètres à notre implémentation de l'algorithme de sorte à ce que les connexions soient filtrées avant d'être traitées directement
+durant l'exécution. Cette option nous paraissait pertinente et réalisable mais, par manque de temps, nous n'avons pas eu l'occasion d'essayer de l'implémenter.
 
 \section{Conclusion}
 Ce projet nous a mené vers la découverte de nombreux concepts intéressants comme la recherche de voisins les plus proches à l'aide de différentes structures de données ainsi que
