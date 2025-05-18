@@ -110,7 +110,7 @@
   \begin{center}
 
     %Title
-	\textsc{\huge INFO-F203 - Projets d'algorithmique 2}\\[1cm]
+	\textsc{\huge INFO-F203 - Projet d'algorithmique 2}\\[1cm]
 
     \HRule \\[0.7cm]
 
@@ -194,34 +194,30 @@ Cette classe est une simple classe de stockage, chaque attribut correspondant à
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
-    routeId & final String & L'identifiant de la route représentée \\
-    routeShortName & final String & Le nom de la route raccourci \\
-    routeLongName & final String & Le nom de la route complet \\
-    routeType & final String & Le type de véhicule utilisant cette route \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
+    routeId & final String & L'identifiant de la route représentée \\ \hline
+    routeShortName & final String & Le nom de la route raccourci \\ \hline
+    routeLongName & final String & Le nom de la route complet \\ \hline
+    routeType & final String & Le type de véhicule utilisant cette route \\ \hline
     \end{tabular}
     \caption{Classe Route}
 \end{table}
 
 \subsubsection{La classe StopTime}
 \label{sec:stoptime}
-La particularité de cette classe est qu'il lui manque le champ trip\_id donné dans les CSV concernés. Ce choix découle
+La particularité de cette classe est qu'il lui manque l'identifiant de trajet donné dans les CSV concernés. Ce choix découle
 de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip]{2.1.4}.
 % Table qui détaille la classe StopTime
 \begin{table}[h]
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
     departureTime & final int & L'heure du départ à partir de
                                    l'arrêt associé sur le trajet associé en format 
-                                   heure;minutes;secondes \\
-    stopId & final String & L'identifiant de l'arrêt associé \\
-    stopSequence & final int & Le numéro de l'arrêt dans le trajet associé \\
-    \hline
+                                   heure;minutes;secondes \\ \hline
+    stopId & final String & L'identifiant de l'arrêt associé \\ \hline
+    stopSequence & final int & Le numéro de l'arrêt dans le trajet associé \\ \hline
     \end{tabular}
     \caption{Classe StopTime}
 \end{table}
@@ -229,7 +225,8 @@ de la structure de la classe Trip détaillée dans la section \hyperref[sec:trip
 \subsubsection{La classe Stop}
 \label{sec:stop}
 Dans cette classe, hormis le fait que chaque champ des fichiers \emph{routes.csv} est repris, nous avons fait le choix d'ajouter
-une liste d'identifiants de trajet, permettant de retrouver efficacement chaque trajet partant de cet arrêt ainsi qu'une liste de \hyperref[sec:walk]{\emph{Walk}}, permettantd'avoir un accès rapide à tous les arrêts accessibles à pied depuis cet arrêt.
+une liste d'identifiants de trajet, permettant de retrouver efficacement chaque trajet partant de cet arrêt ainsi qu'une liste de \hyperref[sec:walk]{\emph{Walk}}, permettant
+d'avoir un accès rapide à tous les arrêts accessibles à pied depuis cet arrêt.
 
 Cette classe comprend également une méthode \emph{getDistanceToOther} qui permet de calculer la distance entre deux arrêts en utilisant la formule de Haversine,
 implémentée dans une classe annexe, la classe \emph{Calculator}.
@@ -239,15 +236,13 @@ implémentée dans une classe annexe, la classe \emph{Calculator}.
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
-    stopId & final String & L'identifiant du stop représenté \\
-    stopName & final String & Le nom du stop \\
-    stopLat & final String & La latitude du stop \\
-    stopLon & final String & La longitude du stop \\
-    tripIds & List$<$String$>$ & La liste des tous les trips (leurs identifiants) partant de ce stop \\
-    walks & List$<$Walk$>$ & La liste de tous les arrêts accessibles à pied depuis ce stop \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
+    stopId & final String & L'identifiant du stop représenté \\ \hline
+    stopName & final String & Le nom du stop \\ \hline
+    stopLat & final String & La latitude du stop \\ \hline
+    stopLon & final String & La longitude du stop \\ \hline
+    tripIds & List$<$String$>$ & La liste des tous les trips (leurs identifiants) partant de ce stop \\ \hline
+    walks & List$<$Walk$>$ & La liste de tous les arrêts accessibles à pied depuis ce stop \\ \hline
     \end{tabular}
     \caption{Classe Stop}
 \end{table}
@@ -255,7 +250,7 @@ implémentée dans une classe annexe, la classe \emph{Calculator}.
 \subsubsection{La classe Trip}
 \label{sec:trip}
 Une fois de plus, en plus des champs trouvés dans les fichiers \emph{trips.csv} retranscrits en attribut, nous avons ajouté
-une liste d'heures d'arrêt associés à ce trajet. Ceci nous permet de construire efficacement les connexions entre arrêts affublées
+une liste d'heures d'arrêt associées à ce trajet. Ceci nous permet de construire efficacement les connexions entre arrêts, affublées
 de temps de départ et d'arrivée.
 
 % Table qui détaille la classe Trip
@@ -263,21 +258,19 @@ de temps de départ et d'arrivée.
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
-    tripId & final String & L'identifiant du trip représenté \\
-    routeId & final String & L'identifiant de la route sur laquelle il passe \\
-    stopTimes & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
+    tripId & final String & L'identifiant du trip représenté \\ \hline
+    routeId & final String & L'identifiant de la route sur laquelle il passe \\ \hline
+    stopTimes & List$<$StopTime$>$ &  La liste de tous les StopTime associés à ce trip \\ \hline
     \end{tabular}
     \caption{Classe Trip}
 \end{table}
 
 \subsection{Création des structures de données}
 Une fois les données lues et contenues dans des dictionnaires faciles d'accès (accès en temps constant), nous procédons à la création de structures de données
-pertinentes à notre algorithme de recherche de chemin, le CSA à l'aide de la classe Builder.
+pertinentes à notre algorithme de recherche de chemin, le CSA à l'aide de la classe \emph{Builder}.
 
-La classe Builder est responsable de la création d'une liste de connexions entre arrêts, de la création du BallTree utilisé pour construire efficacement les transferts à pied entre arrêts
+La classe \emph{Builder} est responsable de la création d'une liste de connexions entre arrêts, de la création du \emph{BallTree} utilisé pour construire efficacement les transferts à pied entre arrêts
 et, finalement, la création de ces transferts à pied.
 
 \subsubsection{La classe Connexion}
@@ -289,14 +282,12 @@ d'implémenter une classe \emph{Connexion}.
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
-    tripId & final String & L'identifiant du trajet utilisé par la connexion \\
-    fromId & final String & L'identifiant de l'arrêt de de départ \\
-    toId & final String &  L'identifiant de l'arrêt d'arrivée \\
-    departureTime & final int & L'heure de départ de l'arrêt \emph{fromId} \\
-    arrivalTime & final int & L'heure d'arrivée à l'arrêt \emph{toId} \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
+    tripId & final String & L'identifiant du trajet utilisé par la connexion \\ \hline
+    fromId & final String & L'identifiant de l'arrêt de de départ \\ \hline
+    toId & final String &  L'identifiant de l'arrêt d'arrivée \\ \hline
+    departureTime & final int & L'heure de départ de l'arrêt \emph{fromId} \\ \hline
+    arrivalTime & final int & L'heure d'arrivée à l'arrêt \emph{toId} \\ \hline
     \end{tabular}
     \caption{Classe Trip}
 \end{table}
@@ -304,14 +295,14 @@ d'implémenter une classe \emph{Connexion}.
 
 \subsubsection{La classe BallTree}
 \label{sec:balltree}
-Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons d'abord commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
+Afin de construire les transferts à pied (limités à une distance arbitraire), nous avons commencé par une implémentation brute-force en itérant, pour chaque arrêt, sur tous les
 autres arrêts en $O(n^2)$, $n$ étant le nombre d'arrêts. Cependant, avec un total d'environ 65 000 arrêts, cette approche impliquait environ 4,5 milliards d'itérations avec, à chaque 
-itération, une série d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a mené à un temps d'exécution d'environ 10 minutes sur nos 
+itération, une série d'opérations comme par exemple le calcul de la distance entre deux arrêts, en temps constant. Ceci nous a menés à un temps d'exécution d'environ 10 minutes sur nos 
 machines rien que pour la création de ces transferts à pied, ce qui est, vous en conviendrez, absolument inacceptable.
 
 Afin de remédier à ce problème critique, nous nous sommes penchés sur des structures de données plus adaptées à ce type de problème. Suite à une série de recherches et discussions avec
 nos collègues, nous avons opté pour le \emph{BallTree}, une structure de données arborescente où chaque nœud représente une boule dans l'espace N-dimensionnel contenant un sous-ensemble d'arrêts.
-Cette structure permet de récupérer efficacement les voisins d'un arrêts donné dans un rayon donné à l'aide de requêtes rapides.
+Cette structure permet de récupérer efficacement les voisins d'un arrêt donné dans un rayon donné à l'aide de requêtes rapides.
 
 \subsubsection{La classe Walk}
 \label{sec:walk}
@@ -321,12 +312,10 @@ Classe simple, représentant un transfert à pied entre deux arrêts. Ces objets
     \centering
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
-    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\
-    \hline
-    departure & final Stop & L'arrêt de départ du transfert à pied \\
-    destination & final Stop & L'arrêt d'arrivée du transfert à pied \\
-    duration & final int & La durée en secondes du transfert à pied \\
-    \hline
+    \textbf{Attribut} & \textbf{Type} & \textbf{Description} \\ \hline
+    departure & final Stop & L'arrêt de départ du transfert à pied \\ \hline
+    destination & final Stop & L'arrêt d'arrivée du transfert à pied \\ \hline
+    duration & final int & La durée en secondes du transfert à pied \\ \hline
     \end{tabular}
     \caption{Classe Walk}
 \end{table}
@@ -353,10 +342,10 @@ temps linéaire, $O(n)$, où $n$ est le nombre d'arrêts dans l'ensemble de donn
 $4 * O(n)$, ce que nous pouvons résumer à $O(n)$. Finalement, concernant les appels récursifs, en supposant le partitionnement parfait, nous avons une profondeur d'arbre de $\log n$ et donc 
 $O(n \log n)$ pour la construction de l'arbre complet.
 
-Suite à quelques essais et tests, nous nous sommes rendus compte que le partitionnement n'est pas toujours optimal, cela étant probablement dû à la non-uniformité dans la répartition des arrêts à
+Suite à quelques essais et tests, nous nous sommes rendu compte que le partitionnement n'est pas toujours optimal, cela étant probablement dû à la non-uniformité dans la répartition des arrêts à
 travers la Belgique. Ceci nous permet de conclure, pour la complexité de la construction de notre \emph{BallTree}, que nous avons une complexité de $O(n \log n)$ dans le cas moyen ou optimal et de 
 $O(n^2)$ dans le pire des cas. Cependant, ce dernier cas est très peu probable dans la pratique. En effet, la construction de l'arbre se fait en 400 millisecondes en moyenne sur nos machines, ce qui 
-est tout à fait acceptable contrairement à l'implémentation brute-force envrion 1500 fois plus lente avec un temps d'exécution de 10 minutes.
+est tout à fait acceptable contrairement à l'implémentation brute-force environ 1500 fois plus lente avec un temps d'exécution de 10 minutes.
 
 \begin{algorithm}[H]
     \footnotesize
@@ -405,8 +394,8 @@ de la recherche) grâce à la condition \emph{distToCenter - node.radius > maxDi
 et $k$ le nombre d'arrêts trouvés dans la distance donnée. En revanche, comme abordé plus haut, nous nous devons de considérer le cas où l'arbre est déséquilibré et/ou que la plupart de noeuds ne sont 
 pas prunés durant la recherche (la plupart des sous-arbres sont visités car le rayon de recherche est grand). Dans ce cas, la complexité de la recherche tend vers la linéarité (parcours de l'arbre au complet)
 $O(n + k)$, où $n$ est le nombre d'arrêts et $k$ le nombre d'arrêts trouvés dans la distance donnée. Mais, une fois de plus, difficile d'arriver dans ce cas car la Belgique a une superficie de 30 528 km², une
-distance Nord-Sud de 225 km et une distance Ouest-Est de 282 km. Additionnellement, le rayon de recherche que nous utilisons est de 500 m, ce qui est relativement faible par rapport à la taille de la Belgique,
-nous donne une vitesse de requête de l'orde des 0,015 millisecondes (ce rayon est bien sûr changeable, mais nous avons considéré un rayon de transfert supposé acceptable pour la majorité de la population).
+distance Nord-Sud de 225 km et une distance Ouest-Est de 282 km. Additionnellement, le rayon de recherche que nous utilisons est de 500 mètres, ce qui est relativement faible par rapport à la taille de la Belgique,
+nous obtenons une vitesse de requête de l'ordre de la 0,015 milliseconde (ce rayon est bien sûr changeable, mais nous avons considéré un rayon de transfert supposé acceptable pour la majorité de la population).
 
 \begin{algorithm}[H]
     \footnotesize
@@ -439,17 +428,17 @@ nous donne une vitesse de requête de l'orde des 0,015 millisecondes (ce rayon e
 \end{algorithm}
 
 Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, nous récupérons tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité
-linéaire pour la boucle princpale $O(n)$, où $n$ est le nombre d'arrêts. Couplé à ceci, les requêtes de voisins, dans un cas moyen voire optimal sont donc de $O(\log n + k)$, où $n$ est le nombre d'arrêts 
-et $k$ le nombre d'arrêts trouvés dans la distance donnée ce qui nous donne une complexité totale pour la construction des transferts à pied de $O(nlog(n + k))$.
+linéaire pour la boucle principale $O(n)$, où $n$ est le nombre d'arrêts. Les requêtes de voisins ayant une complexité moyenne de $O(\log n + k)$, la construction des transferts à pied atteint une complexité totale de
+$O(n\log(n + k))$ pour n arrêts et k arrêts trouvés dans la distance donnée.
 
 
 \subsubsection{Complexité spatiale}
 Chaque donnée des fichiers CSV est chargée en mémoire, impliquant une complexité spatiale de $O(n)$, où $n$ est le nombre de lignes total dans tous les fichiers réunis. Ensuite, les objets
 comme les connexions, le \emph{BallTree} et les transferts à pied sont créés mais en utilisant les données initiales par référence. De ce fait, la complexité spatiale de ces objets se résume à leurs
-donnée utiles (\emph{overhead}) et à la mémoire utilisée pour les références. En d'autres termes, la complexité spatiale de ces objets est très petite mais tout de même à considérer étant donné leur nombre.
+données utiles (\emph{overhead}) et à la mémoire utilisée pour les références. En d'autres termes, la complexité spatiale de ces objets est très petite mais tout de même à considérer étant donné leur nombre.
 
 Abordons maintenant un aspect de la complexité spatial qui n'est que `temporaire'. Le tri \emph{TimSort} utilise un espace supplémentaire de $O(n)$ pour le stockage temporaire des données pendant le tri uniquement.
-La construction du \emph{BallTree} se faisant récursivement, il faut considérer les appels sur le stack. Ceux-ci dépendent en fonction de la taille des feuilles (le paramète \emph{leafSize}). En effet, celui-ci
+La construction du \emph{BallTree} se faisant récursivement, il faut considérer les appels sur le stack. Ceux-ci dépendent en fonction de la taille des feuilles (le paramètre \emph{leafSize}). En effet, celui-ci
 détermine le nombre maximal d'arrêts contenus sur une feuille. Plus ce nombre est grand, moins l'arbre sera grand et occupera d'espace en mémoire. En revanche les requêtes seront longues. D'autre part, plus ce nombre est petit,
 plus nous augmentons le nombre d'appels récursifs (risquant ainsi un StackOverflowError qui fait planter le programme) et plus nous augmentons la taille de l'arbre et donc l'espace en mémoire tout en affinant la vitesse de
 requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de requête minimale). Voici un graphe pour illustrer ce propos:
@@ -513,9 +502,8 @@ Pour le cas du CSA, nous verrons après qu'il y a encore des optimisations possi
 Les algorithmes Dijkstra et A* utilisent donc des structures de données plus complexes comme des graphes temporels et des files de priorité. Ceci implique donc
 un certain niveau de complexité supplémentaire dans l'implémentation.
 
-Nous avons donc décider de miser sur la simplicité d'implémentation et la rapidité de l'algorithme CSA, celui-ci
-se basant essentiellement sur une liste de connexions triées. De plus, celui-ci est par défaut adapté aux fichiers GTFS et les horaires de transports publics.
-nous avons choisi d'implémenter le \emph{Connexion Scan Algorithm} (\textbf{CSA}) pour notre projet \cite{linkGTFSCSA}.
+Nous avons donc décidé de miser sur la simplicité d'implémentation et la rapidité de l'algorithme CSA, celui-ci
+se basant essentiellement sur une liste de connexions triées. De plus, celui-ci est par défaut adapté aux fichiers GTFS et les horaires de transports publics \cite{linkGTFSCSA}.
 
 \subsection{Explication et description de l'algorithme}
 Le \emph{Connexion Scan Algorithm} est une méthode efficace pour résoudre les problèmes de planification d'itinéraires dans 
@@ -523,27 +511,11 @@ les réseaux de transports en commun basés sur des horaires, comme les trains e
 qui utilisent une file de priorité (comme Dijkstra), le CSA se base sur une liste triée de tous les transports en commun, classés par 
 leur heure de départ.
 
-Il parcourt cette liste de manière séquentielle pour déterminer rapidement les meilleures connections possibles pour atteindre une 
+Il parcourt cette liste de manière séquentielle pour déterminer rapidement les meilleures connexions possibles pour atteindre une 
 destination dans un délai optimal ou avec le moins de changements de véhicule.
 
 \subsection{Structures de l'algorithme et implémentation}
-L'algorithme est stocké dans une classe \texttt{PathFinder} contenant la méthode findPath, qui implémente l'algorithme CSA.
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|l|l|p{8cm}|}
-  \hline
-  \textbf{Attribut/Méthode} & \textbf{Type/Retour} & \textbf{Description} \\
-  \hline
-  stopMap & Map$<$String, Stop$>$ & Map contenant les arrêts, indexés par leur identifiant. \\
-  tripMap & Map$<$String, Trip$>$ & Map contenant les trajets, indexés par leur identifiant. \\
-  routeMap & Map$<$String, Route$>$ & Map contenant les routes, indexées par leur identifiant. \\
-  connexions & List$<$Connexion$>$ & Liste des connexions disponibles. \\
-  \hline
-  findPath & void & Implémente l'algorithme pour trouver le meilleur chemin dans le graphe. \\
-  \hline
-  \end{tabular}
-  \caption{Classe PathFinder sans les méthodes annexes}
-\end{table}
+L'algorithme est stocké dans une classe \emph{PathFinder} contenant la méthode findPath, qui implémente l'algorithme CSA.
 
 \subsection{Pseudo-code sans la marche à pied et autres optimisations}
 \begin{algorithm}[H]
@@ -591,7 +563,7 @@ des requêtes après le prétraitement initial.
 
 Tout ceci nous amène donc à une complexité totale de $O(n)$ pour la recherche de chemin, où $n$ est le nombre de connexions.
 
-Notons tout de même le fait que cette compléxité est valable uniquement dans le cas où nous ne considérons pas les transferts à pied, chose que nous
+Notons tout de même le fait que cette complexité est valable uniquement dans le cas où nous ne considérons pas les transferts à pied, chose que nous
 explicitons dans la section suivante.
 
 \subsection{Pseudo-code avec la marche à pied et algorithme optimal}
@@ -650,15 +622,15 @@ explicitons dans la section suivante.
 
 
 \subsection{Complexité avec la marche à pied et algorithme optimal}
-Comme expliqué dans la sous-section précédente, l'algorithme de base est en $O(n)$, avec $n$ est le nombre de connexions. Mais, il n'est clairement pas logique
-de considérer un voyage où nous ne marchons pas du tout. C'est pourquoi nous devons aussi prendre en compte les transferts à pied. Lors de l'exécution de
+Tel que mentionné précédemment, la complexité de l'algorithme principal est de l'ordre de $O(n)$, où $n$ représente le nombre de connexions. Mais, il n'est clairement pas logique
+de considérer un voyage où nous ne marchons pas du tout. C'est pourquoi nous devons aussi traiter les transferts à pied. Lors de l'exécution de
 l'algorithme, à chaque itération, autrement dit à chaque connexion, nous devons vérifier si l'arrêt de départ concerné possède des arrêts voisins à une distance
-donnée (500m dans notre cas, cf. \hyperref[sec:complexitetempinit]{2.3.1.}). Un transfert entre deux arrêts voisins est représenté comme un \emph{Walk}, une
+donnée (500 mètres dans notre cas, cf. \hyperref[sec:complexitetempinit]{2.3.1.}). Un transfert entre deux arrêts voisins est représenté comme un \emph{Walk}, une
 classe décrite dans la section \hyperref[sec:walk]{2.2.3.}. Donc, pour chaque arrêt nous allons parcourons l'ensemble des transferts à pied disponibles.
 En prenant $\bar{m}$ comme nombre moyen de transferts à pied moyen, nous avons une complexité totale de $O(n * \bar{m})$, avec $n$ étant toujours le nombre de connexions.
 
 Nous pourrions croire que la complexité de l'algorithme avec les transferts à pied se rapproche de $O(n^2)$, mais ce n'est pas le cas. Pour répondre à cette incertitude,
-nous avons tout simplement calculé la moyenne du nombre de transferts à pied par arrêt à l'aide d'un script Python. Ceci nous a mené à une valeur de 7 voisins dans un
+nous avons tout simplement calculé la moyenne du nombre de transferts à pied par arrêt à l'aide d'un script Python. Ceci nous a menés à une valeur de 7 voisins dans un
 rayon de 500 mètres par arrêt. Nous concluons donc que, avec un nombre de connexions étant de l'ordre de dizaines de millions, $\bar{m}$ est négligeable par rapport à $n$ et
 nous arrivons à une complexité totale de $O(n)$.
 
@@ -667,23 +639,23 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
 \begin{itemize}
     \item \textbf{Starting criterion:} Nous utilisons l'algorithme élémentaire qu'est la recherche dichotomique (en $O(\log n)$), pour trouver le premier arrêt 
     qui est supérieur ou égal à l'heure de départ. Ceci nous évite le parcours toutes les connexions en nous permettant de commencer à partir de l'indice trouvé.
-    À travers ce procédé, nous de réduisons le nombre d'itérations nécessaire pour trouver le chemin optimal. En effet, pour une requête de trajet débutant en fin
+    À travers ce procédé, nous réduisons le nombre d'itérations nécessaire pour trouver le chemin optimal. En effet, pour une requête de trajet débutant en fin
     de journée, pourquoi itérer dans les premières connexions ? Ceci est tout naturellement inutile. Grâce à cela, l'algorithme passe de $O(n)$ à $O(n - k)$ 
     avec $k$ le nombre de connexions avant l'heure de départ. La variable $k$ pouvant prendre des valeurs de $0$ à $n$, elle n'est pas négligeable dans le calcul
     de complexité totale. En conclusion, cela nous permet de grandement réduire le temps d'exécution de l'algorithme, et encore plus si l'heure de départ est
-    est élevée. Toutefois, si l'heure entrée par l'utilisateur est la première dans la liste de connexion, la complexité ne change pas et reste $O(n)$ car nous
+    élevée. Toutefois, si l'heure entrée par l'utilisateur est la première dans la liste de connexion, la complexité ne change pas et reste $O(n)$ car nous
     devons parcourir toutes les connexions.
-    \item \textbf{Stopping criterion:} Cette seconde optimisation nous permet d'arrêter l'algorithme soit lorsque la destination atteinte, soit lorque toutes 
+    \item \textbf{Stopping criterion:} Cette seconde optimisation nous permet d'arrêter l'algorithme soit lorsque la destination atteinte, soit lorsque toutes 
     les connexions possibles ont été explorées. Cela nous éviter le parcours inutile des connexions qui ne contribuent pas à améliorer le chemin trouvé. 
     En pratique, dans le cas où l'heure d'arrivée à un arrêt est déjà optimale (c'est-à-dire qu'aucune connexion ultérieure ne peut améliorer cette heure), cela signifie
     que nous pouvons ignorer les connexions restantes. Cette optimisation réduit potentiellement une fois de plus le nombre d'itérations nécessaires afin de trouver le
     chemin optimal. En ce qui concerne la complexité, en prenant la complexité de base de l'algorithme, nous passons de $O(n)$ à $O(n - j)$ où $j$ est le nombre de 
-    connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globale.
-    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémenté est la limitation du nombre et des distances des transferts à pied. 
+    connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globales.
+    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémentée est la limitation du nombre et des distances des transferts à pied. 
     Nous parlons de la distance choisie et ce que cela apporte dans la section \hyperref[sec:walk]{2.3.1.} donc nous n'en reparlerons plus ici.
-    Cela-dit, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
+    Cela dit, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
     pu amener à des chemins non optimaux et même impossibles pour des chemins demandant beaucoup de correspondances. En effet, si nous avions limité le nombre de transferts à pied,
-    l'algorihme aurait pu trouver un chemin avec beaucoup de correspondances mais être dans l'impossibilité car il serait limité à un nombre de transferts à pied trop faible.
+    l'algorithme aurait pu trouver un chemin avec beaucoup de correspondances mais être dans l'impossibilité car il serait limité à un nombre de transferts à pied trop faible.
 \end{itemize}
 
 En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
@@ -695,9 +667,9 @@ En somme, en assemblant nos deux optimisations, nous obtenons une complexité to
   \caption{Graphique du temps d'exécution en fonction de l'heure de départ.}
   \label{fig:graphique_traffique}
 \end{figure}
-De part ce graphe, nous pouvons voir que le temps d'exécution de l'algorithme est relativement constant jusqu'à 16h, puis grâce au Starting criterion,
-l'algorithme devient de plus en plus rapide. En effet, à partir de 16h, il y a moins de connexions et il arrive a chaque fois à trouver le chemin optimal en mois d'une seconde.
-Nous pouvons aussi parler du Stopping criterion, qui lui permet de ne pas parcourir toutes les connexions et donc de ne pas perdre de temps à chercher des connexions inutiles.
+De par ce graphe, nous pouvons voir que le temps d'exécution de l'algorithme est relativement constant jusqu'à 16 heures, puis grâce au \emph{Starting criterion},
+l'algorithme devient de plus en plus rapide. En effet, à partir de 16 heures, il y a moins de connexions et il arrive a chaque fois à trouver le chemin optimal en mois d'une seconde.
+Nous pouvons aussi parler du \emph{Stopping criterion}, qui lui permet de ne pas parcourir toutes les connexions et donc de ne pas perdre de temps à chercher des connexions inutiles.
 Bien que nous ne puissions pas le voir sur le graphe, il est tout de même présent et permet de réduire le temps d'exécution de l'algorithme.
 
 \subsection{Preuve du fonctionnement de l'algorithme}
@@ -730,7 +702,7 @@ Pour tout sommet $v \in V$, $d(v)$ est la longueur d'un chemin de $s$ vers $v$.
 \medskip
 
 \textbf{Preuve:}
-Par récurence sur l'ordre topologique des sommets,
+Par récurrence sur l'ordre topologique des sommets,
 soit $v_1$, $v_2$, $\dots$, $v_n$ un ordre topologique de $G$. On note $P(v)$ un plus court chemin de $s$ vers $v$ découvert par l'algorithme.
 
 \textbf{Cas de base:} $v_1 = s$. Par définition, $d(s) = 0$ et il existe un chemin trivial de $s$ à $s$ de longueur 0. La propriété est vraie.
@@ -754,7 +726,7 @@ longueur $d(v)$. La condition 2 est donc satisfaite.
 
 \paragraph{Condition 3:}
 Inégalité triangulaire $d(v)$ $\leq$ $d(u)$ + $w(e)$.
-À chaque traitement d'un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\texttt{connexion.getArrivalTime} - \texttt{connexion.getDepartureTime}$),
+À chaque traitement d'un arc $e = (u, v)$ (d'une connexion $(u, v)$ avec un poids $w(e)$ égal à $\emph{connexion.getArrivalTime} - \emph{connexion.getDepartureTime}$),
 l'algorithme vérifie si:\\
 $d(v)$ > $d(u)$ + $w(e)$
 et effectue la mise à jour dans ce cas. Une fois toutes les connexions traitées, aucune mise à jour n'est plus possible, ce qui implique:
@@ -784,15 +756,15 @@ Certaines classes ne sont que mentionnées dans les sections précédentes, à s
   \item \textbf{Parser: }       Une classe s'occupant de la lecture des fichiers CSV et de la conversion de chaque ligne en objets Java. Elle est utilisée par la classe \emph{Initialiszer}.
   \item \textbf{Builder: }      Une classe s'occupant de la construction des objets Java à partir des données lues par la classe \emph{Parser}. Elle est utilisée par la classe \emph{Initialiszer}.
   \item \textbf{PathFinder: }   La pièce maîtresse du programme, elle contient la méthode \emph{findPath} implémentant l'algorithme CSA. D'autres méthodes annexes sont également trouvables comme
-                                une méthode pour afficher une transfert à pied, ou une connexion. Nous soulignons la présence de la méthode \emph{findStopsByName} qui permet d'ajouter
-                                la propriété multi-source à notre algorithme, à savoir, pour un nom d'arrêts, nour récupérons tous les autres arrêts possédant ce nom.
+                                une méthode pour afficher un transfert à pied, ou une connexion. Nous soulignons la présence de la méthode \emph{findStopsByName} qui permet d'ajouter
+                                la propriété multisource à notre algorithme, à savoir, pour un nom d'arrêts, nous récupérons tous les autres arrêts possédant ce nom.
 \end{itemize} 
 
 \section{Commentaires}
-Au travers de ce rapport, nous avons jusitifé nos choix d'implémentation, de structures de données et autres d'un point de vue théorique et pratique. Nous avons développé et démontré
+Au travers de ce rapport, nous avons justifé nos choix d'implémentation, de structures de données et autres d'un point de vue théorique et pratique. Nous avons développé et démontré
 la complexité des étapes de notre programme et expliqué pourquoi celles-ci sont optimales. 
 
-Suite à des conversations avec nos collègues étudiants suivies de recherches supplémentaires, nous nous sommes rendus compte que notre implémentation n'est pas la plus optimale. Nous
+Suite à des conversations avec nos collègues étudiants suivies de recherches supplémentaires, nous nous sommes rendu compte que notre implémentation n'est pas la plus optimale. Nous
 dédions donc cette section à souligner les défauts de notre implémentation et à expliquer comment nous aurions pu l'améliorer.
 
 \subsection{Les requêtes de voisins}
@@ -811,14 +783,14 @@ ne souhaitant pas marcher longtemps.
 Nous n'avons pas poursuivi cette piste car celle-ci impliquait une modification au niveau de l'initialisation des données avec le point focal du projet étant l'aspect algorithmique.
 Nous avons donc jugé cela non pertinent.
 
-Nous avons également considéré d'ajouter des paramètres à notre implémentation de l'algorithme de sorte à ce que les connexions soient filtrées avant d'être traitées directement
+Nous avons également envisagé l'ajout de paramètres à notre implémentation de l'algorithme de sorte que les connexions soient filtrées avant d'être traitées directement
 durant l'exécution. Cette option nous paraissait pertinente et réalisable mais, par manque de temps, nous n'avons pas eu l'occasion d'essayer de l'implémenter.
 
 \section{Conclusion}
-Ce projet nous a mené vers la découverte de nombreux concepts intéressants comme la recherche de voisins les plus proches à l'aide de différentes structures de données ainsi que
+Ce projet nous a menés vers la découverte de nombreux concepts intéressants comme la recherche de voisins les plus proches à l'aide de différentes structures de données ainsi que
 la recherche du plus court chemin au moyen de différents algorithmes. En particulier, l'algorithme \emph{Connexion Scan Algorithm}, choisi par nos soins afin de répondre à la
 problématique proposée par ce projet est donc une solution rapide et efficace pour la recherche du plus court chemin sur base d'un ensemble de connexions. Cependant, au travers, d'échanges
-et de recherches annexes, nous nous somme rendus compte de certains défauts. Comme expliqué dans la secion précédente, malgré sa facilité d'implémentation, il ne répond 
+et de recherches annexes, nous nous sommes rendu compte de certains défauts. Comme expliqué dans la section précédente, malgré sa facilité d'implémentation, il ne répond 
 pas à l'ensemble de la problématique imposée. Nous tenions donc à souligner les défauts de  l'implémentation et les pistes d'amélioration possibles par souci de complétude et de transparence.
 
 
