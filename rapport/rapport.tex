@@ -422,9 +422,9 @@ nous obtenons une vitesse de requête de l'ordre de la 0,015 milliseconde (ce ra
     }
     
     \tcp{Sinon, nous explorons les deux sous-arbres}
-    \texttt{knn_search}(\texttt{node.left}, q, \texttt{maxDist}, \texttt{out})\;
-    \texttt{knn_search}(\texttt{node.right}, q, \texttt{maxDist}, \texttt{out})\;
-\caption{knn_search - Recherche en rayon dans un BallTree}
+    \text{\texttt{knn\_search}}(\text{\texttt{node.left}}, q, \text{\texttt{maxDist}}, \text{\texttt{out}})\;
+    \text{\texttt{knn\_search}}(\text{\texttt{node.right}}, q, \text{\texttt{maxDist}}, \text{\texttt{out}})\;
+\caption{\texttt{knn\_search} --- Recherche en rayon dans un BallTree}
 \end{algorithm}
 
 Pour construire les transferts à pied, nous itérons donc sur tous les arrêts et, pour chaque arrêt, nous récupérons tous ses voisins à grâce au \emph{BallTree} fraîchement construit. Ceci nous donne donc une complexité

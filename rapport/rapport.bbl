@@ -73,6 +73,41 @@
     \field{year}{1959}
   \endentry
 
+  \entry{BallTreedoc}{article}{}
+    \name{author}{3}{}{%
+      {{hash=DM}{%
+         family={Dolatshah},
+         familyi={D\bibinitperiod},
+         given={Mohamad},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=HA}{%
+         family={Hadian},
+         familyi={H\bibinitperiod},
+         given={Ali},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MBB}{%
+         family={Minaei-Bidgol},
+         familyi={M\bibinithyphendelim B\bibinitperiod},
+         given={Behrouz},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DMHAMBB1}
+    \strng{fullhash}{DMHAMBB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{DHMB15}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{Ball*-tree: Efficient spatial indexing for constrained nearest-neighbor search in metric spaces}
+    \verb{url}
+    \verb https://arxiv.org/pdf/1511.00628
+    \endverb
+    \field{year}{2015}
+  \endentry
+
   \entry{dibbelt2017connection}{article}{}
     \name{author}{4}{}{%
       {{hash=DJ}{%
@@ -188,6 +223,29 @@
     \verb{url}
     \verb http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf
     \endverb
+  \endentry
+
+  \entry{javaTimSort}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HM}{%
+         family={Helmy},
+         familyi={H\bibinitperiod},
+         given={Mohamed},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HM1}
+    \strng{fullhash}{HM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Hel23}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{title}{Time Complexity of Java - Collections Sort in Java}
+    \verb{url}
+    \verb https://www.baeldung.com/java-time-complexity-collections-sort
+    \endverb
+    \field{year}{2023}
   \endentry
 
   \entry{linkGTFSCSA}{misc}{}
