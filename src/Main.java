@@ -79,7 +79,7 @@ public class Main {
 
                 System.out.print("bus: (true/false): ");
                 String bus = scanner.nextLine().trim().toLowerCase();
-                finder.setTrain(bus.equals("true"));
+                finder.setBus(bus.equals("true"));
 
                 System.out.print("train: (true/false): ");
                 String train = scanner.nextLine().trim().toLowerCase();

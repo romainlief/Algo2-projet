@@ -350,7 +350,6 @@ public class PathFinder {
         if (routeType == null) {
             return false; // On exclut les connexions avec type inconnu
         }
-
         switch (routeType.toLowerCase()) {
             case "bus":
                 return bus;
