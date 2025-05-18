@@ -471,6 +471,7 @@ requêtes (note: une taille de feuille minimale ne signifie pas la vitesse de re
 
 \newpage
 \section{Le Connexion Scan Algorithm}
+\label{sec:algorithme}
 \subsection{Choix de l'algorithme}
 Comme expliqué plus haut, pour résoudre le problème de recherche du plus court chemin, nous avons choisi d'implémenter le \emph{Connexion Scan Algorithm} (\textbf{CSA}).
 Cet algorithme est particulièrement adapté pour les réseaux de transport en commun, car il permet de trouver rapidement le meilleur chemin
@@ -765,6 +766,29 @@ Cela garantit que la fonction $d$ satisfait l'inégalité triangulaire pour tous
 Les trois conditions de la Proposition~26 sont remplies par l'algorithme CSA. On en déduit que les valeurs $d(v)$ 
 calculées représentent exactement les longueurs des plus courts chemins en temps du sommet $s$ vers tous les sommets atteignables dans le graphe.
 
+
+\section{Variantes de l'algorithme}
+\subsection{Version par défaut}
+La version par défaut de l'algorithme est celle que nous avons implémentée dans notre code source. Elle est décrite dans la section \hyperref[sec:algorithme]{3.2} et
+est la plus simple à comprendre. Elle est basée sur le \emph{Connexion Scan Algorithm} et utilise les transferts à pied pour trouver le chemin optimal entre deux arrêts.
+Toutefois,  il existe d'autres variantes de l'algorithme qui peuvent être utilisées en fonction des besoins de l'utilisateur.
+\subsection{Autres variantes}
+Nous n'avons pas implémenté d'autres variantes de l'algorithme, mais nous allons quand même en parler brièvement.
+\begin{itemize}
+  \item \textbf{Limitation des trajets à pieds:} Cette version de l'algorithme est relativement similaire à la version par défaut, néanmoins, elle limite le nombre de transferts à pied à un certain
+  afin que l'utilisateur ne marche pas trop, même si au lieu de marcher et que cela prenne 10 minutes, il pourrait prendre le train et faire le trajet en 30 minutes. 
+  \item \textbf{Préférence de transport:} Dans celle-ci, l'utilisateur peut choisir de privilégier un certain type de transport (bus, tram, train, etc.) en fonction de ses préférences.
+\end{itemize}
+
+\subsection{Comment aurions-nous pu les implémenter?}
+\begin{itemize}
+  \item Concerntant la première variante, nous aurions pu faire en sorte que dans notre algorithme, nous ne prenions pas en compte les transferts à pied s'il existait un chemin en transport en commun.
+  S'il n'y en avait pas, alors seulement nous aurions pris en compte les transferts à pied. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme.
+  \item Pour la seconde variante, nous aurions pu ajouter un paramètre à la méthode findPath qui permettrait à l'utilisateur de choisir le type de transport qu'il préfère.
+  Nous aurions ensuite pu filtrer les connexions en fonction de ce paramètre avant de les traiter dans l'algorithme. Cela aurait certainement pu être fait en ajoutant une condition dans la boucle principale de l'algorithme également.
+\end{itemize}
+
+Nous pensons sincèrement que ces variantes auraient pu être implémentées, notre algorithme est assez générique pour le permettre.
 
 \section{Classes utilisées}
 Afin de clôturer ce rapport, revenons sur les classes utilisées dans notre code source afin de tout clarifier. À la section \hyperref[sec:init]{2}, nous expliquons
