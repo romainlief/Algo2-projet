@@ -678,6 +678,12 @@ Comme montré ci-dessus, l'algorithme n'est pas exactement linéaire. Nous avons
     que nous pouvons ignorer les connexions restantes. Cette optimisation réduit potentiellement une fois de plus le nombre d'itérations nécessaires afin de trouver le
     chemin optimal. En ce qui concerne la complexité, en prenant la complexité de base de l'algorithme, nous passons de $O(n)$ à $O(n - j)$ où $j$ est le nombre de 
     connexions que nous avons pu soustraire. Ceci nous permet une fois de plus d'avoir de meilleures performances globale.
+    \item \textbf{Limited walking:} Une troisième optimisation que nous avons implémentée est de limiter le nombre de transferts à pied. En effet, nous avons remarqué que si
+    nous ne limitions pas la distance de marche, l'algorithme pouvait trouver des chemins très longs avec de nombreux transferts à pied, or cela n'était pas du tout optimal.
+    Nous avons donc décidé de limiter la distance de marche maximale à 500 mètres, ce qui est une distance raisonnable pour la plupart des utilisateurs.
+    De plus, nous aurions également pu implémenter une limite sur le nombre de transferts à pied. Sauf qu'en y ayant bien réfléchi, nous avons décidé de ne pas le faire car cela aurait
+    pu amener à des chemins non optimaux et même impossibles pour des chemins demandant beaucoup de correspondances. En effet, si nous avions limité le nombre de transferts à pied,
+    l'algorihme aurait pu trouver un chemin avec beaucoup de correspondances mais être dans l'impossibilité car il serait limité à un nombre de transferts à pied trop faible.
 \end{itemize}
 
 En somme, en assemblant nos deux optimisations, nous obtenons une complexité totale de $O(n - k - j)$ pour le coeur de l'algorithme.
@@ -803,9 +809,6 @@ Nous avons tout de même considéré la piste suivante: Ne construire que des co
 souhaite pas faire usage de bus par exemple, nous pourrions nous limiter à construire toutes les connexions sauf celles en bus. Un autre exemple serait de construire
 les transferts à pied avec un rayon relativement faible dans le cas où l'utilisateur ne souhaite pas marcher longtemps.
 Nous n'avons pas poursuivi cette piste suite à des conversations avec nos collègues étudiants affirmant l'impossibilité de cette piste ainsi que (surtout) par manque de temps.
-
-\subsection{L'optimisation `Limited Waliking'}
-Une dernière optimisation est listée et détaillée dans le document \emph{Connexion Scan Algorithm} \cite{dibbelt2017connection} à la page 8. TODO ROMAIN SI TU NE LE FAIS PAS JE TE RETIENS
 
 \section{Conclusion}
 L'algorithme \emph{Connexion Scan Algorithm} choisi afin de répondre à la problématique proposée par ce projet est donc une solution rapide et efficace pour la recherche du plus court chemin
